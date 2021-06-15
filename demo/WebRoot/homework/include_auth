@@ -1,0 +1,12 @@
+<%
+  		Object username=session.getAttribute("username");
+  		System.out.println(basePath);
+  		if(username==null){
+  			%>
+  			<script type="text/javascript">
+  				alert("ÇëµÇÂ¼£¡");
+  				window.location.href="<%=basePath%>user/login.jsp";
+  			</script>
+  			<%
+  		}
+  	 %>
