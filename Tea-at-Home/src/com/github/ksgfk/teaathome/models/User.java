@@ -10,11 +10,10 @@ public class User {
     private String phone;
     private String receive;
     private int permission;
-    private String[] question;
-    private String[] answer;
+    private String question;
+    private String answer;
 
-    public User(int id, String name, String password, String sex, String photo, String phone, String receive,
-        int permission, String[] question, String[] answer) {
+    public User(int id, String name, String password, String sex, String photo, String phone, String receive,int permission, String question, String answer) {
         if(!checkname(name)||!checkpassword(password)||!checkquestion(question)||!checkphone(phone)) 
         return;
     	this.id = id;
@@ -25,12 +24,8 @@ public class User {
         this.phone = phone;
         this.receive = receive;
         this.permission = permission;
-        for (int i = 0; i < question.length; i++) {
-            this.question[i] = question[i];
-        }
-        for (int i = 0; i < answer.length; i++) {
-            this.answer[i] = answer[i];
-        }
+        this.answer=answer;
+        this.question=question;
     }
 
     private boolean checkphone(String phone) {
@@ -47,11 +42,9 @@ public class User {
     		return true;	
     	return false;
     }
-    private boolean checkquestion(String[] question) {
-    	for(int i=0;i<question.length;i++) {
-    		if(question[i].length()>20)
-    			return false;
-    	}
+    private boolean checkquestion(String question) {
+    	if(question.length()>20)
+    		return false;
     	return true;
     }
 
@@ -119,21 +112,22 @@ public class User {
 		this.permission = permission;
 	}
 
-	public String[] getQuestion() {
+	public String getQuestion() {
 		return question;
 	}
 
-	public void setQuestion(String[] question) {
+	public void setQuestion(String question) {
 		this.question = question;
 	}
 
-	public String[] getAnswer() {
+	public String getAnswer() {
 		return answer;
 	}
 
-	public void setAnswer(String[] answer) {
+	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
+
  
 
 }
