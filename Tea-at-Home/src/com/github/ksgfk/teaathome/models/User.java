@@ -1,9 +1,5 @@
 package com.github.ksgfk.teaathome.models;
 
-
-
-import jdk.javadoc.doclet.Taglet;
-
 public class User {
 
     private int id;
