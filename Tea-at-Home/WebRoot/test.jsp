@@ -2,7 +2,7 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -26,24 +26,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 <body>
 	This is my JSP page.
-	<br>
-	<!--<%
-	String driver = "com.mysql.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/library";
-	String dbUser = "root";
-	String dbPwd = "123456";
-	Class.forName(driver);
-	Connection connection = DriverManager.getConnection(url, dbUser, dbPwd);
-	String sql="select * from users";
-	PreparedStatement preparedStatement=connection.prepareStatement(sql);
-	ResultSet result = preparedStatement.executeQuery();
-	while(result.next()) {
-		String name = result.getString("name");
-		%>
-		<%=name %><br>
-		<%
-	}
-	connection.close();
-	%>-->
+
 </body>
 </html>
