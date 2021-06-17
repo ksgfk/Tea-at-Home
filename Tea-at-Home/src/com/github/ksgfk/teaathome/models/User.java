@@ -14,8 +14,8 @@ public class User {
     private String answer;
 
     public User(int id, String name, String password, String sex, String photo, String phone, String receive,int permission, String question, String answer) {
-        if(!checkname(name)||!checkpassword(password)||!checkquestion(question)||!checkphone(phone)) 
-        return;
+//        if(!checkname(name)||!checkpassword(password)||!checkquestion(question)||!checkphone(phone))
+//        return;
     	this.id = id;
         this.name = name;
         this.password = password;
@@ -28,21 +28,25 @@ public class User {
         this.question=question;
     }
 
-    private boolean checkphone(String phone) {
-        String reg = "13[0-9]{9}";
+    public User(String name,String password,String phone){
+    	this(-1,name,password,null,null,phone,null,0,null,null);
+	}
+
+    public static boolean checkphone(String phone) {
+        String reg = "1[358][0-9]{9}";
         return phone.matches(reg);
     }
-    private boolean checkname(String name) {
+	public static boolean checkname(String name) {
     	if(name.length()<16)
     		return true;
     	return false;
-    } 
-    private boolean checkpassword(String password) {
-    	if(password.length()<16) 
-    		return true;	
+    }
+	public static boolean checkpassword(String password) {
+    	if(password.length()<16)
+    		return true;
     	return false;
     }
-    private boolean checkquestion(String question) {
+	public static boolean checkquestion(String question) {
     	if(question.length()>20)
     		return false;
     	return true;
@@ -128,6 +132,6 @@ public class User {
 		this.answer = answer;
 	}
 
- 
+
 
 }

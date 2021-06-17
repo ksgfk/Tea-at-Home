@@ -101,7 +101,7 @@
                         success: function (data, state) {
                             if (data.success) {
                                 notify.success('注册成功', '正在跳转, 请稍候');
-                                location.href = '/redirect';
+                                // location.href = '/redirect';
                             } else {
                                 notify.error('注册失败', data.message);
                                 $('#register').attr('disabled', false).html('注册');

@@ -14,3 +14,20 @@
 <img src="picture/配置编码.png" alt="Logo" width="75%">
 
 * demo下的文件都没有强制使用UTF-8，遇到乱码是正常的，请用GBK打开但是别保存
+
+## API
+### 用户注册
+* 地址：`/user/register`
+* 请求格式
+
+|字段|类型|说明|
+|--|--|--|
+|username|string|注册名|
+|password|string|密码|
+|phone|string|电话号码|
+* 响应格式
+
+|字段|类型|说明|
+|--|--|--|
+|success|boolean|是否成功注册|
+|message|string|如果未成功注册会返回原因|

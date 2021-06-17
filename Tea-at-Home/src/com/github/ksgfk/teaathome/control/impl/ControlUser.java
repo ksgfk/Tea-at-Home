@@ -48,7 +48,7 @@ public class ControlUser implements ControlUserInter {
 	}
 	@Override
 	public User findname(String name) {
-		String sql="select * from  where name = ?";
+		String sql="select * from user where name = ?";
 		ResultSet res=conn.query(sql, name);
 //		List<User> list=new ArrayList<User>();
 		try {
