@@ -1,4 +1,4 @@
-package com.github.ksgfk.teaathome.models;
+package com.github.ksgfk.teaathome.control.impl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,7 +18,8 @@ public class ConnectionTeaShop {
 			Class.forName(Driver);
 			conn=DriverManager.getConnection(Url,User,Password);
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.print("���Ӵ���");
+			e.printStackTrace();
+			System.out.print("连接错误");
 		}
 	}
 

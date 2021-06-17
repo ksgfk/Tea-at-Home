@@ -13,7 +13,6 @@ import www.models.User;
 
 public class ControlUser implements ControlUserInter{
 	private ConnectionTeaShop conn=null;
-	private PreparedStatement pre=null;
 	public ControlUser() {
 		conn=new ConnectionTeaShop();
 	}

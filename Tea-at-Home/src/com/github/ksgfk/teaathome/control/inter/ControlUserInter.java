@@ -1,10 +1,6 @@
 package com.github.ksgfk.teaathome.control.inter;
 
-import java.util.List;
-
-import com.github.ksgfk.teaathome.models.User;
-
-
+import www.models.User;
 
 public interface ControlUserInter {
 	public boolean add(User user);
