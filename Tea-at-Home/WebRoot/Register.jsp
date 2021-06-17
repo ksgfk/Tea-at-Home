@@ -45,16 +45,13 @@
         }
     </style>
     <script src="./css/gt.js.下载"></script>
-    <script src="./css/jquery.min.js.下载"></script>
-    <script type="text/javascript">console.log('!!!');</script>
-
-
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./css/base.js.下载"></script>
     <script>
         $(function () {
             $('#register').click(function () {
                 console.log('????');
-                if (!$('#username').val() || !$('#password').val() ||  !$('#phone').val()) {
+                if (!$('#username').val() || !$('#password').val() || !$('#phone').val()) {
                     notify.warning('错误', '请输入用户名、密码和验证码');
                     return;
                 }
@@ -74,19 +71,44 @@
                 $(this).attr('disabled', true).html('提交中...');
                 notify.success('正确', '正在传输');
                 // 你问为什么要验证两次¿ 我喜欢不行么
-                $.post('/check/checkregister', {
-                    username: $('#username').val(),
-                    password: $('#password').val(),
-                    phone: $('#phone').val(),
-                }, function (data) {
-                    if (data.success) {
-                        notify.success('注册成功', '正在跳转, 请稍候');
-                        location.href = '/redirect';
-                    } else {
-                        notify.error('注册失败', data.message);
-                        $('#register').attr('disabled', false).html('注册');
+                // $.post('user/register', {
+                //     username: $('#username').val(),
+                //     password: $('#password').val(),
+                //     phone: $('#phone').val(),
+                // }, function (data, state) {
+                //     if (data.success) {
+                //         notify.success('注册成功', '正在跳转, 请稍候');
+                //         location.href = '/redirect';
+                //     } else {
+                //         notify.error('注册失败', data.message);
+                //         $('#register').attr('disabled', false).html('注册');
+                //     }
+                // }, 'json').fail(function () {
+                //     $('#register').attr('disabled', false).html('注册');
+                //     notify.error('注册失败', '网络错误或服务器出现错误, 请重试');
+                // });
+                $.ajax(
+                    {
+                        type: "post",
+                        url: 'user/register',
+                        data: JSON.stringify({
+                            username: $('#username').val(),
+                            password: $('#password').val(),
+                            phone: $('#phone').val(),
+                        }),
+                        dataType: "json",
+                        contentType: 'application/json',
+                        success: function (data, state) {
+                            if (data.success) {
+                                notify.success('注册成功', '正在跳转, 请稍候');
+                                location.href = '/redirect';
+                            } else {
+                                notify.error('注册失败', data.message);
+                                $('#register').attr('disabled', false).html('注册');
+                            }
+                        }
                     }
-                }, 'json').fail(function () {
+                ).fail(function () {
                     $('#register').attr('disabled', false).html('注册');
                     notify.error('注册失败', '网络错误或服务器出现错误, 请重试');
                 });
@@ -100,13 +122,14 @@
 </head>
 
 <body>
-<div id="app" class="login background" >
+<div id="app" class="login background">
     <div class="single-bg"></div>
     <div class="notify-container"></div>
     <div class="main padding-limiter">
-        <div class="panel login-panel"style="background-color: rgb(237,237,238)">
+        <div class="panel login-panel" style="background-color: rgb(237,237,238)">
             <div class=" double-column ">
-                <img class=" panel-wide login-img " src=" ./css/illust_69468687_20190627_234244.png" title=" " style=" ">
+                <img class=" panel-wide login-img " src=" ./css/illust_69468687_20190627_234244.png" title=" "
+                     style=" ">
                 <div class=" panel-narrow ">
                     <div class=" title ">
                         TeaAtHome 注册
@@ -115,19 +138,21 @@
                         <label>用户名</label>
                         <div class=" controls ">
                             <input id="username" type=" text " placeholder=" 4~20 位字母数字下划线 " maxlength=" 20 "
-                                   title=" 用户名 "style="background-color: rgb(237,237,238)">
+                                   title=" 用户名 " style="background-color: rgb(237,237,238)">
                         </div>
                     </div>
                     <div class=" control-group ">
                         <label>密　码</label>
                         <div class=" controls ">
-                            <input id="password" type=" password " placeholder=" 5~16位 " title=" 密码 "style="background-color: rgb(237,237,238)">
+                            <input id="password" type="password" placeholder=" 5~16位 " title=" 密码 "
+                                   style="background-color: rgb(237,237,238)">
                         </div>
                     </div>
                     <div class=" control-group ">
                         <label>手机号</label>
                         <div class=" controls ">
-                            <input id="phone" type=" password " placeholder=" 标准手机号 " maxlength=" 128 " title=" 手机号 " style="background-color: rgb(237,237,238)">
+                            <input id="phone" type="text" placeholder=" 标准手机号 " maxlength=" 128 " title=" 手机号 "
+                                   style="background-color: rgb(237,237,238)">
                         </div>
                     </div>
 
