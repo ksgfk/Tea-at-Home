@@ -1,8 +1,8 @@
 package com.github.ksgfk.teaathome.control.inter;
 
-import java.util.List;
+import com.github.ksgfk.teaathome.models.Product;
 
-import www.models.Product;
+import java.util.List;
 
 public interface ControlProductInter {
 	public boolean add(Product product);

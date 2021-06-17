@@ -1,12 +1,12 @@
 package com.github.ksgfk.teaathome.control.impl;
 
+import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
+import com.github.ksgfk.teaathome.models.BuyInfo;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import www.Control.inter.ControlBuyinfoInter;
-import www.models.Buy_info;
 
 public class ControlBuyinfo implements ControlBuyinfoInter {
 	private ConnectionTeaShop conn=null;
@@ -15,26 +15,26 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 		conn=new ConnectionTeaShop();
 	}
 	@Override
-	public boolean add(Buy_info buyinfo) {
+	public boolean add(BuyInfo buyinfo) {
 		String sql="insert into buy_info(logistics,pay,product_id,receive,state,user_id) values(?,?,?,?,?,?)";
 		return conn.updata(sql, buyinfo.getLogistics(),buyinfo.getPay(),buyinfo.getProductId(),buyinfo.getReceive(),buyinfo.getState(),buyinfo.getUserId());
 		
 	}
 
 	@Override
-	public boolean delete(Buy_info buyinfo) {
+	public boolean delete(BuyInfo buyinfo) {
 		String sql="delete from buy_info where id=?";
 		return conn.updata(sql, buyinfo.getId());
 	}
 
 	@Override
-	public Buy_info findid(int id) {
+	public BuyInfo findid(int id) {
 		String sql="select * from buy_info where id=?";
 		ResultSet res=conn.query(sql, id);
-		Buy_info item=null;
+		BuyInfo item=null;
 		try {
 			if(res!=null&&res.next()) {
-			  item=new Buy_info(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay"));
+			  item=new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,18 +46,18 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 	}
 
 	@Override
-	public boolean updata(Buy_info buyinfo) {
+	public boolean updata(BuyInfo buyinfo) {
 		String sql="updata buy_info set user_id=?,poduct_id=?,receive=?,logistics=?state=?,pay=? where id = ?";
 		return conn.updata(sql, buyinfo.getUserId(),buyinfo.getProductId(),buyinfo.getReceive(),buyinfo.getLogistics(),buyinfo.getState(),buyinfo.getPay(),buyinfo.getId());
 	}
 	@Override
-	public List<Buy_info> findUesrid(int userid) {
+	public List<BuyInfo> findUesrid(int userid) {
 		String sql="select * from buy_info where user_id=?";
-		List<Buy_info> list=new ArrayList<Buy_info>();
+		List<BuyInfo> list=new ArrayList<BuyInfo>();
 		ResultSet res=conn.query(sql, userid);
 		try {
 			while(res.next()) {
-				list.add(new Buy_info(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay")));
+				list.add(new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -68,13 +68,13 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 		return list;
 	}
 	@Override
-	public List<Buy_info> findProductid(int productid) {	
+	public List<BuyInfo> findProductid(int productid) {
 		String sql="select * from buy_info where product_id=?";
-		List<Buy_info> list=new ArrayList<Buy_info>();
+		List<BuyInfo> list=new ArrayList<BuyInfo>();
 		ResultSet res=conn.query(sql, productid);
 		try {
 			while(res.next()) {
-				list.add(new Buy_info(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay")));
+				list.add(new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

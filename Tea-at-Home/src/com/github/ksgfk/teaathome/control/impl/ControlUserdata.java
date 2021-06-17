@@ -1,13 +1,13 @@
 package com.github.ksgfk.teaathome.control.impl;
 
+import com.github.ksgfk.teaathome.control.inter.ControlUserdataInter;
+import com.github.ksgfk.teaathome.models.ShoppingCart;
+import com.github.ksgfk.teaathome.models.Userdata;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import www.Control.inter.ControlUserdataInter;
-import www.models.Shopping_cart;
-import www.models.Userdata;
 
 public class ControlUserdata implements ControlUserdataInter {
 	private ConnectionTeaShop conn=null;
@@ -18,10 +18,10 @@ public class ControlUserdata implements ControlUserdataInter {
 	@Override
 	public boolean add(Userdata data) {
 		String sql="insert into shopping_cart(user_id,product_id,count) values(?,?,?)";
-		List<Shopping_cart> list=data.getCar();
+		List<ShoppingCart> list=data.getCar();
 		boolean row=false;
 		if(list==null) return false;
-		for(Shopping_cart item:list) {
+		for(ShoppingCart item:list) {
 			row=conn.updata(sql, item.getUserId(),item.getProductId(),item.getCount());
 		}
 		return row;
@@ -46,10 +46,10 @@ public class ControlUserdata implements ControlUserdataInter {
 	@Override
 	public boolean updata(Userdata data) {
 		String sql="updata shopping_cart set user_id=?,product_id=?,count=? where id=?";
-		List<Shopping_cart> list=data.getCar();
+		List<ShoppingCart> list=data.getCar();
 		boolean row=false;
 		if(list==null) return false;
-		for(Shopping_cart item:list) {
+		for(ShoppingCart item:list) {
 			row=conn.updata(sql, item.getUserId(),item.getProductId(),item.getCount(),item.getId());
 		}
 		return row;
@@ -59,11 +59,11 @@ public class ControlUserdata implements ControlUserdataInter {
 	public Userdata findUserid(int uesrid) {
 		Userdata item=new Userdata(null,uesrid);
 		String sql="delete from shopping_cart where user_id=?";
-		List<Shopping_cart> list=new ArrayList<Shopping_cart>();
+		List<ShoppingCart> list=new ArrayList<ShoppingCart>();
 		ResultSet res=conn.query(sql, uesrid);
 		try {
 			while(res!=null&&res.next()) {
-				list.add(new Shopping_cart(res.getInt("id"),res.getInt("user_id"),res.getInt("product_id"),res.getInt("count")));
+				list.add(new ShoppingCart(res.getInt("id"),res.getInt("user_id"),res.getInt("product_id"),res.getInt("count")));
 			}
 			item.setCar(list);
 		} catch (SQLException e) {

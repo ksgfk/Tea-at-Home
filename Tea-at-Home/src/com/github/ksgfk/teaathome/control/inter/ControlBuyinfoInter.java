@@ -1,14 +1,14 @@
 package com.github.ksgfk.teaathome.control.inter;
 
+import com.github.ksgfk.teaathome.models.BuyInfo;
+
 import java.util.List;
 
-import www.models.Buy_info;
-
 public interface ControlBuyinfoInter {
-	public boolean add(Buy_info buyinfo);
-	public boolean delete(Buy_info butinfo0);
-	public Buy_info findid(int id);
-	public boolean updata(Buy_info buyinfo);
-	public List<Buy_info> findUesrid(int userid);
-	public List<Buy_info> findProductid(int productid);
+	public boolean add(BuyInfo buyinfo);
+	public boolean delete(BuyInfo butinfo0);
+	public BuyInfo findid(int id);
+	public boolean updata(BuyInfo buyinfo);
+	public List<BuyInfo> findUesrid(int userid);
+	public List<BuyInfo> findProductid(int productid);
 }

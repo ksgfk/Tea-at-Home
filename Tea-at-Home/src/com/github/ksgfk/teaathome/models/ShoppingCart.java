@@ -35,4 +35,7 @@ public class ShoppingCart {
 		this.productId = productId;
 		this.count = count;
 	}
+	public ShoppingCart(ShoppingCart c) {
+		// TODO: 2021/6/17
+	}
 }

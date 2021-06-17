@@ -1,0 +1,28 @@
+$(function () {
+    let url = new URL(location.href);
+    let too_bad = function () {
+        $('#pending_check').remove();
+        $('body').append('<div style="position: absolute;top: 0;left: 0;width: 100%;background: orange;color: white;text-align: center;font-size: 20px;padding: 8px">您正在使用 Nyatwork OpenID 备用登录接口。如果您可以正常访问 openid.13a.com，请不要使用此接口以免产生各种问题</div>');
+    };
+    window.looks_good = function () {
+        url.hostname = 'openid.13a.com';
+        location.href = url.toString();
+    };
+    switch (url.hostname) {
+        case 'openid.13a.com':
+            break;
+        case 'openid.natfrp.com':
+            $('body').append(`<div id="pending_check" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: black;opacity: 0.5;color: white;text-align: center;">
+                <h1 style="margin: 40vh auto;">正在检测网络状况...</h1>
+            </div>`);
+            try {
+                $.getScript('https://openid.13a.com/js/status.js').fail(too_bad);
+            } catch {
+                too_bad();
+            }
+            break;
+        default:
+            location.href = 'https://openid.13a.com/';
+            break;
+    }
+});

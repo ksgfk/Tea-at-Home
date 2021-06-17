@@ -4,22 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Userdata {
-	private List<Shopping_cart> car=null;
+	private List<ShoppingCart> car=null;
 	private int user_id=0;
 	private int permission=0;
-	public Userdata(List<Shopping_cart> car, int userid) {
+	public Userdata(List<ShoppingCart> car, int userid) {
 		this.car=car;
 		this.user_id=userid;
 	}
 
-	public List<Shopping_cart> getCar() {
+	public List<ShoppingCart> getCar() {
 		return car;
 	}
 	
-	public void setCar(List<Shopping_cart> car) {
-		this.car= new ArrayList<Shopping_cart>();
+	public void setCar(List<ShoppingCart> car) {
+		this.car= new ArrayList<ShoppingCart>();
 		for(int i=0;i<car.size();i++) {
-			car.add(new Shopping_cart(car.get(i)));
+			ShoppingCart c =car.get(i);
+			car.add(new ShoppingCart(c));
 		}
 	}
 	

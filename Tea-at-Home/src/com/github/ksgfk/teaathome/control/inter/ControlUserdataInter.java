@@ -1,6 +1,6 @@
 package com.github.ksgfk.teaathome.control.inter;
 
-import www.models.Userdata;
+import com.github.ksgfk.teaathome.models.Userdata;
 
 public interface ControlUserdataInter  {
 	public boolean add(Userdata data);

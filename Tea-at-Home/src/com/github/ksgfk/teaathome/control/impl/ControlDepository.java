@@ -3,9 +3,9 @@ package com.github.ksgfk.teaathome.control.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import www.Control.inter.ControlDepositoryInter;
-import www.models.Depository;
-import www.models.Product;
+import com.github.ksgfk.teaathome.control.inter.ControlDepositoryInter;
+import com.github.ksgfk.teaathome.models.Depository;
+import com.github.ksgfk.teaathome.models.Product;
 
 public class ControlDepository implements ControlDepositoryInter {
 	

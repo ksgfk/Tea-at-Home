@@ -1,17 +1,15 @@
 package com.github.ksgfk.teaathome.control.impl;
 
+import com.github.ksgfk.teaathome.control.inter.ControlUserInter;
+import com.github.ksgfk.teaathome.models.User;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import www.Control.inter.*;
 
-import www.models.User;
-
-
-
-public class ControlUser implements ControlUserInter{
+public class ControlUser implements ControlUserInter {
 	private ConnectionTeaShop conn=null;
 	public ControlUser() {
 		conn=new ConnectionTeaShop();

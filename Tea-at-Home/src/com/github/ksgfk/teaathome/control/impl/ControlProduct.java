@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import www.Control.inter.ControlProductInter;
-import www.models.Product;
+import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
+import com.github.ksgfk.teaathome.models.Product;
 
 public class ControlProduct implements ControlProductInter {
 	private ConnectionTeaShop conn=null;
