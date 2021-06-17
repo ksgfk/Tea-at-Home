@@ -69,7 +69,7 @@
                 }
 
                 $(this).attr('disabled', true).html('提交中...');
-                notify.success('正确', '正在传输');
+                notify.success('正确');
                 // 你问为什么要验证两次¿ 我喜欢不行么
                 // $.post('user/register', {
                 //     username: $('#username').val(),

@@ -1,17 +1,28 @@
 package com.github.ksgfk.teaathome.utility;
 
+import com.github.ksgfk.teaathome.models.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 
 /**
  * json工具类
  */
 public class JsonUtility {
+    private static Gson INSTANCE;
+
+    static {
+        INSTANCE = new GsonBuilder().create();
+    }
+
     /**
      * 从servlet请求中读取json
      *
@@ -26,5 +37,9 @@ public class JsonUtility {
         reader.close();
         stream.close();
         return element;
+    }
+
+    public static String toJson(Object instance, Type type) {
+        return INSTANCE.toJson(instance, type);
     }
 }

@@ -78,7 +78,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					s: captcha.geetest_seccode
 				}, function(data) {
 					if (data.success) {
-						notify.success('注册成功', '正在跳转, 请稍候');
+						notify.success('注册成功');
 						location.href = '/redirect';
 					} else {
 						notify.error('注册失败', data.message);

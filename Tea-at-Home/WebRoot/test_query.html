@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Query</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#login').click(() => {
+                $.ajax(
+                    {
+                        type: "post",
+                        url: 'user/login',
+                        data: JSON.stringify({
+                            username: $('#login_usr').val(),
+                            password: $('#login_pwd').val(),
+                        }),
+                        dataType: "json",
+                        contentType: 'application/json',
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    }
+                ).fail(function () {
+                    console.log("服务器错误");
+                });
+            });
+            $('#refresh').click(() => {
+                $.ajax(
+                    {
+                        type: "post",
+                        url: 'user/query_info',
+                        data: JSON.stringify({}),
+                        dataType: "json",
+                        contentType: 'application/json',
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    }
+                ).fail(function () {
+                    console.log("服务器错误");
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+<label>用户名:<input type="text" id="login_usr"></label><br>
+<label>密码:<input type="text" id="login_pwd"></label><br>
+<button id="login">登录</button>
+<br>
+
+<button id="refresh">获取</button>
+
+</body>
+
+</html>

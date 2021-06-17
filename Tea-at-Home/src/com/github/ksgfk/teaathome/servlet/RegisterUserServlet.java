@@ -15,9 +15,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
+/**
+ * 用户注册实现
+ */
 @WebServlet(name = "/user/register", value = "/user/register")
 public class RegisterUserServlet extends HttpServlet {
     private final ControlUserInter userCtrl;
@@ -33,49 +37,63 @@ public class RegisterUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletOutputStream stream = null;
+        OutputStreamWriter writer = null;
+        JsonWriter write = null;
         try {
+            response.setContentType("application/json");
+
             JsonElement userData = JsonUtility.read(request);
             JsonObject root = userData.getAsJsonObject();
             String usr = root.get("username").getAsString();
             String pwd = root.get("password").getAsString();
             String pho = root.get("phone").getAsString();
+
+            stream = response.getOutputStream();
+            writer = new OutputStreamWriter(stream);
+            write = new JsonWriter(writer);
+
             if (!isValidUsername(usr)) {
-                JsonWriter writer = startResponse(response);
-                writeRegisterFailed(writer, "非法用户名");
-                endResponse(writer);
+                writeRegisterFailed(write, "非法用户名");
                 return;
             }
             if (isRepeatUsername(userCtrl, usr)) {
-                JsonWriter writer = startResponse(response);
-                writeRegisterFailed(writer, "重复用户名");
-                endResponse(writer);
+                writeRegisterFailed(write, "重复用户名");
                 return;
             }
             if (!isValidPassword(pwd)) {
-                JsonWriter writer = startResponse(response);
-                writeRegisterFailed(writer, "无效密码");
-                endResponse(writer);
+                writeRegisterFailed(write, "无效密码");
                 return;
             }
             if (!isValidPhone(pho)) {
-                JsonWriter writer = startResponse(response);
-                writeRegisterFailed(writer, "无效手机号");
-                endResponse(writer);
+                writeRegisterFailed(write, "无效手机号");
                 return;
             }
             User newUser = new User(usr, pwd, pho);
             newUser.setPermission(UserPermission.USER.getLevel());
             boolean success = userCtrl.add(newUser);
-            JsonWriter writer = startResponse(response);
             if (success) {
-                writeRegisterSuccess(writer);
+                writeRegisterSuccess(write);
             } else {
-                writeRegisterFailed(writer, "内部错误,请联系管理员");
+                writeRegisterFailed(write, "内部错误,请联系管理员");
             }
-            endResponse(writer);
+            User registered = userCtrl.findname(newUser.getName());
+            HttpSession session = request.getSession();
+            session.setAttribute("user", registered);
+            response.setStatus(200);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(500);
+        } finally {
+            if (write != null) {
+                write.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
+            if (stream != null) {
+                stream.close();
+            }
         }
     }
 
@@ -94,18 +112,6 @@ public class RegisterUserServlet extends HttpServlet {
 
     public static boolean isValidPhone(String phone) {
         return phone != null && !phone.isEmpty() && User.checkphone(phone);
-    }
-
-    public static JsonWriter startResponse(HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        response.setStatus(200);
-        ServletOutputStream stream = response.getOutputStream();
-        OutputStreamWriter writer = new OutputStreamWriter(stream);
-        return new JsonWriter(writer);
-    }
-
-    public static void endResponse(JsonWriter writer) throws IOException {
-        writer.close();
     }
 
     public static void writeRegisterFailed(JsonWriter writer, String message) throws IOException {
