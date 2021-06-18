@@ -14,7 +14,6 @@
   <script src="./css/jquery.min.js.下载"></script>
   <script src="./css/bootstrap.bundle.min.js.下载"></script>
   <script src="./css/adminlte.min.js.下载"></script>
-  <script src="./js/cot.js"></script>
 
   <link rel="shortcut icon" href="https://www.natfrp.com/favicon.ico?v=2">
 
@@ -73,16 +72,10 @@
     var expires = "expires=" + d.toGMTString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
   }
-  function delCookie(name) {
-    var exp = new Date();
-    exp.setTime(exp.getTime() - 1);
-    var cval = getCookie(name);
-    if (cval != null)
-      document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
-  }
   $name = "null";
   $user_id = "null";
   $user_gender = "null";
+
   if (getCookie("username") == "") {
     $.ajax({
       type: "get",
@@ -96,9 +89,7 @@
           setCookie("username", $name, 30);
           setCookie("user_gender", $user_gender, 30);
           setCookie("user_id", $user_id, 30);
-          location.href = 'Home.html';
-        }
-        else {
+        } else {
           alert("请登录！")
           location.href = 'login.html';
         }
@@ -138,7 +129,7 @@
         </span>
       </a>
       <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <img src="css/tea.png" alt="居茶">
           <div class="info">
             <a href="Home.html" class="d-block">
@@ -149,12 +140,11 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false"
             id="Controller">
             <li class="nav-item">
-              <a href="Home.html" class="nav-link active">
-                <img src="css/home.png" width="30px" href="">
+              <a href="Home.html" class="nav-link">
+                <img src="css/home2.png" width="30px" href="">
                 <p>主页面</p>
               </a>
             </li>
-
             <li class="nav-item">
               <a id="nav-profile" href="ShoppingCart.html" class="nav-link">
                 <img src="css/shop2.png" width="30px" href="">
@@ -168,15 +158,18 @@
                 <p>订单详情</p>
               </a>
             </li>
-
             <li class="nav-item">
               <a href="Buy.html" class="nav-link">
                 <img src="css/search2.png" width="30px" href="">
                 <p>搜索</p>
               </a>
             </li>
-
-
+            <li class="nav-item">
+              <a href="myproducts.html" class="nav-link active">
+                <img src="css/product.png" width="30px" href="">
+                <p>我的商品</p>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -236,9 +229,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <p style="margin-top: 8px;margin-bottom: 0">
-
-                  </p>
+                  <p style="margin-top: 8px;margin-bottom: 0"></p>
                 </div>
               </div>
               <div class="card">
@@ -249,42 +240,43 @@
               </div>
             </div>
             <div class="col-lg-8">
-              <div class="alert alert-info alert-dismissable">
+              <div class="alert alert-info alert-dismissable" style="">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                   id="close-tos-notice">×</button> 平台内容策略已于 2021/01/11 更新
-                <br> 请到 <a href="">内容策略</a> 页面查看最新内容。您可以右侧关闭按钮隐藏此通知。
-                <br> 如不同意本平台的最新的内容策略, 您应前往 <a href="">OpenID 用户中心</a> 提交账户注销申请。继续使用本平台即表示完全认可此最新的内容策略。
               </div>
               <div class="card" id="broadcast">
                 <div class="card-header border-0">
                   <div class="d-flex justify-content-between">
-                    <h3 class="card-title">公告</h3>
+                    <h3 class="card-title">购物车内容</h3>
                   </div>
                 </div>
                 <div class="card-body fix-text fix-image" style="padding-top: 0;">
-                  <p>
-                  </p>
                 </div>
               </div>
+
               <div class="card">
-                <div class="card-header border-0">
-                  <div class="d-flex justify-content-between">
-                    <h3 class="card-title">使用提示</h3>
+                <div>
+                  <img src="baiyaql.jpg" style="float:right" width="100px" href="">
+                  <div class="card-header border-0">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td style="width: 30%; "><b>产品信息：</b></td>
+                          <td>白芽奇兰</td>
+                        </tr>
+                        <tr>
+                          <td style="width: 30%; "><b>样例图片：</b></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td style="width: 30%; "><b>订单情况：</b></td>
+                          <td>
+                            运输中...
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                </div>
-                <div class="card-body fix-text fix-image" style="padding-top: 0;">
-                  <blockquote id="usage" style="margin: 0 8px;">
-                    <h2>快速跳转</h2>
-                    <ul style="padding-left: 24px;margin-bottom: 8px">
-                      <li>
-                        <a href="" style="color: bisque;">购物车</a>
-                      </li>
-                    </ul>
-                  </blockquote>
-                  <hr>
-                  <p>
-                    这个是 <b>设计师</b> 的QQ → <b class="anti-blind-text"></b>
-                  </p>
                 </div>
               </div>
             </div>
