@@ -30,7 +30,7 @@
             -moz-opacity: 0.3;
             opacity: 0.3; */
       background-color: azure;
-      background-image: url(./css/BackGround.png);
+      background-image: url(./css/bagroundd.jpg);
       background-repeat: round;
     }
   </style>
@@ -47,44 +47,27 @@
     $(function () {
       $('#register').click(function () {
         console.log('????');
-        if (!$('#username').val() || !$('#password').val() || !$('#phone').val()) {
-          notify.warning('错误', '请输入用户名、密码和验证码');
+        if (!$('#username').val() || !$('#password').val()) {
+          notify.warning('错误', '请输入用户名和密码');
           return;
         }
         if ($('#username').val().length > 20) {
           notify.warning('错误', '用户名过长');
           return;
         }
-        if ($('#password').val().length < 8) {
+        if ($('#password').val().length < 5) {
           notify.warning('错误', '密码过短');
           return;
         }
-        if ($('#phone').val().length > 13) {
-          notify.warning('错误', '手机过长');
-          return;
-        }
-
-        $(this).attr('disabled', true).html('提交中...');
-        notify.success('正确', '正在传输');
-
-
-
-
-        $.ajax({
-          type: "get",
-          url: 'user/query_info',
-          success: function (data, state) {
-            if (data.success) {
-              let usr = data.user;
-              $name = usr.name;
-              $user_gender = usr.sex;
-              $user_id = usr.id;
-              setCookie("username", $name, 30);
-              setCookie("user_gender", $user_gender, 30);
-              setCookie("user_id", $user_id, 30);
-            }
+        function getCookie(cname) {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
           }
-        });
+          return "";
+        }
 
         $.ajax({
           type: "post",
@@ -98,68 +81,71 @@
           contentType: 'application/json',
           success: function (data, state) {
             if (data.success) {
-              notify.success('注册成功', '正在跳转, 请稍候');
+              notify.success('登录成功', '正在跳转, 请稍候！');
+              $('#register').attr('disabled', false).html('登录中...');
               location.href = 'Home.html';
             } else {
-              notify.error('注册失败', data.message);
-              $('#register').attr('disabled', false).html('注册');
+              notify.error('登录失败', '用户名或者密码错误！');
             }
           }
         }).fail(function () {
           $('#register').attr('disabled', false).html('注册');
-          notify.error('注册失败', '网络错误或服务器出现错误, 请重试');
+          notify.error('登录失败', '网络错误或服务器出现错误, 请重试');
         });
       });
     });
   </script>
   <!-- <script charset="UTF-8" async="" src="./rig_files/gettype.php"></script> -->
   <script charset="UTF-8" async="" crossorigin="anonymous" src="./css/fullpage.9.0.5.js.下载"></script>
-  <script charset="UTF-8" src="./css/get.php"></script>
   <link href="./css/style_https.1.5.8.css" rel="stylesheet">
 </head>
 
 <body>
+  <script>
+    $.ajax({
+      type: "get",
+      url: 'user/query_info',
+      success: function (data, state) {
+        if (data.success) {
+          location.href = 'Home.html';
+        }
+      }
+    });
+  </script>
   <div id="app" class="login background">
     <div class="single-bg"></div>
     <div class="notify-container"></div>
     <div class="main padding-limiter">
-      <div class="panel login-panel" style="background-color: rgb(237,237,238)">
+      <div class="panel login-panel" style="background-color: rgb(237,237,238,0.5)">
         <div class=" double-column ">
-          <img class=" panel-wide login-img " src=" ./css/illust_69468687_20190627_234244.png" title=" " style=" ">
+          <img class=" panel-wide login-img " src=" ./css/Login.jpg" title=" " style="opacity:0.9;">
           <div class=" panel-narrow ">
             <div class=" title ">
-              TeaAtHome 注册
+              TeaAtHome 登录
             </div>
             <div class=" control-group ">
               <label>用户名</label>
               <div class=" controls ">
                 <input id="username" type=" text " placeholder=" 4~20 位字母数字下划线 " maxlength=" 20 " title=" 用户名 "
-                  style="background-color: rgb(237,237,238)">
+                  style="background-color: rgb(237,237,238,0.5)">
               </div>
             </div>
             <div class=" control-group ">
               <label>密　码</label>
               <div class=" controls ">
                 <input id="password" type="password" placeholder=" 5~16位 " title=" 密码 "
-                  style="background-color: rgb(237,237,238)">
-              </div>
-            </div>
-            <div class=" control-group ">
-              <label>手机号</label>
-              <div class=" controls ">
-                <input id="phone" type="text" placeholder=" 标准手机号 " maxlength=" 128 " title=" 手机号 "
-                  style="background-color: rgb(237,237,238)">
+                  style="background-color: rgb(237,237,238,0.5)">
               </div>
             </div>
 
             <div class=" control-group ">
               <label style=" width: 100%;word-break: break-all; ">
-                *在Tea-At-Home注册就代表你是一个二次元*
+                *欢迎回到Tea-At-Home* *愤怒*
               </label>
             </div>
             <div class=" actions ">
-              <button class=" btn btn-green " id="register">注册</button>
-              <button class=" btn " id="back ">返回</button>
+              <button class=" btn btn-green " id="register">登录</button>
+              <button class=" btn " id="back " style="color: gray;;background-color: rgb(237,237,238,0.7);">返回</button>
             </div>
           </div>
         </div>

@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<!-- saved from url=(0023) -->
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="renderer" content="webkit">
+
+  <title>Tea At Home 宅家买茶网页</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <meta name="GOOGLEBOT" content="index,follow">
+  <meta name="Author" content="Sakura Frp">
+
+
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <link rel="stylesheet" href="./noba_files/index.css">
+  <!--link rel="stylesheet/less" href="css/natfrp.less" />
+	<script src="js/less.js" type="text/javascript" charset="utf-8"></script-->
+  <script src="./noba_files/dat.gui.min.js.下载"></script>
+  <style type="text/css">
+    .dg ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      clear: both
+    }
+
+    .dg.ac {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0;
+      z-index: 0
+    }
+
+    .dg:not(.ac) .main {
+      overflow: hidden
+    }
+
+    .dg.main {
+      -webkit-transition: opacity .1s linear;
+      -o-transition: opacity .1s linear;
+      -moz-transition: opacity .1s linear;
+      transition: opacity .1s linear
+    }
+
+    .dg.main.taller-than-window {
+      overflow-y: auto
+    }
+
+    .dg.main.taller-than-window .close-button {
+      opacity: 1;
+      margin-top: -1px;
+      border-top: 1px solid #2c2c2c
+    }
+
+    .dg.main ul.closed .close-button {
+      opacity: 1 !important
+    }
+
+    .dg.main:hover .close-button,
+    .dg.main .close-button.drag {
+      opacity: 1
+    }
+
+    .dg.main .close-button {
+      -webkit-transition: opacity .1s linear;
+      -o-transition: opacity .1s linear;
+      -moz-transition: opacity .1s linear;
+      transition: opacity .1s linear;
+      border: 0;
+      line-height: 19px;
+      height: 20px;
+      cursor: pointer;
+      text-align: center;
+      background-color: #000
+    }
+
+    .dg.main .close-button.close-top {
+      position: relative
+    }
+
+    .dg.main .close-button.close-bottom {
+      position: absolute
+    }
+
+    .dg.main .close-button:hover {
+      background-color: #111
+    }
+
+    .dg.a {
+      float: right;
+      margin-right: 15px;
+      overflow-y: visible
+    }
+
+    .dg.a.has-save>ul.close-top {
+      margin-top: 0
+    }
+
+    .dg.a.has-save>ul.close-bottom {
+      margin-top: 27px
+    }
+
+    .dg.a.has-save>ul.closed {
+      margin-top: 0
+    }
+
+    .dg.a .save-row {
+      top: 0;
+      z-index: 1002
+    }
+
+    .dg.a .save-row.close-top {
+      position: relative
+    }
+
+    .dg.a .save-row.close-bottom {
+      position: fixed
+    }
+
+    .dg li {
+      -webkit-transition: height .1s ease-out;
+      -o-transition: height .1s ease-out;
+      -moz-transition: height .1s ease-out;
+      transition: height .1s ease-out;
+      -webkit-transition: overflow .1s linear;
+      -o-transition: overflow .1s linear;
+      -moz-transition: overflow .1s linear;
+      transition: overflow .1s linear
+    }
+
+    .dg li:not(.folder) {
+      cursor: auto;
+      height: 27px;
+      line-height: 27px;
+      padding: 0 4px 0 5px
+    }
+
+    .dg li.folder {
+      padding: 0;
+      border-left: 4px solid rgba(0, 0, 0, 0)
+    }
+
+    .dg li.title {
+      cursor: pointer;
+      margin-left: -4px
+    }
+
+    .dg .closed li:not(.title),
+    .dg .closed ul li,
+    .dg .closed ul li>* {
+      height: 0;
+      overflow: hidden;
+      border: 0
+    }
+
+    .dg .cr {
+      clear: both;
+      padding-left: 3px;
+      height: 27px;
+      overflow: hidden
+    }
+
+    .dg .property-name {
+      cursor: default;
+      float: left;
+      clear: left;
+      width: 40%;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .dg .c {
+      float: left;
+      width: 60%;
+      position: relative
+    }
+
+    .dg .c input[type=text] {
+      border: 0;
+      margin-top: 4px;
+      padding: 3px;
+      width: 100%;
+      float: right
+    }
+
+    .dg .has-slider input[type=text] {
+      width: 30%;
+      margin-left: 0
+    }
+
+    .dg .slider {
+      float: left;
+      width: 66%;
+      margin-left: -5px;
+      margin-right: 0;
+      height: 19px;
+      margin-top: 4px
+    }
+
+    .dg .slider-fg {
+      height: 100%
+    }
+
+    .dg .c input[type=checkbox] {
+      margin-top: 7px
+    }
+
+    .dg .c select {
+      margin-top: 5px
+    }
+
+    .dg .cr.function,
+    .dg .cr.function .property-name,
+    .dg .cr.function *,
+    .dg .cr.boolean,
+    .dg .cr.boolean * {
+      cursor: pointer
+    }
+
+    .dg .cr.color {
+      overflow: visible
+    }
+
+    .dg .selector {
+      display: none;
+      position: absolute;
+      margin-left: -9px;
+      margin-top: 23px;
+      z-index: 10
+    }
+
+    .dg .c:hover .selector,
+    .dg .selector.drag {
+      display: block
+    }
+
+    .dg li.save-row {
+      padding: 0
+    }
+
+    .dg li.save-row .button {
+      display: inline-block;
+      padding: 0px 6px
+    }
+
+    .dg.dialogue {
+      background-color: #222;
+      width: 460px;
+      padding: 15px;
+      font-size: 13px;
+      line-height: 15px
+    }
+
+    #dg-new-constructor {
+      padding: 10px;
+      color: #222;
+      font-family: Monaco, monospace;
+      font-size: 10px;
+      border: 0;
+      resize: none;
+      box-shadow: inset 1px 1px 1px #888;
+      word-wrap: break-word;
+      margin: 12px 0;
+      display: block;
+      width: 440px;
+      overflow-y: scroll;
+      height: 100px;
+      position: relative
+    }
+
+    #dg-local-explain {
+      display: none;
+      font-size: 11px;
+      line-height: 17px;
+      border-radius: 3px;
+      background-color: #333;
+      padding: 8px;
+      margin-top: 10px
+    }
+
+    #dg-local-explain code {
+      font-size: 10px
+    }
+
+    #dat-gui-save-locally {
+      display: none
+    }
+
+    .dg {
+      color: #eee;
+      font: 11px 'Lucida Grande', sans-serif;
+      text-shadow: 0 -1px 0 #111
+    }
+
+    .dg.main::-webkit-scrollbar {
+      width: 5px;
+      background: #1a1a1a
+    }
+
+    .dg.main::-webkit-scrollbar-corner {
+      height: 0;
+      display: none
+    }
+
+    .dg.main::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background: #676767
+    }
+
+    .dg li:not(.folder) {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2c2c2c
+    }
+
+    .dg li.save-row {
+      line-height: 25px;
+      background: #dad5cb;
+      border: 0
+    }
+
+    .dg li.save-row select {
+      margin-left: 5px;
+      width: 108px
+    }
+
+    .dg li.save-row .button {
+      margin-left: 5px;
+      margin-top: 1px;
+      border-radius: 2px;
+      font-size: 9px;
+      line-height: 7px;
+      padding: 4px 4px 5px 4px;
+      background: #c5bdad;
+      color: #fff;
+      text-shadow: 0 1px 0 #b0a58f;
+      box-shadow: 0 -1px 0 #b0a58f;
+      cursor: pointer
+    }
+
+    .dg li.save-row .button.gears {
+      background: #c5bdad url(/111_files/tea.png) 2px 1px no-repeat;
+      height: 7px;
+      width: 8px
+    }
+
+    .dg li.save-row .button:hover {
+      background-color: #bab19e;
+      box-shadow: 0 -1px 0 #b0a58f
+    }
+
+    .dg li.folder {
+      border-bottom: 0
+    }
+
+    .dg li.title {
+      padding-left: 16px;
+      background: #000 url(/111_files/tea.png) 6px 10px no-repeat;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+    }
+
+    .dg .closed li.title {
+      background-image: url(/111_files/tea.png)
+    }
+
+    .dg .cr.boolean {
+      border-left: 3px solid #806787
+    }
+
+    .dg .cr.color {
+      border-left: 3px solid
+    }
+
+    .dg .cr.function {
+      border-left: 3px solid #e61d5f
+    }
+
+    .dg .cr.number {
+      border-left: 3px solid #2FA1D6
+    }
+
+    .dg .cr.number input[type=text] {
+      color: #2FA1D6
+    }
+
+    .dg .cr.string {
+      border-left: 3px solid #1ed36f
+    }
+
+    .dg .cr.string input[type=text] {
+      color: #1ed36f
+    }
+
+    .dg .cr.function:hover,
+    .dg .cr.boolean:hover {
+      background: #111
+    }
+
+    .dg .c input[type=text] {
+      background: #303030;
+      outline: none
+    }
+
+    .dg .c input[type=text]:hover {
+      background: #3c3c3c
+    }
+
+    .dg .c input[type=text]:focus {
+      background: #494949;
+      color: #fff
+    }
+
+    .dg .c .slider {
+      background: #303030;
+      cursor: ew-resize
+    }
+
+    .dg .c .slider-fg {
+      background: #2FA1D6;
+      max-width: 100%
+    }
+
+    .dg .c .slider:hover {
+      background: #3c3c3c
+    }
+
+    .dg .c .slider:hover .slider-fg {
+      background: #44abda
+    }
+  </style>
+  <style type="text/css">
+    .dg ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      clear: both
+    }
+
+    .dg.ac {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0;
+      z-index: 0
+    }
+
+    .dg:not(.ac) .main {
+      overflow: hidden
+    }
+
+    .dg.main {
+      -webkit-transition: opacity .1s linear;
+      -o-transition: opacity .1s linear;
+      -moz-transition: opacity .1s linear;
+      transition: opacity .1s linear
+    }
+
+    .dg.main.taller-than-window {
+      overflow-y: auto
+    }
+
+    .dg.main.taller-than-window .close-button {
+      opacity: 1;
+      margin-top: -1px;
+      border-top: 1px solid #2c2c2c
+    }
+
+    .dg.main ul.closed .close-button {
+      opacity: 1 !important
+    }
+
+    .dg.main:hover .close-button,
+    .dg.main .close-button.drag {
+      opacity: 1
+    }
+
+    .dg.main .close-button {
+      -webkit-transition: opacity .1s linear;
+      -o-transition: opacity .1s linear;
+      -moz-transition: opacity .1s linear;
+      transition: opacity .1s linear;
+      border: 0;
+      line-height: 19px;
+      height: 20px;
+      cursor: pointer;
+      text-align: center;
+      background-color: #000
+    }
+
+    .dg.main .close-button.close-top {
+      position: relative
+    }
+
+    .dg.main .close-button.close-bottom {
+      position: absolute
+    }
+
+    .dg.main .close-button:hover {
+      background-color: #111
+    }
+
+    .dg.a {
+      float: right;
+      margin-right: 15px;
+      overflow-y: visible
+    }
+
+    .dg.a.has-save>ul.close-top {
+      margin-top: 0
+    }
+
+    .dg.a.has-save>ul.close-bottom {
+      margin-top: 27px
+    }
+
+    .dg.a.has-save>ul.closed {
+      margin-top: 0
+    }
+
+    .dg.a .save-row {
+      top: 0;
+      z-index: 1002
+    }
+
+    .dg.a .save-row.close-top {
+      position: relative
+    }
+
+    .dg.a .save-row.close-bottom {
+      position: fixed
+    }
+
+    .dg li {
+      -webkit-transition: height .1s ease-out;
+      -o-transition: height .1s ease-out;
+      -moz-transition: height .1s ease-out;
+      transition: height .1s ease-out;
+      -webkit-transition: overflow .1s linear;
+      -o-transition: overflow .1s linear;
+      -moz-transition: overflow .1s linear;
+      transition: overflow .1s linear
+    }
+
+    .dg li:not(.folder) {
+      cursor: auto;
+      height: 27px;
+      line-height: 27px;
+      padding: 0 4px 0 5px
+    }
+
+    .dg li.folder {
+      padding: 0;
+      border-left: 4px solid rgba(0, 0, 0, 0)
+    }
+
+    .dg li.title {
+      cursor: pointer;
+      margin-left: -4px
+    }
+
+    .dg .closed li:not(.title),
+    .dg .closed ul li,
+    .dg .closed ul li>* {
+      height: 0;
+      overflow: hidden;
+      border: 0
+    }
+
+    .dg .cr {
+      clear: both;
+      padding-left: 3px;
+      height: 27px;
+      overflow: hidden
+    }
+
+    .dg .property-name {
+      cursor: default;
+      float: left;
+      clear: left;
+      width: 40%;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .dg .c {
+      float: left;
+      width: 60%;
+      position: relative
+    }
+
+    .dg .c input[type=text] {
+      border: 0;
+      margin-top: 4px;
+      padding: 3px;
+      width: 100%;
+      float: right
+    }
+
+    .dg .has-slider input[type=text] {
+      width: 30%;
+      margin-left: 0
+    }
+
+    .dg .slider {
+      float: left;
+      width: 66%;
+      margin-left: -5px;
+      margin-right: 0;
+      height: 19px;
+      margin-top: 4px
+    }
+
+    .dg .slider-fg {
+      height: 100%
+    }
+
+    .dg .c input[type=checkbox] {
+      margin-top: 7px
+    }
+
+    .dg .c select {
+      margin-top: 5px
+    }
+
+    .dg .cr.function,
+    .dg .cr.function .property-name,
+    .dg .cr.function *,
+    .dg .cr.boolean,
+    .dg .cr.boolean * {
+      cursor: pointer
+    }
+
+    .dg .cr.color {
+      overflow: visible
+    }
+
+    .dg .selector {
+      display: none;
+      position: absolute;
+      margin-left: -9px;
+      margin-top: 23px;
+      z-index: 10
+    }
+
+    .dg .c:hover .selector,
+    .dg .selector.drag {
+      display: block
+    }
+
+    .dg li.save-row {
+      padding: 0
+    }
+
+    .dg li.save-row .button {
+      display: inline-block;
+      padding: 0px 6px
+    }
+
+    .dg.dialogue {
+      background-color: #222;
+      width: 460px;
+      padding: 15px;
+      font-size: 13px;
+      line-height: 15px
+    }
+
+    #dg-new-constructor {
+      padding: 10px;
+      color: #222;
+      font-family: Monaco, monospace;
+      font-size: 10px;
+      border: 0;
+      resize: none;
+      box-shadow: inset 1px 1px 1px #888;
+      word-wrap: break-word;
+      margin: 12px 0;
+      display: block;
+      width: 440px;
+      overflow-y: scroll;
+      height: 100px;
+      position: relative
+    }
+
+    #dg-local-explain {
+      display: none;
+      font-size: 11px;
+      line-height: 17px;
+      border-radius: 3px;
+      background-color: #333;
+      padding: 8px;
+      margin-top: 10px
+    }
+
+    #dg-local-explain code {
+      font-size: 10px
+    }
+
+    #dat-gui-save-locally {
+      display: none
+    }
+
+    .dg {
+      color: #eee;
+      font: 11px 'Lucida Grande', sans-serif;
+      text-shadow: 0 -1px 0 #111
+    }
+
+    .dg.main::-webkit-scrollbar {
+      width: 5px;
+      background: #1a1a1a
+    }
+
+    .dg.main::-webkit-scrollbar-corner {
+      height: 0;
+      display: none
+    }
+
+    .dg.main::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background: #676767
+    }
+
+    .dg li:not(.folder) {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2c2c2c
+    }
+
+    .dg li.save-row {
+      line-height: 25px;
+      background: #dad5cb;
+      border: 0
+    }
+
+    .dg li.save-row select {
+      margin-left: 5px;
+      width: 108px
+    }
+
+    .dg li.save-row .button {
+      margin-left: 5px;
+      margin-top: 1px;
+      border-radius: 2px;
+      font-size: 9px;
+      line-height: 7px;
+      padding: 4px 4px 5px 4px;
+      background: #c5bdad;
+      color: #fff;
+      text-shadow: 0 1px 0 #b0a58f;
+      box-shadow: 0 -1px 0 #b0a58f;
+      cursor: pointer
+    }
+
+    .dg li.save-row .button.gears {
+      background: #c5bdad url(/111_files/tea.png) 2px 1px no-repeat;
+      height: 7px;
+      width: 8px
+    }
+
+    .dg li.save-row .button:hover {
+      background-color: #bab19e;
+      box-shadow: 0 -1px 0 #b0a58f
+    }
+
+    .dg li.folder {
+      border-bottom: 0
+    }
+
+    .dg li.title {
+      padding-left: 16px;
+      background: #000 url(/111_files/tea.png) 6px 10px no-repeat;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+    }
+
+    .dg .closed li.title {
+      background-image: url(/111_files/tea.png)
+    }
+
+    .dg .cr.boolean {
+      border-left: 3px solid #806787
+    }
+
+    .dg .cr.color {
+      border-left: 3px solid
+    }
+
+    .dg .cr.function {
+      border-left: 3px solid #e61d5f
+    }
+
+    .dg .cr.number {
+      border-left: 3px solid #2FA1D6
+    }
+
+    .dg .cr.number input[type=text] {
+      color: #2FA1D6
+    }
+
+    .dg .cr.string {
+      border-left: 3px solid #1ed36f
+    }
+
+    .dg .cr.string input[type=text] {
+      color: #1ed36f
+    }
+
+    .dg .cr.function:hover,
+    .dg .cr.boolean:hover {
+      background: #111
+    }
+
+    .dg .c input[type=text] {
+      background: #303030;
+      outline: none
+    }
+
+    .dg .c input[type=text]:hover {
+      background: #3c3c3c
+    }
+
+    .dg .c input[type=text]:focus {
+      background: #494949;
+      color: #fff
+    }
+
+    .dg .c .slider {
+      background: #303030;
+      cursor: ew-resize
+    }
+
+    .dg .c .slider-fg {
+      background: #2FA1D6;
+      max-width: 100%
+    }
+
+    .dg .c .slider:hover {
+      background: #3c3c3c
+    }
+
+    .dg .c .slider:hover .slider-fg {
+      background: #44abda
+    }
+  </style>
+  <script src="./noba_files/index.js.下载" type="text/javascript" charset="utf-8"></script>
+</head>
+
+
+<body>
+  <section class="board board-index" style="background-image: url(css/Athome.jpg);">
+    <div class="title-bar-btns">
+      <a href="#index" onclick="document.documentElement.scrollTop=0" id="index" class="title-bar"><span>☀
+          首页</span></a>
+      <a href="#intro" class="title-bar other">♤介绍</a>
+      <a href="#price" class="title-bar other">￥定价</a>
+      <a href="#about" class="title-bar other">♢关于</a>
+    </div>
+    <div class="left-text">
+      <h2 class="bigtext">Tea At Home</h2>
+      <h3 class="middletext">在家买，诶，就是玩</h3>
+      <div class="actions">
+        <a href="Register.html" class="btn">注册账号</a>
+        <a href="Home.html" class="btn">管理面板</a>
+      </div>
+    </div>
+    <a class="float-down" href="#intro">↓</a>
+  </section>
+  <section class="board board-intro" style="--bg: url(https://cdn.luogu.com.cn/upload/image_hosting/upq9khrb.png)">
+    <a onclick="document.documentElement.scrollTop=window.innerHeight" id="intro" href="#intro" class="title-bar">
+      <div class="bg"></div>
+      <span>♤介绍</span>
+    </a>
+    <div class="bg"></div>
+    <div class="left-text">
+      <div class="middletext">为什么你需要喝茶？</div>
+      茶能使人精神振奋，增强思维和记忆能力<br><br> 茶叶含有不少对人体有益的微量元素。 <br><br> 茶叶有抑制恶性肿瘤的作用，饮茶能明显地抑制癌细胞的生长。
+      <br><br> 饮茶能兴奋中枢神经，增强运动能力。
+      <br><br> 茶能消除疲劳，促进新陈代谢，并有维持心脏、血管、胃肠等正常机能的作用
+      <br><br> 茶有良好的减肥和美容效果，特别是乌龙茶对此效果尤为明显。 <br><br> 等等......
+    </div>
+    <div class="right-pic">
+    </div>
+    <a class="float-down" href="#price">↓</a>
+  </section>
+  <section class="board board-price" style="--bg: url(https://cdn.luogu.com.cn/upload/image_hosting/fvxnyros.png)">
+    <a onclick="document.documentElement.scrollTop=window.innerHeight*2" href="#price" id="price" class="title-bar">
+      <div class="bg"></div>
+      <span>￥定价</span>
+    </a>
+    <div class="bg"></div>
+    <div class="plans">
+      <div class="plan animated-up">
+        <div class="level">
+          <div class="level-icon">V</div>
+          普通抓茶
+        </div>
+        <div class="quota">
+          <div class="quota-item"><span>抓取数量</span> <span>1 克/次</span></div>
+          <div class="quota-item"><span>总抓取量</span> <span>100 克</span></div>
+          <div class="quota-item"><span></span> <span></span></div>
+          <div class="quota-item"><span></span> <span></span></div>
+          <div class="quota-item"><span></span> <span></span></div>
+          <div class="quota-item"><span></span> <span></span></div>
+          <div class="quota-item"><span></span> <span></span></div>
+          <div class="quota-item"><span></span> <span></span></div>
+          <div class="quota-item"><span></span> <span>如果在抓取限量之后继续抓茶会被龙警察抓去喝龙井茶</span></div>
+        </div>
+        <a href="Register.html" class="price">免费</a>
+      </div>
+      <div class="plan animated-up">
+        <div class="level">
+          <div class="level-icon"></div>
+          VIP抓茶
+        </div>
+        <div class="quota">
+          <div class="quota-item"><span>抓取数量</span> <span>1 斤/次</span></div>
+          <div class="quota-item"><span>总抓取量</span> <span>10 斤</span></div>
+          <div class="quota-item"><span>附送茶叶</span> <span>每月1斤龙井茶</span></div>
+          <div class="quota-item"><span>附加权益</span> <span>解锁二倍速抓茶</span></div>
+          <div class="quota-item"><span></span> <span>如果在抓取限量之后继续抓茶会被龙警察抓去喝龙井茶</span></div>
+        </div>
+        <a href="Register.html" class="price">￥10 / 月</a>
+      </div>
+      <div class="plan animated-up">
+        <div class="level">
+          <div class="level-icon">SV</div>
+          SVIP 抓茶
+        </div>
+        <div class="quota">
+          <div class="quota-item"><span>抓取数量</span> <span>10 斤/次</span></div>
+          <div class="quota-item"><span>总抓取量</span> <span>1000 斤</span></div>
+          <div class="quota-item"><span>附送茶叶</span> <span>每月10斤龙井茶</span></div>
+          <div class="quota-item"><span>附送茶叶</span> <span>每月10斤普洱茶</span></div>
+          <div class="quota-item"><span>附加权益</span> <span>解锁三倍速抓茶</span></div>
+          <div class="quota-item"><span>附加权益</span> <span>解锁扫荡抓茶</span></div>
+          <div class="quota-item"><span></span> <span>如果在抓取限量之后继续抓茶会被龙警察抓去喝龙井茶</span></div>
+        </div>
+        <a href="Register.html" class="price">￥50 / 月</a>
+      </div>
+    </div>
+    <a class="float-down" href="#about">↓</a>
+  </section>
+  <section class="board board-about" style="background-color: #2FA1D6;">
+    <a href="#about" id="about" class="title-bar">
+      <div class="bg" id="about-bg-s"><canvas width="1536" height="666"></canvas></div>
+      <span>♢关于</span>
+    </a>
+
+    <div class="bg" id="about-bg"><canvas width="1536" height="0"></canvas></div>
+    <div class="left-text">
+      <div class="middletext">Tea At Home 由 <br id="mobile-br">ksgfk 运营</div>
+      在本站注册即意味着您确认您是男同
+      <br>
+      <br>
+      <span id="comname">福建居茶有限公司</span> · 闽ICPC备19260817号
+
+      <div style="margin-top: 40px" class="actions">
+        <a href="https://www.baidu.com/" class="btn">联系我们</a>
+        <a href="#about" id="joinusbtn" class="btn">加入我们</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    window.addEventListener("scroll", function (e) {
+      if (document.documentElement.scrollTop > window.innerHeight * 1.5 && window.planEvent != true) {
+        let waitTime = 0;
+        document.querySelectorAll(".plans .plan").forEach((el) => {
+          setTimeout(() => {
+            el.classList.add("animated-up");
+          }, waitTime);
+          waitTime += 100;
+        });
+
+        document.querySelector(".board-price .plans").scrollLeft = 270;
+        window.planEvent = true;
+      }
+      if (document.documentElement.scrollTop > window.innerHeight * 0.75) {
+        if (window.videoPlayed != true) {
+          window.videoPlayed = true;
+        }
+      }
+    });
+    window.comnameClicked = 0;
+    document.querySelector("#comname").addEventListener("mousedown", function (e) {
+      if (window.comnameClicked > 3) {
+        e.target.innerHTML = "\u5357\u4eac\u556a\u56db\u4e03\u4fe1\u606f\u79d1\u6280\u6709\u9650\u516c\u53f8";
+      } else {
+        window.comnameClicked++;
+      }
+    });
+    joinusEl = document.querySelector("#joinusbtn");
+    joinusEl.addEventListener("mousedown", function (e) {
+      window.open("https://baike.baidu.com/item/%E7%94%B7%E5%90%8C%E6%80%A7%E6%81%8B/1231789?fromtitle=%E7%94%B7%E5%90%8C&fromid=11369322&fr=aladdin");
+    });
+  </script>
+
+</body>
+<div style="all: initial;">
+  <div id="__hcfy__" style="all: initial;"></div>
+</div>
+
+</html>

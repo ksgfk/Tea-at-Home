@@ -28,6 +28,26 @@
   </style>
 
   <script>
+    $(function () {
+      $('#logout').click(function () {
+        $.ajax({
+          type: "get",
+          url: 'user/logout',
+          data: JSON.stringify({
+          }),
+          dataType: "json",
+          contentType: 'application/json',
+          success: function (data, state) {
+            if (data.success) {
+              location.href = 'index.html';
+            } else {
+              alert("没想到被你这个小伙子黑进来了，快去登录！");
+              location.href = 'index.html';
+            }
+          }
+        });
+      });
+    });
   </script>
 
   <title>个人中心::Tea At Home</title>
@@ -49,10 +69,16 @@
     var expires = "expires=" + d.toGMTString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
   }
+  function delCookie(name) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval = getCookie(name);
+    if (cval != null)
+      document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+  }
   $name = "null";
   $user_id = "null";
   $user_gender = "null";
-
   if (getCookie("username") == "") {
     $.ajax({
       type: "get",
@@ -66,6 +92,10 @@
           setCookie("username", $name, 30);
           setCookie("user_gender", $user_gender, 30);
           setCookie("user_id", $user_id, 30);
+        }
+        else {
+          alert("请登录！")
+          location.href = 'login.html';
         }
       }
     });
@@ -88,9 +118,8 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="" title="退出登录">
+          <a class="nav-link" href="" title="退出登录" id="logout">
             登出
-
             <img src="css/Leave.png" alt="居茶" width="25px">
           </a>
         </li>
