@@ -101,6 +101,21 @@
 |success|boolean|是否成功修改仓库|
 |message|string|如果未成功修改会返回原因|
 
+### 模糊查询产品
+* 地址：`product/fuzzy_query`
+* 请求方法：POST
+* 请求格式：
+
+|字段|类型|说明|
+|--|--|--|
+|key|string|查询关键词|
+
+* 响应格式：
+
+|字段|类型|说明|
+|--|--|--|
+|products|array|查询结果，数组内元素类型是`Product`|
+
 ## Session
 ### Attribute
 * `user`：包含当前已登录用户信息
@@ -113,3 +128,6 @@
 
 * Q：为啥要用eclipse？
 * A：又不是不能用（不过我自己用的idea）
+
+## TODO
+* 产品介绍？

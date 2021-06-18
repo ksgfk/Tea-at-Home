@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 public class ConnectionTeaShop {
-	private static String Driver="com.mysql.cj.jdbc.Driver";
+	private static String Driver="com.mysql.jdbc.Driver";
 	private static String Url="jdbc:mysql://localhost:3306/tea_shop?serverTimezone=UTC";
 	private static String User="root";
 	private static String Password="123456";
@@ -18,7 +18,7 @@ public class ConnectionTeaShop {
 			Class.forName(Driver);
 			conn=DriverManager.getConnection(Url,User,Password);
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.print("���Ӵ���");
+			System.out.print("初始化异常");
 		}
 	}
 
@@ -26,7 +26,7 @@ public class ConnectionTeaShop {
 		try {
 			if(resu!=null) resu.close();
 			if(pre!=null) pre.close();
-			if(conn!=null) pre.close();
+			if(conn!=null) conn.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -41,16 +41,15 @@ public class ConnectionTeaShop {
 			}
 			row=pre.executeUpdate();
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 		finally{
-			close();
 		}
-		if(row>=1) 
+		if(row>=1)
 			return true;
 		else
 			return false;
-		
+
 	}
 	public ResultSet query(String sql,Object...args) {
 		try {
@@ -62,11 +61,11 @@ public class ConnectionTeaShop {
 			resu=pre.executeQuery();
 		}
 		catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 		finally {
-			
+
 		}
-		return resu;		
+		return resu;
 	}
 }

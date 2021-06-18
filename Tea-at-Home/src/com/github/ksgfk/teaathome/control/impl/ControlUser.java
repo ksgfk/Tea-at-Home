@@ -62,7 +62,7 @@ public class ControlUser implements ControlUserInter {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			conn.close();
+//			conn.close();
 		}
 		return null;
  
