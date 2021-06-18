@@ -47,6 +47,16 @@
 |--|--|--|
 |success|boolean|是否成功登录|
 |message|string|如果未成功登录会返回原因|
+### 用户登出
+* 地址：`user/logout`
+* 请求方法：GET
+* 请求格式：无请求字段
+* 响应格式：
+
+|字段|类型|说明|
+|--|--|--|
+|success|boolean|是否成功登出|
+|message|string|如果未成功登出会返回原因|
 ### 用户数据
 * 地址：`user/query_info`
 * 请求方法：GET
