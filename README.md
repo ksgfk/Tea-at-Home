@@ -84,6 +84,23 @@
 |success|boolean|是否成功添加仓库|
 |message|string|如果未成功添加会返回原因|
 
+### 修改仓库
+* 地址：`depository/modify`
+* 请求方法：POST
+* 请求格式：
+
+|字段|类型|说明|
+|--|--|--|
+|id|number|仓库id|
+|name|string|新仓库名，可选|
+|address|string|新仓库地址，可选|
+* 响应格式：
+
+|字段|类型|说明|
+|--|--|--|
+|success|boolean|是否成功修改仓库|
+|message|string|如果未成功修改会返回原因|
+
 ## Session
 ### Attribute
 * `user`：包含当前已登录用户信息
