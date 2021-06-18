@@ -3,6 +3,8 @@ package com.github.ksgfk.teaathome.control.inter;
 import com.github.ksgfk.teaathome.models.Depository;
 import com.github.ksgfk.teaathome.models.Product;
 
+import java.sql.SQLException;
+
 public interface ControlDepositoryInter {
     public boolean add(Depository depository);
 
@@ -16,4 +18,5 @@ public interface ControlDepositoryInter {
 
     public boolean deleteProduct(Product product);
 
+    Depository findName(String name) throws SQLException;
 }

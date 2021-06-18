@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 @WebServlet(name = "/user/logout", value = "/user/logout")
-public class LogoutServlet extends HttpServlet {
+public class UserLogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletOutputStream stream = null;

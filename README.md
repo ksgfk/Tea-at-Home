@@ -68,9 +68,27 @@
 |success|boolean|是否成功获取用户信息|
 |user|user|如果某字段为null则返回json不包含该字段|
 
+### 添加仓库
+* 地址：`depository/add`
+* 请求方法：POST
+* 请求格式：
+
+|字段|类型|说明|
+|--|--|--|
+|name|string|仓库名|
+|address|string|仓库地址|
+* 响应格式：
+
+|字段|类型|说明|
+|--|--|--|
+|success|boolean|是否成功添加仓库|
+|message|string|如果未成功添加会返回原因|
+
 ## Session
 ### Attribute
 * `user`：包含当前已登录用户信息
+  * 调用`user/login`如果成功，会将`User`实例存入Attribute
+  * 调用`user/logout`会将`Session`销毁，无论用户是否登陆过
 
 ## QA
 * Q：为啥不用maven、gradle？

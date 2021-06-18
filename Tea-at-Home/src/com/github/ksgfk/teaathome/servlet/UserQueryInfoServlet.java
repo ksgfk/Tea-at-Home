@@ -17,10 +17,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 @WebServlet(name = "/user/query_info", value = "/user/query_info")
-public class GetUserInfoServlet extends HttpServlet {
+public class UserQueryInfoServlet extends HttpServlet {
     private final ControlUserInter userCtrl;
 
-    public GetUserInfoServlet() {
+    public UserQueryInfoServlet() {
         userCtrl = new ControlUser();
     }
 

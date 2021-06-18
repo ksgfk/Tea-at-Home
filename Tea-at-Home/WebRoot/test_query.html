@@ -51,6 +51,25 @@
                     console.log("服务器错误");
                 });
             });
+            $('#add_depo').click(() => {
+                $.ajax(
+                    {
+                        type: "post",
+                        url: 'depository/add',
+                        data: JSON.stringify({
+                            name: $('#depo_name').val(),
+                            address: $('#depo_addr').val(),
+                        }),
+                        dataType: "json",
+                        contentType: 'application/json',
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    }
+                ).fail(function () {
+                    console.log("服务器错误");
+                });
+            });
         });
     </script>
 </head>
@@ -65,6 +84,11 @@
 <button id="refresh">获取</button>
 <br>
 <button id="logout">登出</button>
+
+<br><br><br>
+<label>仓库名字:<input type="text" id="depo_name"></label><br>
+<label>仓库名字:<input type="text" id="depo_addr"></label><br>
+<button id="add_depo">添加仓库</button>
 
 </body>
 

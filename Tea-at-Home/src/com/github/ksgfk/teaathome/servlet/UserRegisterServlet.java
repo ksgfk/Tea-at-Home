@@ -23,10 +23,10 @@ import java.io.OutputStreamWriter;
  * 用户注册实现
  */
 @WebServlet(name = "/user/register", value = "/user/register")
-public class RegisterUserServlet extends HttpServlet {
+public class UserRegisterServlet extends HttpServlet {
     private final ControlUserInter userCtrl;
 
-    public RegisterUserServlet() {
+    public UserRegisterServlet() {
         userCtrl = new ControlUser();
     }
 

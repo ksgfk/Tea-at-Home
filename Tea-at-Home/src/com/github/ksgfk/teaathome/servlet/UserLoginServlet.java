@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 @WebServlet(name = "/user/login", value = "/user/login")
-public class LoginServlet extends HttpServlet {
+public class UserLoginServlet extends HttpServlet {
     private final ControlUserInter userCtrl;
 
-    public LoginServlet() {
+    public UserLoginServlet() {
         userCtrl = new ControlUser();
     }
 
@@ -47,22 +47,29 @@ public class LoginServlet extends HttpServlet {
             writer = new OutputStreamWriter(stream);
             json = new JsonWriter(writer);
             json.beginObject();
+            HttpSession session = request.getSession();//把user保存到session中
             json.name("success");
-            if (user == null) {
-                json.value(false);
+            Object usrObj = session.getAttribute("user");
+            if (usrObj instanceof User) {
+                json.value(true);
                 json.name("message");
-                json.value("账号或密码错误");
+                json.value("该用户已登录!");
             } else {
-                if (!pwd.equals(user.getPassword())) {//TODO:加密比较
-                    json.value(false);//登录失败
+                if (user == null) {
+                    json.value(false);
                     json.name("message");
                     json.value("账号或密码错误");
                 } else {
-                    json.value(true);//登录成功
-                    json.name("message");
-                    json.nullValue();
-                    HttpSession session = request.getSession();//把user保存到session中
-                    session.setAttribute("user", user);
+                    if (!pwd.equals(user.getPassword())) {//TODO:加密比较
+                        json.value(false);//登录失败
+                        json.name("message");
+                        json.value("账号或密码错误");
+                    } else {
+                        json.value(true);//登录成功
+                        json.name("message");
+                        json.nullValue();
+                        session.setAttribute("user", user);
+                    }
                 }
             }
             json.endObject();

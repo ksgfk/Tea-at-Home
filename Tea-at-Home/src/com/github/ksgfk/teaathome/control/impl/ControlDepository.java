@@ -8,9 +8,9 @@ import com.github.ksgfk.teaathome.models.Depository;
 import com.github.ksgfk.teaathome.models.Product;
 
 public class ControlDepository implements ControlDepositoryInter {
-	
+
 	private ConnectionTeaShop conn=null;
-	
+
 	public ControlDepository() {
 		conn=new ConnectionTeaShop();
 	}
@@ -55,12 +55,27 @@ public class ControlDepository implements ControlDepositoryInter {
 	public boolean addProduct(Product product, int id) {
 		product.setDepositoryId(id);
 		return new ControlProduct().add(product);
-	
+
 	}
 
 	@Override
 	public boolean deleteProduct(Product product) {
 		return new ControlProduct().deleteId(product.getId());
+	}
+
+	@Override
+	public Depository findName(String name) throws SQLException {
+		String sql="select * from depository where name=?";
+		ResultSet res=conn.query(sql, name);
+		Depository item=null;
+		try {
+			if(res!=null&&res.next()) {
+				item= new Depository(res.getInt("id"), res.getString("name"), res.getString("address"));
+			}
+		} finally {
+			conn.close();
+		}
+		return item;
 	}
 
 }
