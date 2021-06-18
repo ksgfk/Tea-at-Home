@@ -70,6 +70,30 @@
                     console.log("服务器错误");
                 });
             });
+            $('#mod_depo').click(() => {
+                let sendData = {};
+                sendData.id = parseInt($('#depo_mod_id').val(), 10);
+                let modName = $('#depo_mod_name').val();
+                let modAddr = $('#depo_mod_addr').val();
+                if (modName.length > 0) {
+                    sendData.name = modName;
+                }
+                if (modName.length > 0) {
+                    sendData.address = modAddr;
+                }
+                $.ajax({
+                    type: "post",
+                    url: 'depository/modify',
+                    data: JSON.stringify(sendData),
+                    dataType: "json",
+                    contentType: 'application/json',
+                    success: function (data) {
+                        console.log(data);
+                    }
+                }).fail(function () {
+                    console.log("服务器错误");
+                });
+            });
         });
     </script>
 </head>
@@ -87,8 +111,14 @@
 
 <br><br><br>
 <label>仓库名字:<input type="text" id="depo_name"></label><br>
-<label>仓库名字:<input type="text" id="depo_addr"></label><br>
+<label>仓库地址:<input type="text" id="depo_addr"></label><br>
 <button id="add_depo">添加仓库</button>
+
+<br><br><br>
+<label>地址id:<input type="text" id="depo_mod_id"></label>
+<label>新仓库名字:<input type="text" id="depo_mod_name"></label><br>
+<label>新仓库地址:<input type="text" id="depo_mod_addr"></label><br>
+<button id="mod_depo">添加仓库</button>
 
 </body>
 

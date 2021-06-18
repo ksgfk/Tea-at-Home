@@ -28,7 +28,7 @@ public class ControlDepository implements ControlDepositoryInter {
 
 	@Override
 	public boolean updata(Depository depository) {
-		String sql="updata depository set name=?,address=? where id = ?";
+		String sql="update depository set name=?,address=? where id = ?";
 		return conn.updata(sql,depository.getName(),depository.getAddress(),depository.getId() );
 	}
 

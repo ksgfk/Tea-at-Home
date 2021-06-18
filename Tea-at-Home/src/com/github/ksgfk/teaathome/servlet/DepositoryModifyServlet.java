@@ -14,11 +14,11 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-@WebServlet(name = "/depository/add", value = "/depository/add")
-public class DepositoryAddServlet extends HttpServlet {
+@WebServlet(name = "/depository/modify", value = "/depository/modify")
+public class DepositoryModifyServlet extends HttpServlet {
     private final ControlDepositoryInter depo;
 
-    public DepositoryAddServlet() {
+    public DepositoryModifyServlet() {
         depo = new ControlDepository();
     }
 
@@ -35,23 +35,34 @@ public class DepositoryAddServlet extends HttpServlet {
         try {
             JsonElement element = JsonUtility.read(request);
             JsonObject root = element.getAsJsonObject();
-            String name = root.get("name").getAsString();
-            String addr = root.get("address").getAsString();
-            //TODO:图片
+            int depoId = root.get("id").getAsInt();
+            Depository old = depo.findid(depoId);
             stream = response.getOutputStream();
             writer = new OutputStreamWriter(stream);
             json = new JsonWriter(writer);
-            if (name == null || name.isEmpty()) {
-                writeAddFailed(json, "错误的仓库名");
-            } else if (addr == null || addr.isEmpty()) {
-                writeAddFailed(json, "错误的仓库名");
+            if (old == null) {
+                writeModifyFailed(json, "找不到仓库");
             } else {
-                Depository newDepo = new Depository(-1, name, addr);
-                boolean result = depo.add(newDepo);
+                JsonElement newName = root.get("name");
+                JsonElement newAddr = root.get("address");
+                Depository newDepo = new Depository(old.getId(), old.getName(), old.getName());
+                if (newName != null) {
+                    String newNameValue = newName.getAsString();
+                    if (!newNameValue.isEmpty()) {
+                        newDepo.setName(newNameValue);
+                    }
+                }
+                if (newAddr != null) {
+                    String newAddrValue = newAddr.getAsString();
+                    if (!newAddrValue.isEmpty()) {
+                        newDepo.setAddress(newAddrValue);
+                    }
+                }
+                boolean result = depo.updata(newDepo);
                 if (result) {
-                    writeAddSuccess(json);
+                    writeModifySuccess(json);
                 } else {
-                    writeAddFailed(json, "添加仓库失败");
+                    writeModifyFailed(json, "修改仓库失败");
                 }
             }
             response.setStatus(200);
@@ -71,7 +82,7 @@ public class DepositoryAddServlet extends HttpServlet {
         }
     }
 
-    public static void writeAddFailed(JsonWriter writer, String message) throws IOException {
+    public static void writeModifyFailed(JsonWriter writer, String message) throws IOException {
         writer.beginObject();
         writer.name("success");
         writer.value(false);
@@ -80,7 +91,7 @@ public class DepositoryAddServlet extends HttpServlet {
         writer.endObject();
     }
 
-    public static void writeAddSuccess(JsonWriter writer) throws IOException {
+    public static void writeModifySuccess(JsonWriter writer) throws IOException {
         writer.beginObject();
         writer.name("success");
         writer.value(true);
