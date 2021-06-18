@@ -45,6 +45,9 @@ public class ControlDepository implements ControlDepositoryInter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+			conn.close();
+		}
 		return item;
 	}
 

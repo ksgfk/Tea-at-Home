@@ -43,9 +43,12 @@ public class ControlUser implements ControlUserInter {
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
+		}finally {
+			conn.close();
 		}
 		return null;
 	}
+	
 	@Override
 	public User findname(String name) {
 		String sql="select * from user where name = ?";
@@ -57,6 +60,8 @@ public class ControlUser implements ControlUserInter {
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
+		}finally {
+			conn.close();
 		}
 		return null;
  

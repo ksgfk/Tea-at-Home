@@ -1,5 +1,6 @@
 package com.github.ksgfk.teaathome.control.inter;
 
+import com.github.ksgfk.teaathome.control.impl.ControlUserdata;
 import com.github.ksgfk.teaathome.models.Userdata;
 
 public interface ControlUserdataInter  {
