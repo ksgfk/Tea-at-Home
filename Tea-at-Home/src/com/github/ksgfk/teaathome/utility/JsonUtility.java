@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -39,5 +40,8 @@ public class JsonUtility {
 
     public static String toJson(Object instance, Type type) {
         return INSTANCE.toJson(instance, type);
+    }
+    public static void toJson(Object instance, Type type, JsonWriter jsonWriter) {
+         INSTANCE.toJson(instance, type, jsonWriter);
     }
 }
