@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)https://www.natfrp.com/user/ -->
+<html lang="zh-CN" style="height: auto;">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/fontawesome.min.css">
+  <link rel="stylesheet" href="./css/adminlte.min.css">
+  <link rel="stylesheet" href="./css/introjs.min.css">
+  <link rel="stylesheet" href="./css/css">
+  <script type="text/javascript" async="" src="./css/analytics.js.下载"></script>
+  <script src="./css/jquery.min.js.下载"></script>
+  <script src="./css/bootstrap.bundle.min.js.下载"></script>
+  <script src="./css/adminlte.min.js.下载"></script>
+
+  <link rel="shortcut icon" href="https://www.natfrp.com/favicon.ico?v=2">
+
+  <style>
+    .introjs-tooltiptext {
+      padding: 8px 20px !important;
+    }
+
+    .introjs-bullets {
+      padding-top: 0 !important;
+    }
+  </style>
+
+  <script>
+  </script>
+
+  <title>个人中心::Tea At Home</title>
+  <link rel="stylesheet" type="text/css" href="./css/anti-blind.css">
+</head>
+<script>
+  function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i].trim();
+      if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+  }
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 60 * 60 * 1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+  }
+  $name = "null";
+  $user_id = "null";
+  $user_gender = "null";
+
+  if (getCookie("username") == "") {
+    $.ajax({
+      type: "get",
+      url: 'user/query_info',
+      success: function (data, state) {
+        if (data.success) {
+          let usr = data.user;
+          $name = usr.name;
+          $user_gender = usr.sex;
+          $user_id = usr.id;
+          setCookie("username", $name, 30);
+          setCookie("user_gender", $user_gender, 30);
+          setCookie("user_id", $user_id, 30);
+        }
+      }
+    });
+  } else {
+    $name = getCookie("username");
+    $user_gender = getCookie("user_gender");
+    $user_id = getCookie("user_id");
+  }
+</script>
+
+<body class="sidebar-mini" style="height: auto;">
+  <div class="wrapper">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color:rgb(237,237,238);">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="">
+            <img src="css/engin.png" alt="居茶" width="25px">
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="" title="退出登录">
+            登出
+
+            <img src="css/Leave.png" alt="居茶" width="25px">
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- Sidebar -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <a href="https://www.natfrp.com/user/" class="brand-link" style="text-align: center;">
+        <span class="brand-text font-weight-light">
+          TeaAtHome
+        </span>
+      </a>
+      <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="">
+          <img src="css/tea.png" alt="居茶">
+          <div class="info">
+            <a href="Home.html" class="d-block">
+              name </a>
+          </div>
+        </div>
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+              <a href="Home.html" class="nav-link active">
+                <img src="css/home.png" width="30px" href="">
+                <p>主页面</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a id="nav-profile" href="ShoppingCart.html" class="nav-link">
+                <img src="css/shop2.png" width="30px" href="">
+
+                <p>购物车</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="OrderDetails.html" class="nav-link">
+                <img src="css/order2.png" width="30px" href="">
+                <p>订单详情</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="OrderDetails.html" class="nav-link">
+                <img src="css/search2.png" width="30px" href="">
+                <p>搜索</p>
+              </a>
+            </li>
+
+
+          </ul>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Content -->
+
+    <div class="content-wrapper" style="min-height: 1217.2px; background-image:  url(css/teas.jpg);">
+      <div class="content" style="padding-top: 16px;">
+        <style type="text/css">
+          .fix-text p {
+            margin-bottom: 4px;
+          }
+
+          .fix-text pre {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+          }
+
+          .fix-image img {
+            max-width: 100%;
+          }
+
+          .card-title {
+            padding-top: 4px;
+          }
+        </style>
+
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-4 order-lg-2">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="text-primary">
+                    <script>
+                      document.write($name);
+                    </script>
+                  </h3>
+                  <img src="css/engin.png" style="float:right" width="100px" href="">
+                  <table style="font-size: 15px">
+                    <tbody>
+                      <tr>
+                        <td style="width: 30%;"><b>UID：</b></td>
+                        <td>
+                          <script>
+                            document.write($user_id);
+                          </script>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width: 30%;"><b>性别：</b></td>
+                        <td>
+                          <script>
+                            document.write($user_gender);
+                          </script>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p style="margin-top: 8px;margin-bottom: 0">
+
+                  </p>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body" style="padding-top: 16px;">
+                  我的购物车
+                  <a href=""></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                  id="close-tos-notice">×</button> 平台内容策略已于 2021/01/11 更新
+                <br> 请到 <a href="">内容策略</a> 页面查看最新内容。您可以右侧关闭按钮隐藏此通知。
+                <br> 如不同意本平台的最新的内容策略, 您应前往 <a href="">OpenID 用户中心</a> 提交账户注销申请。继续使用本平台即表示完全认可此最新的内容策略。
+              </div>
+              <div class="card" id="broadcast">
+                <div class="card-header border-0">
+                  <div class="d-flex justify-content-between">
+                    <h3 class="card-title">公告</h3>
+                  </div>
+                </div>
+                <div class="card-body fix-text fix-image" style="padding-top: 0;">
+                  <p>
+                  </p>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header border-0">
+                  <div class="d-flex justify-content-between">
+                    <h3 class="card-title">使用提示</h3>
+                  </div>
+                </div>
+                <div class="card-body fix-text fix-image" style="padding-top: 0;">
+                  <blockquote id="usage" style="margin: 0 8px;">
+                    <h2>快速跳转</h2>
+                    <ul style="padding-left: 24px;margin-bottom: 8px">
+                      <li>
+                        <a href="" style="color: bisque;">购物车</a>
+                      </li>
+                    </ul>
+                  </blockquote>
+                  <hr>
+                  <p>
+                    这个是 <b>设计师</b> 的QQ → <b class="anti-blind-text"></b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="main-footer">
+      <strong>
+        <a href="https://www.natfrp.com/" style="color: rgba(175, 118, 31, 1);">Tea At Home</a>
+        <div class="float-right d-none d-sm-inline-block">
+          Designed by <b>福建居茶有限公司</b> &gt;_&lt;'"|
+        </div>
+    </footer>
+    <div id="sidebar-overlay"></div>
+  </div>
+
+
+</body>
+<div style="all: initial;">
+  <div id="__hcfy__" style="all: initial;"></div>
+</div>
+
+</html>
