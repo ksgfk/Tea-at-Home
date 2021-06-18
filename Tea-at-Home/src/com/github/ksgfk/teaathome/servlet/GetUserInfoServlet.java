@@ -26,18 +26,16 @@ public class GetUserInfoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(501);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletOutputStream stream = null;
+        OutputStreamWriter writer = null;
+        JsonWriter json = null;
         try {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
             response.setContentType("application/json");
-            ServletOutputStream stream = response.getOutputStream();
-            OutputStreamWriter writer = new OutputStreamWriter(stream);
-            JsonWriter json = new JsonWriter(writer);
+            stream = response.getOutputStream();
+            writer = new OutputStreamWriter(stream);
+            json = new JsonWriter(writer);
             json.beginObject();
             json.name("success");
             if (user == null) {
@@ -52,12 +50,25 @@ public class GetUserInfoServlet extends HttpServlet {
                 json.jsonValue(JsonUtility.toJson(user, User.class));//TODO:更好的办法?
             }
             json.endObject();
-            json.close();
-            writer.close();
             response.setStatus(200);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(500);
+        } finally {
+            if (json != null) {
+                json.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
+            if (stream != null) {
+                stream.close();
+            }
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setStatus(501);
     }
 }

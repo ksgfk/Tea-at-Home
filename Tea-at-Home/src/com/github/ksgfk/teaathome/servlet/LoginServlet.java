@@ -33,6 +33,9 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletOutputStream stream = null;
+        OutputStreamWriter writer = null;
+        JsonWriter json = null;
         try {
             JsonElement userData = JsonUtility.read(request);
             JsonObject root = userData.getAsJsonObject();
@@ -40,9 +43,9 @@ public class LoginServlet extends HttpServlet {
             String pwd = root.get("password").getAsString();
             User user = userCtrl.findname(usr);
             response.setContentType("application/json");
-            ServletOutputStream stream = response.getOutputStream();
-            OutputStreamWriter writer = new OutputStreamWriter(stream);
-            JsonWriter json = new JsonWriter(writer);
+            stream = response.getOutputStream();
+            writer = new OutputStreamWriter(stream);
+            json = new JsonWriter(writer);
             json.beginObject();
             json.name("success");
             if (user == null) {
@@ -63,12 +66,20 @@ public class LoginServlet extends HttpServlet {
                 }
             }
             json.endObject();
-            json.close();
-            writer.close();
             response.setStatus(200);
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(500);
+        } finally {//一定要按这个顺序关流!
+            if (json != null) {
+                json.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
+            if (stream != null) {
+                stream.close();
+            }
         }
     }
 }

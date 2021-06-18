@@ -28,11 +28,8 @@
             $('#refresh').click(() => {
                 $.ajax(
                     {
-                        type: "post",
+                        type: "get",
                         url: 'user/query_info',
-                        data: JSON.stringify({}),
-                        dataType: "json",
-                        contentType: 'application/json',
                         success: function (data) {
                             console.log(data);
                         }

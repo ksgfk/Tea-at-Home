@@ -18,6 +18,7 @@
 ## API
 ### 用户注册
 * 地址：`user/register`
+* 请求方法：POST
 * 请求格式：
 
 |字段|类型|说明|
@@ -33,6 +34,7 @@
 |message|string|如果未成功注册会返回原因|
 ### 用户登录
 * 地址：`user/login`
+* 请求方法：POST
 * 请求格式：
 
 |字段|类型|说明|
@@ -47,6 +49,7 @@
 |message|string|如果未成功登录会返回原因|
 ### 用户数据
 * 地址：`user/query_info`
+* 请求方法：GET
 * 请求格式：无请求字段
 * 响应格式：
 
@@ -58,3 +61,10 @@
 ## Session
 ### Attribute
 * `user`：包含当前已登录用户信息
+
+## QA
+* Q：为啥不用maven、gradle？
+* A：别问，问就是不会配环境
+
+* Q：为啥要用eclipse？
+* A：又不是不能用（不过我自己用的idea）
