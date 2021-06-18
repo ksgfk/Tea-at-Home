@@ -1,6 +1,7 @@
 package com.github.ksgfk.teaathome.control.impl;
 
 import com.github.ksgfk.teaathome.control.inter.ControlUserdataInter;
+import com.github.ksgfk.teaathome.models.ConnectionTeaShop;
 import com.github.ksgfk.teaathome.models.ShoppingCart;
 import com.github.ksgfk.teaathome.models.Userdata;
 

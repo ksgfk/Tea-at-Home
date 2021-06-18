@@ -1,6 +1,7 @@
 package com.github.ksgfk.teaathome.control.impl;
 
 import com.github.ksgfk.teaathome.control.inter.ControlUserInter;
+import com.github.ksgfk.teaathome.models.ConnectionTeaShop;
 import com.github.ksgfk.teaathome.models.User;
 
 import java.sql.PreparedStatement;

@@ -2,6 +2,7 @@ package com.github.ksgfk.teaathome.control.impl;
 
 import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
 import com.github.ksgfk.teaathome.models.BuyInfo;
+import com.github.ksgfk.teaathome.models.ConnectionTeaShop;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

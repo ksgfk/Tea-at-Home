@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
+import com.github.ksgfk.teaathome.models.ConnectionTeaShop;
 import com.github.ksgfk.teaathome.models.Product;
 
 public class ControlProduct implements ControlProductInter {
