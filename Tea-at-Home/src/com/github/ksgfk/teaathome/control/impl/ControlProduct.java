@@ -53,8 +53,8 @@ public class ControlProduct implements ControlProductInter {
 
 	@Override
 	public List<Product> findname(String name) {
-		String sql="select * from product where name like %?%";
-		ResultSet res=conn.query(sql, name);
+		String sql="select * from product where name like ?";
+		ResultSet res=conn.query(sql, "%"+name+"%");
 		List<Product> list=new ArrayList<Product>();
 		try {
 			while(res!=null&&res.next()) {

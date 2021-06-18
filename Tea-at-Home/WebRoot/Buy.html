@@ -95,25 +95,25 @@
     }
   </style>
 
-  <script>
+  <script>$(function () {
     $('#search').click(function () {
       console.log('????');
-      if (!$('#search').val()) {
-
-      }
+      // if (!$('#find').val()) {
+      //
+      // }
       $.ajax({
         type: "post",
-        url: 'user/',
+        url: 'product/fuzzy_query',
         data: JSON.stringify({
-          key: $('#search').val()
+          key: $('#find').val()
         }),
         dataType: "json",
         contentType: 'application/json',
         success: function (data, state) {
-          var products = data.products;
-          if (data.success) {
+          console.log(data);
+          if (data.length !== 0) {
             Clear();
-            data.products.forEach(i => {
+            data.forEach(i => {
               var name = i.name;
               var price = i.price + "/斤";
               var jiesao = `这是${i.name}茶，非常牛逼建议买爆，99斤点击就买！`;
@@ -124,10 +124,11 @@
           }
         }
       }).fail(function () {
-        $('#register').attr('disabled', false).html('注册');
-        notify.error('登录失败', '网络错误或服务器出现错误, 请重试');
+        // $('#register').attr('disabled', false).html('注册');
+        alert("cnm");
       });
     });
+  });
   </script>
 
   <title>购买</title>
