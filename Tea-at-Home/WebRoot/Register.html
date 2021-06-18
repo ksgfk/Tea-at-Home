@@ -100,7 +100,7 @@
             if (data.success) {
               notify.success('注册成功', '正在跳转, 请稍候');
               setCookie("username", $('#username').val(), 1);
-              location.href = 'redirect';
+              location.href = 'Home.html';
             } else {
               notify.error('注册失败', data.message);
               $('#register').attr('disabled', false).html('注册');
