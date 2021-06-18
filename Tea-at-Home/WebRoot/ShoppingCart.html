@@ -33,14 +33,17 @@
         $.ajax({
           type: "get",
           url: 'user/logout',
-          data: JSON.stringify({
-          }),
-          dataType: "json",
-          contentType: 'application/json',
           success: function (data, state) {
             if (data.success) {
+              delCookie("username");
+              delCookie("user_gender");
+              delCookie("user_id");
+              alert("登出成功！");
               location.href = 'index.html';
             } else {
+              delCookie("username");
+              delCookie("user_gender");
+              delCookie("user_id");
               alert("没想到被你这个小伙子黑进来了，快去登录！");
               location.href = 'index.html';
             }
