@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.ksgfk.teaathome.control.impl.ControlDepository;
 import com.github.ksgfk.teaathome.control.impl.ControlProduct;
 import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
 import com.github.ksgfk.teaathome.models.Product;
@@ -57,6 +58,12 @@ public class AddProductServlet extends HttpServlet {
 			int depository_id=root.get("depositoryid").getAsInt();
 			BigDecimal price =root.get("price").getAsBigDecimal();
 			List<Product> list=productInter.findname(name);
+			if (new ControlDepository().findid(depository_id)==null) {
+				JsonUtility.messagesuccess(jsonWriter, false, "不存在仓库");
+				jsonWriter.flush();
+			    jsonWriter.close();
+			    return ;
+			}
 			for(Product item:list) {
 				if(item.getName().equals(name)) {
 					JsonUtility.messagesuccess(jsonWriter, false, "已存在");

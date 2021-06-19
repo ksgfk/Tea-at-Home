@@ -24,7 +24,7 @@ import com.google.gson.stream.JsonWriter;
 /**
  * Servlet implementation class QueryProductAllServlet
  */
-@WebServlet("/QueryProductAllServlet")
+@WebServlet("product/fuzzy_queryall")
 public class QueryProductAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ControlProductInter productinter=null;   
@@ -60,6 +60,7 @@ public class QueryProductAllServlet extends HttpServlet {
 		}
 		else {
 			M.put("bok",new Message(false, "没有产品"));
+			M.put("data", null);
 		}
 		JsonUtility.toJson(M, M.getClass(), jsonWriter);
 		jsonWriter.flush();

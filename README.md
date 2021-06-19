@@ -227,6 +227,45 @@
   | success | boolean | 是否成功增加 |
   | message | string  | 相应信息     |
 
+
+### 查询所有产品
+
+- 地址：`product/fuzzy_queryall`
+
+- 请求方式：POST
+
+- 请求格式
+
+  无
+
+- 响应格式
+
+  | 字段 | 类型    | 说明                           |
+  | ---- | ------- | ------------------------------ |
+  | bok  | Message | 判断查找成不成功               |
+  | data | array   | array中的每一个都是product类型 |
+
+### 增加产品
+
+- 地址：`product/fuzzy_add`
+
+- 请求方式：POST
+
+- 请求格式
+
+  | 字段         | 类型       | 说明       |
+  | ------------ | ---------- | ---------- |
+  | name         | string     | 产品名称   |
+  | count        | int        | 产品数量   |
+  | price        | BigDecimal | 价格       |
+  | depositoryid | int        | 存储仓库ID |
+
+- 响应格式
+
+  | 字段 | 类型    | 说明         |
+  | ---- | ------- | ------------ |
+  | bok  | Message | 是否增加成功 |
+
   
 
 ## Session

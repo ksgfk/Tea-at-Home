@@ -57,7 +57,7 @@ public class DeleteProductServlet extends HttpServlet {
 		else if(productInter.deleteId(productid)){
 			 JsonUtility.messagesuccess(jsonWriter, true, "success");
 		}else {
-			   JsonUtility.messagesuccess(jsonWriter, false, "插入失败");
+			   JsonUtility.messagesuccess(jsonWriter, false, "删除失败");
 		}
 		  jsonWriter.flush();
 		  jsonWriter.close();

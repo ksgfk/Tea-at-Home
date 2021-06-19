@@ -54,7 +54,7 @@ public class QueryProductServlet extends HttpServlet {
 	        String name = root.get("key").getAsString();
 	        List<Product> list=productInter.findname(name);
 	        if(list==null&&list.size()==0) {
-	        	response.setStatus(404);
+	        	response.setStatus(501);
 	        	jsonWriter.flush();
 	   	        jsonWriter.close();
 	        	return;
