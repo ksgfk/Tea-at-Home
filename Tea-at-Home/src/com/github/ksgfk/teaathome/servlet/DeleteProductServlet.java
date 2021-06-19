@@ -46,37 +46,22 @@ public class DeleteProductServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
+		response.setContentType("application/json");
+		JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 	   JsonElement userData = JsonUtility.read(request);
        JsonObject root = userData.getAsJsonObject();
        int productid = root.get("productid").getAsInt();
-	   if(!productInter.deleteId(productid) ) {
-			writeRegisterFailed(jsonWriter, "删除错误");
-			return ;
+	   if(productInter.findid(productid)==null ) {
+		   JsonUtility.messagesuccess(jsonWriter, false, "未找到");
 		}
-		else{
-			writeRegisterSuccess(jsonWriter);
-		};
-		   jsonWriter.flush();
-	        jsonWriter.close();
+		else if(productInter.deleteId(productid)){
+			 JsonUtility.messagesuccess(jsonWriter, true, "success");
+		}else {
+			   JsonUtility.messagesuccess(jsonWriter, false, "插入失败");
+		}
+		  jsonWriter.flush();
+		  jsonWriter.close();
 	}
-   public static void writeRegisterFailed(JsonWriter writer, String message) throws IOException {
-       writer.beginObject();
-       writer.name("success");
-       writer.value(false);
-       writer.name("message");
-       writer.value(message);
-       writer.endObject();
-   }
-
-   public static void writeRegisterSuccess(JsonWriter writer) throws IOException {
-       writer.beginObject();
-       writer.name("success");
-       writer.value(true);
-       writer.name("message");
-       writer.nullValue();
-       writer.endObject();
-   }
 
 	
 

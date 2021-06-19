@@ -69,5 +69,23 @@ public class ControlProduct implements ControlProductInter {
 		}
 		return list;
 	}
+	@Override
+	public List<Product> findall() {
+		String sql="select * from product";
+		ResultSet res=conn.query(sql);
+		List<Product> list=new ArrayList<Product>();
+		try {
+			while(res!=null&&res.next()) {
+				list.add(new Product(res.getInt("id"),res.getString("name"),res.getInt("count"),res.getInt("depository_id"),res.getBigDecimal("price")));
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			conn.close();
+		}
+		return list;
+	}
 
 }

@@ -12,57 +12,58 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.ksgfk.teaathome.control.impl.ControlBuyinfo;
-import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
-import com.github.ksgfk.teaathome.models.BuyInfo;
+import com.github.ksgfk.teaathome.control.impl.ControlProduct;
+import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
 import com.github.ksgfk.teaathome.models.Message;
-import com.github.ksgfk.teaathome.models.User;
+import com.github.ksgfk.teaathome.models.Product;
 import com.github.ksgfk.teaathome.utility.JsonUtility;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Servlet implementation class BuyInfoAllServlet
+ * Servlet implementation class QueryProductAllServlet
  */
-@WebServlet("/buyinfo/Queryall")
-public class QueryBuyInfoAllServlet extends HttpServlet {
+@WebServlet("/QueryProductAllServlet")
+public class QueryProductAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	   private ControlBuyinfoInter buyinfointer=null;  
+    private ControlProductInter productinter=null;   
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QueryBuyInfoAllServlet() {
+    public QueryProductAllServlet() {
         super();
-        buyinfointer=new ControlBuyinfo();
+        productinter=new ControlProduct();
         // TODO Auto-generated constructor stub
+    
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 response.setContentType("application/json");
-		  JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
-          int userid = ((User) request.getSession().getAttribute("user")).getId();
-          List<BuyInfo> list=buyinfointer.findUesrid(userid);
-          Map<String ,Object> M= new TreeMap<String,Object>();
-          if(list==null||list.size()==0) {
-        	  M.put("bok", new Message(false,"未找到"));
-          }
-          else {
-        	  M.put("bok", new Message(true,"success"));
-        	  M.put("data",list);
-          }
-          JsonUtility.toJson(M, M.getClass(), jsonWriter);
-          jsonWriter.flush();
-          jsonWriter.close();
+		response.setContentType("application/json");
+		List<Product> list= productinter.findall();
+		JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
+		Map<String, Object> M= new TreeMap<String,Object>();
+		if(list!=null&&list.size()!=0) {
+			M.put("bok",new Message(true, "success"));
+			M.put("data",list);
+		}
+		else {
+			M.put("bok",new Message(false, "没有产品"));
+		}
+		JsonUtility.toJson(M, M.getClass(), jsonWriter);
+		jsonWriter.flush();
+		jsonWriter.close();
 	}
 
 }

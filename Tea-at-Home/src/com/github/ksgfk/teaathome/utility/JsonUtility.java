@@ -1,5 +1,6 @@
 package com.github.ksgfk.teaathome.utility;
 
+import com.github.ksgfk.teaathome.models.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -45,14 +46,6 @@ public class JsonUtility {
          INSTANCE.toJson(instance, type, jsonWriter);
     }
 	public static void messagesuccess(JsonWriter jsonwriter,boolean isok,String message) throws IOException{
-	   	 jsonwriter.beginObject();
-	   	 jsonwriter.name("sucess");
-	   	 jsonwriter.value(isok);
-	   	 jsonwriter.name("message");
-	   	 if(message!=null)
-	   		 jsonwriter.value(message);
-	   	 else
-	   		 jsonwriter.nullValue();
-	   	 jsonwriter.endObject();
-		}
+		 INSTANCE.toJson(new Message(isok, message), Message.class, jsonwriter);
+	}
 }

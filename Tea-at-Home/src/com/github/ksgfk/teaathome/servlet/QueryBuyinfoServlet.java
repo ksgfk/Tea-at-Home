@@ -50,6 +50,7 @@ public class QueryBuyinfoServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 response.setContentType("application/json");
 		 JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 		 JsonElement userData = JsonUtility.read(request);
          JsonObject root = userData.getAsJsonObject();

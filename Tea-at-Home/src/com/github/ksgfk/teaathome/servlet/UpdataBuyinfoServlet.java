@@ -48,6 +48,7 @@ public class UpdataBuyinfoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//转换Json,以及输出准备
+		 response.setContentType("application/json");
 		JsonElement Data= JsonUtility.read(request);;
 		JsonObject root=Data.getAsJsonObject();
 		ServletOutputStream outputstream =response.getOutputStream();

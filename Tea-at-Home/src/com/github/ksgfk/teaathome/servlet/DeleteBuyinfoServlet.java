@@ -50,6 +50,7 @@ public class DeleteBuyinfoServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 response.setContentType("application/json");
 		JsonWriter jsonwriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 		JsonElement userData = JsonUtility.read(request);
 		JsonObject root = userData.getAsJsonObject();

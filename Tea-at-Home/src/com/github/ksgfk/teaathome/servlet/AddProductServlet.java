@@ -3,6 +3,7 @@ package com.github.ksgfk.teaathome.servlet;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,39 +47,32 @@ public class AddProductServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
+		    response.setContentType("application/json");
+			JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 			JsonElement userData = JsonUtility.read(request);
 	        JsonObject root = userData.getAsJsonObject();
+	        
 	        String name = root.get("name").getAsString();
 	        int  count= root.get("count").getAsInt(); 
-			int depository_id=root.get("count").getAsInt();
+			int depository_id=root.get("depositoryid").getAsInt();
 			BigDecimal price =root.get("price").getAsBigDecimal();
+			List<Product> list=productInter.findname(name);
+			for(Product item:list) {
+				if(item.getName().equals(name)) {
+					JsonUtility.messagesuccess(jsonWriter, false, "已存在");
+					jsonWriter.flush();
+				    jsonWriter.close();
+				    return ;
+				}
+			}
 			if(!productInter.add(new Product(depository_id, name, count, depository_id, price))) {
-				writeRegisterFailed(jsonWriter, "插入错误");
+				JsonUtility.messagesuccess(jsonWriter, false, "未插入");
 			}
 			else{
-				writeRegisterSuccess(jsonWriter);
+				JsonUtility.messagesuccess(jsonWriter, true,"success");
 			};
-			   jsonWriter.flush();
-		        jsonWriter.close();
+			  jsonWriter.flush();
+		      jsonWriter.close();
 		
 	}
-    public static void writeRegisterFailed(JsonWriter writer, String message) throws IOException {
-        writer.beginObject();
-        writer.name("success");
-        writer.value(false);
-        writer.name("message");
-        writer.value(message);
-        writer.endObject();
-    }
-
-    public static void writeRegisterSuccess(JsonWriter writer) throws IOException {
-        writer.beginObject();
-        writer.name("success");
-        writer.value(true);
-        writer.name("message");
-        writer.nullValue();
-        writer.endObject();
-    }
-
 }

@@ -10,4 +10,5 @@ public interface ControlProductInter {
 	public boolean updata(Product product);
 	public Product findid( int id);
 	public List<Product> findname(String name);
+	public List<Product> findall();
 }

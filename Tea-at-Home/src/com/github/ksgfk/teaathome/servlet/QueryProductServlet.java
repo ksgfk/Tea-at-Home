@@ -47,7 +47,8 @@ public class QueryProductServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
+		response.setContentType("application/json"); 
+		JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 			JsonElement userData = JsonUtility.read(request);
 	        JsonObject root = userData.getAsJsonObject();
 	        String name = root.get("key").getAsString();
