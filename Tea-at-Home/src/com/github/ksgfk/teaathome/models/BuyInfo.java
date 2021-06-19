@@ -7,7 +7,7 @@ public class BuyInfo {
 	private String receive;
 	private String logistics;
 	private int state;
-	private String pay;
+	private double pay;
 	public int getId() {
 		return id;
 	}
@@ -44,13 +44,13 @@ public class BuyInfo {
 	public void setState(int state) {
 		this.state = state;
 	}
-	public String getPay() {
+	public double getPay() {
 		return pay;
 	}
-	public void setPay(String pay) {
+	public void setPay(double pay) {
 		this.pay = pay;
 	}
-	public BuyInfo(int id, int userId, int productId, String receive, String logistics, int state, String pay) {
+	public BuyInfo(int id, int userId, int productId, String receive, String logistics, int state, double pay) {
 		this.id = id;
 		this.userId = userId;
 		this.productId = productId;

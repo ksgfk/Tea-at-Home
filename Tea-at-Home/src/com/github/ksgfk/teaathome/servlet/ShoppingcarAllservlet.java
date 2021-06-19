@@ -57,5 +57,4 @@ public class ShoppingcarAllservlet extends HttpServlet {
 		jsonWriter.flush();
 		jsonWriter.close();
 	}
-
 }

@@ -35,7 +35,7 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 		BuyInfo item=null;
 		try {
 			if(res!=null&&res.next()) {
-			  item=new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay"));
+			  item=new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getDouble("pay"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,7 +58,7 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 		ResultSet res=conn.query(sql, userid);
 		try {
 			while(res.next()) {
-				list.add(new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay")));
+				list.add(new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getDouble("pay")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -75,7 +75,7 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 		ResultSet res=conn.query(sql, productid);
 		try {
 			while(res.next()) {
-				list.add(new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getString("pay")));
+				list.add(new BuyInfo(res.getInt("id"), res.getInt("user_id") ,res.getInt("product_id") , res.getString("receive"), res.getString("logistics"), res.getInt("state"), res.getDouble("pay")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

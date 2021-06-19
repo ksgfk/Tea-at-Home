@@ -44,4 +44,15 @@ public class JsonUtility {
     public static void toJson(Object instance, Type type, JsonWriter jsonWriter) {
          INSTANCE.toJson(instance, type, jsonWriter);
     }
+	public static void messagesuccess(JsonWriter jsonwriter,boolean isok,String message) throws IOException{
+	   	 jsonwriter.beginObject();
+	   	 jsonwriter.name("sucess");
+	   	 jsonwriter.value(isok);
+	   	 jsonwriter.name("message");
+	   	 if(message!=null)
+	   		 jsonwriter.value(message);
+	   	 else
+	   		 jsonwriter.nullValue();
+	   	 jsonwriter.endObject();
+		}
 }

@@ -116,7 +116,121 @@
 |--|--|--|
 |products|array|查询结果，数组内元素类型是`Product`|
 
+### 查询单个订单
+
+- 地址：`buyinfo/query`
+
+- 请求方式：POST
+
+- 请求格式
+
+  | 字段 | 类型 | 说明   |
+  | ---- | ---- | ------ |
+  | key  | int  | 订单ID |
+
+- 响应格式： 
+
+  | 字段 | 类型    | 说明             |
+  | ---- | ------- | ---------------- |
+  | bok  | Message | 是否成功获取订单 |
+  | data | Buyinfo | 订单信息         |
+  
+  
+
+### 查询用户的所有订单
+
+- 地址：`buyinfo/queryall`
+
+- 请求方式：POST
+
+- 请求格式
+
+  无
+
+- 响应格式
+
+  | 字段 | 类型    | 说明                           |
+  | ---- | ------- | ------------------------------ |
+  | bok  | Message | 判断查找成不成功               |
+  | data | array   | array中的每一个都是BuyInfo类型 |
+
+### 删除用户的订单
+
+- 地址：`buyinfo/delete`
+
+- 请求方式：POST
+
+- 请求格式
+
+  | 字段 | 类型 | 说明   |
+  | ---- | ---- | ------ |
+  | key  | int  | 订单ID |
+
+- 响应格式
+
+  | 字段    | 类型    | 说明         |
+  | ------- | ------- | ------------ |
+  | success | boolean | 是否成功删除 |
+  | message | string  | 相应信息     |
+
+  
+
+### 更新订单
+
+- 地址：`buyinfo/updata`
+
+- 请求方式：POST
+
+- 请求格式
+
+  | 字段      | 类型   | 说明     |
+  | --------- | ------ | -------- |
+  | key       | int    | 订单ID   |
+  | productid | int    | 产品ID   |
+  | receive   | string | 收货地址 |
+  | logistics | string | 物流状态 |
+  | state     | int    | 订单状态 |
+  | pay       | double | 付款     |
+
+  
+
+- 响应格式
+
+- 
+
+  | 字段    | 类型    | 说明         |
+  | ------- | ------- | ------------ |
+  | success | boolean | 是否成功更新 |
+  | message | string  | 相应信息     |
+
+- 
+
+### 增加订单
+
+- 地址：`buyinfo/add`
+
+- 请求方式：POST
+
+- 请求格式
+
+  | 字段      | 类型   | 说明   |
+  | --------- | ------ | ------ |
+  | productid | int    | 产品ID |
+  | pay       | double | 付款   |
+
+  
+
+- 响应格式
+
+  | 字段    | 类型    | 说明         |
+  | ------- | ------- | ------------ |
+  | success | boolean | 是否成功增加 |
+  | message | string  | 相应信息     |
+
+  
+
 ## Session
+
 ### Attribute
 * `user`：包含当前已登录用户信息
   * 调用`user/login`如果成功，会将`User`实例存入Attribute

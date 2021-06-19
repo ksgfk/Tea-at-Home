@@ -45,15 +45,13 @@ public class ShoppingInfoServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       System.out.print("test");
 		JsonWriter jsonwriter=new JsonWriter(new OutputStreamWriter(response.getOutputStream())); 
 		JsonElement element = JsonUtility.read(request);
         JsonObject root = element.getAsJsonObject();
         int productid = root.get("productid").getAsInt();
         Product item = productInter.findid(productid);
         if(item==null) {
-//        	writeRegisterFailed(jsonwriter,"未找到");
-        	response.setStatus(404);
+        	response.setStatus(501);
         	return ;
         }
         JsonUtility.toJson(item, Product.class,jsonwriter);

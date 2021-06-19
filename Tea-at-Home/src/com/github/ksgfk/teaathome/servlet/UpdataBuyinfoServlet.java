@@ -2,9 +2,9 @@ package com.github.ksgfk.teaathome.servlet;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,19 +20,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Servlet implementation class BuyInfoAllServlet
+ * Servlet implementation class UpdataBuyinfoServlet
  */
-@WebServlet("/BuyInfoAllServlet")
-public class BuyInfoAllServlet extends HttpServlet {
+@WebServlet("/buyinfo/updata")
+public class UpdataBuyinfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	   private ControlBuyinfoInter buyinfointer=null;  
+    private ControlBuyinfoInter buyinfointer=null;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BuyInfoAllServlet() {
+    public UpdataBuyinfoServlet() {
         super();
-        buyinfointer=new ControlBuyinfo();
-        // TODO Auto-generated constructor stub
+        buyinfointer =  new ControlBuyinfo();
     }
 
 	/**
@@ -47,16 +47,27 @@ public class BuyInfoAllServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-          JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
-          int userid = ((User) request.getSession().getAttribute("user")).getId();
-          List<BuyInfo> list=buyinfointer.findUesrid(userid);
-          if(list==null||list.size()==0) {
-        	  response.setStatus(404);
-          }
-          JsonUtility.toJson(list, list.getClass() ,jsonWriter);
-          jsonWriter.flush();
-          jsonWriter.close();
-		  
+		//转换Json,以及输出准备
+		JsonElement Data= JsonUtility.read(request);;
+		JsonObject root=Data.getAsJsonObject();
+		ServletOutputStream outputstream =response.getOutputStream();
+        JsonWriter jsonwriter = new JsonWriter( new OutputStreamWriter(outputstream));
+        //
+        int buyinfoid= root.get("key").getAsInt();
+        int user_id= ((User)request.getSession().getAttribute("user")).getId();
+        int productid=root.get("productid").getAsInt();
+        String receive=root.get("receive").getAsString();
+        String logistics=root.get("logistics").getAsString();
+        int state = root.get("state").getAsInt();
+        double pay =root.get("pay").getAsDouble();
+        BuyInfo item= new BuyInfo(buyinfoid, user_id, productid, receive, logistics, state, pay);
+        if(buyinfointer.updata(item)) {
+        	JsonUtility.messagesuccess(jsonwriter, true, null);
+        }else {
+        	JsonUtility.messagesuccess(jsonwriter, false, "失败");
+        }
+        jsonwriter.flush();
+        jsonwriter.close();
 	}
 
 }

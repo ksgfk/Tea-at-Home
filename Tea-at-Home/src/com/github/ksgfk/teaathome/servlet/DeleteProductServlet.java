@@ -22,13 +22,13 @@ import com.google.gson.stream.JsonWriter;
  * Servlet implementation class deleteProductServlet
  */
 @WebServlet("/product/fuzzy_delete")
-public class deleteProductServlet extends HttpServlet {
+public class DeleteProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	  private ControlProductInter productInter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public deleteProductServlet() {
+    public DeleteProductServlet() {
         super();
         // TODO Auto-generated constructor stub
         productInter = new ControlProduct();
