@@ -14,4 +14,5 @@ public interface ControlShoppingcartInter {
 	public boolean updata(ShoppingCart cart);
 	public ShoppingCart find(int userid,int productid);
 	public boolean deletebatch(List<ShoppingCart> list);
+	public  List<ShoppingCart> querybatch(int[] productid,int userid) ;
 }

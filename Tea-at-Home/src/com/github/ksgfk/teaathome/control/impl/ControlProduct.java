@@ -88,14 +88,14 @@ public class ControlProduct implements ControlProductInter {
 		return list;
 	}
 	@Override
-	public List<Product> findin(int[] productid) {
+	public List<Product> findBatch(int[] productid) {
 		StringBuffer sql=new StringBuffer("select * from where id in");
 		for(int i=0;i<productid.length;i++) {
 			if(i==0) {
 				sql.append("("+String.valueOf(productid)+",");
 			}
 			else if(i==productid.length-1) {
-				sql.append(String.valueOf(productid));
+				sql.append(String.valueOf(productid)+")");
 			}
 			else {
 				sql.append(String.valueOf(productid)+",");

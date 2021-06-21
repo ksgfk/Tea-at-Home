@@ -24,6 +24,7 @@ import com.github.ksgfk.teaathome.control.impl.ControlProduct;
 import com.github.ksgfk.teaathome.control.impl.ControlShoppingcart;
 import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
 import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
+import com.github.ksgfk.teaathome.control.inter.ControlShoppingcartInter;
 import com.github.ksgfk.teaathome.models.BuyInfo;
 import com.github.ksgfk.teaathome.models.Product;
 import com.github.ksgfk.teaathome.models.ShoppingCart;
@@ -44,7 +45,7 @@ import junit.framework.Test;
 public class BuyProductInShoppingcarServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-    private ControlShoppingcart carInter=null;   
+    private ControlShoppingcartInter carInter=null;   
     private ControlBuyinfoInter buyinfoInter=null;
     private ControlProductInter productInter=null;
     /**
@@ -77,44 +78,32 @@ public class BuyProductInShoppingcarServlet extends HttpServlet {
 		JsonElement  data = JsonUtility.read(request);
 		JsonObject root = data.getAsJsonObject();
 		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
-		JsonArray carlist = root.get("data").getAsJsonArray();
-		double money=0;
+		JsonArray carlist = root.get("shoppingcarid").getAsJsonArray();
 		List<ShoppingCart> list = new ArrayList<ShoppingCart>();
-		
 		int userid = ((User) request.getSession().getAttribute("user")).getId();
+		double money=0;
 		
-		List<ShoppingCart> array = carInter.finduserid(userid);
-		
+		int carNumber[]=new int[carlist.size()];
+		int productNumber[]=new int[carlist.size()];
+		int i=0;
 		for (JsonElement iter : carlist) {
-			JsonObject item = iter.getAsJsonObject();
-			int userids = item.get("userid").getAsInt();
-			int productid = item.get("productid").getAsInt();
-			int count = item.get("count").getAsInt();
-			list.add(new ShoppingCart(0, userids, productid, count));
+			carNumber[i++]=iter.getAsInt();
 		}
-		int [] arrint=new int[list.size()];
-		if (array == null || array.size() == 0 || list.size() == 0) {
+		List<ShoppingCart> array = carInter.querybatch(carNumber, userid);
+		if (array == null || array.size() == 0 ||array.size()!=i) {
 			JsonUtility.messagesuccess(jsonWriter, false, "找不到购物车");
 			jsonWriter.flush();
 			jsonWriter.close();
 			return;
 		} else {
-			int i=0;
-			for (ShoppingCart item : list) {
-				if (!array.contains(item)) {
-					JsonUtility.messagesuccess(jsonWriter, false, "找不到购物车");
-					jsonWriter.flush();
-					jsonWriter.close();
-					
-					return;
-				}
-				item.setId(array.get(array.indexOf(item)).getId());
-				arrint[i++]=item.getProductId();
+			i=0;
+			for (ShoppingCart item : array) {
+				productNumber[i++]=item.getProductId();
 			}
-			carInter.deletebatch(list);
+			carInter.deletebatch(array);
 		}
 		List<BuyInfo> buyinfolist=new ArrayList<BuyInfo>();
-		List<Product> productlist=productInter.findin(arrint);
+		List<Product> productlist=productInter.findBatch(productNumber);
 		Iterator<Product> iter=productlist.iterator();
 		for(ShoppingCart item:list) {
 			Product temp=iter.next();

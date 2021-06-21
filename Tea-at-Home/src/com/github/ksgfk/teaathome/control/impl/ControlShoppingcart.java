@@ -95,6 +95,34 @@ public class ControlShoppingcart implements ControlShoppingcartInter {
 		String sql="delete from shopping_cart where id=?";
 		return conn.updataBatch(sql, list);
 	}
+	public  List<ShoppingCart> querybatch(int[] productid,int userid) {
+		StringBuffer sql=new StringBuffer("select * from (select product_id from shoppingcart where userid=?) where in");
+		for(int i=0;i<productid.length;i++) {
+			if(i==0) {
+				sql.append("("+String.valueOf(productid[i])+",");
+			}else if(i==productid.length-1) {
+				sql.append(String.valueOf(productid[i])+")");
+			}
+			else {
+				sql.append(String.valueOf(productid[i])+",");
+			}
+		}
+		ResultSet res=conn.query(sql.toString(), userid);
+		List<ShoppingCart> list= new ArrayList<ShoppingCart>();
+		try {
+			while(res!=null&&res.next()) {
+				list.add(new ShoppingCart(res.getInt("id"), res.getInt("user_id"), res.getInt("product_id"), res.getInt("count")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			conn.close();
+		}
+		return list;
+		
+	}
 
 	
 

@@ -11,5 +11,5 @@ public interface ControlProductInter {
 	public Product findid( int id);
 	public List<Product> findname(String name);
 	public List<Product> findall();
-	public List<Product> findin(int[] productid);
+	public List<Product> findBatch(int[] productid);
 	}
