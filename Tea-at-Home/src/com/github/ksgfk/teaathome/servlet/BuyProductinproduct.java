@@ -1,10 +1,10 @@
 package com.github.ksgfk.teaathome.servlet;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.math.BigDecimal;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.ksgfk.teaathome.control.impl.ControlBuyinfo;
-import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
+import com.github.ksgfk.teaathome.control.impl.ControlProduct;
+import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
 import com.github.ksgfk.teaathome.models.BuyInfo;
+import com.github.ksgfk.teaathome.models.Message;
+import com.github.ksgfk.teaathome.models.Product;
 import com.github.ksgfk.teaathome.models.User;
 import com.github.ksgfk.teaathome.utility.JsonUtility;
 import com.google.gson.JsonElement;
@@ -23,18 +25,18 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Servlet implementation class BuyShoppingToBuyinfoServlet
+ * Servlet implementation class BuyProductinproduct
  */
-@WebServlet("/buyinfo/add")
-public class AddBuyinfoServlet extends HttpServlet {
+@WebServlet("/buy/product")
+public class BuyProductinproduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ControlBuyinfoInter buyinfoInter=null;
+    private ControlProductInter productInter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddBuyinfoServlet() {
+    public BuyProductinproduct() {
         super();
-        buyinfoInter=new ControlBuyinfo();
+        productInter= new ControlProduct();
         // TODO Auto-generated constructor stub
     }
 
@@ -42,33 +44,34 @@ public class AddBuyinfoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//产生一个新订单 
 		 JsonElement Data = JsonUtility.read(request);
          JsonObject root = Data.getAsJsonObject();
          ServletOutputStream outputstream =response.getOutputStream();
-         JsonWriter jsonwriter = new JsonWriter( new OutputStreamWriter(outputstream));
-         String receive="集美大学诚毅学院";
-         String logistics="正在路上";
-         int state=0;
-         double pay=root.get("pay").getAsDouble();
-         int userid=((User)request.getSession().getAttribute("user")).getId();
+         JsonWriter jsonWriter = new JsonWriter( new OutputStreamWriter(outputstream));
          int productid=root.get("productid").getAsInt();
-         if( buyinfoInter.add(new BuyInfo(0, userid, productid, receive, logistics, state, pay) ) ) {
-        	 JsonUtility.messagesuccess(jsonwriter, true,null);
+         int count=root.get("count").getAsInt();
+         Product item = productInter.findid(productid);
+         Map<String, Object> M= new TreeMap<String, Object>();
+         int userid = ((User)request.getSession().getAttribute("user")).getId();
+         if(item==null||item.getCount()<count) {
+        	 M.put("bok", new Message(false, "产品库存不足"));
+        	 M.put("data", null);
          }
          else {
-        	 JsonUtility.messagesuccess(jsonwriter, false,"订单异常");
+        	 M.put("bok", new Message(true,"success"));
+        	 M.put("data",new BuyInfo(0, userid, productid, "集美大学诚毅学院","在路上",0,item.getPrice().multiply(BigDecimal.valueOf(count) ).doubleValue() ) );
          }
-         jsonwriter.flush();
-         jsonwriter.close();
-		
+         JsonUtility.toJson(M, M.getClass(), jsonWriter);
+         jsonWriter.flush();
+         jsonWriter.close();
 	}
-	//检查
+
 }

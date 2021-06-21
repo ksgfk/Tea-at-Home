@@ -426,7 +426,26 @@
   | bok  | Message | 是否成功              |
   | data | array   | 每一个元素都是product |
 
-  
+
+#### 在产品页面进行购买
+
+- 地址：`buy/product`
+
+- 请求方式:：POST
+
+  | 字段      | 类型 | 说明     |
+  | --------- | ---- | -------- |
+  | productid | int  | 产品ID   |
+  | count     | int  | 购买数量 |
+
+- 响应格式
+
+  | 字段 | 类型    | 说明     |
+  | ---- | ------- | -------- |
+  | bok  | Message | 是否成功 |
+  | data | BuyInfo | 订单信息 |
+
+
 
 
 
