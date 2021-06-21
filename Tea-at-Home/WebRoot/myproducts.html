@@ -16,7 +16,61 @@
   <script src="./css/adminlte.min.js.下载"></script>
 
   <link rel="shortcut icon" href="https://www.natfrp.com/favicon.ico?v=2">
+  <script>
+    function AddProduct(tag, money, body2) {
+      var container = document.getElementById('shower');
+      var div6 = document.createElement("div");
+      div6.setAttribute("class", "col-lg-6");
+      {
+        var div5 = document.createElement("div");
+        div5.setAttribute("class", "card");
+        {
+          var div3 = document.createElement('div');
+          div3.setAttribute("class", "card-header border-0");
+          {
+            var div4 = document.createElement('div');
+            div4.setAttribute("class", "d-flex justify-content-between");
+            {
+              var h3 = document.createElement("h3");
+              h3.innerHTML = tag;
+              div4.appendChild(h3);
+              var h5 = document.createElement("h5");
+              h5.innerHTML = money;
+              div4.appendChild(h5);
+            }
+            div3.appendChild(div4);
+          }
+          div5.appendChild(div3);
+          var div2 = document.createElement('div');
+          div2.setAttribute("class", "card-body");
+          div2.innerHTML = `<p>${body2}</p>`;
+          div5.appendChild(div2);
+          var div1 = document.createElement('div');
+          div1.setAttribute("class", "card-footer");
+          {
+            var button = document.createElement('button');
+            button.setAttribute("class", "btn btn-primary");
+            button.setAttribute("buy", "vip2_trial");
+            button.innerHTML = "修改";
+            div1.appendChild(button);
+          }
+          div5.appendChild(div1);
+        }
+        div6.appendChild(div5);
+      }
+      container.appendChild(div6);
+    }
 
+
+    function Clear() {
+      var container = document.getElementById('shower');
+      while (container.hasChildNodes()) {
+        container.removeChild(container.lastChild);
+      }
+    }
+
+
+  </script>
   <style>
     .introjs-tooltiptext {
       padding: 8px 20px !important;
@@ -86,9 +140,11 @@
           $name = usr.name;
           $user_gender = usr.sex;
           $user_id = usr.id;
+          $permission = usr.permission;
           setCookie("username", $name, 30);
           setCookie("user_gender", $user_gender, 30);
           setCookie("user_id", $user_id, 30);
+          setCookie("permission", $permission, 30);
         } else {
           alert("请登录！")
           location.href = 'login.html';
@@ -133,7 +189,10 @@
           <img src="css/tea.png" alt="居茶">
           <div class="info">
             <a href="Home.html" class="d-block">
-              name </a>
+              <script>
+                document.write($name);
+              </script>
+            </a>
           </div>
         </div>
         <nav class="mt-2">
@@ -170,6 +229,12 @@
                 <p>我的商品</p>
               </a>
             </li>
+
+            <script>
+              if (getCookie("permission") == 1)
+                AddController();
+            </script>
+
           </ul>
         </nav>
       </div>
@@ -198,102 +263,32 @@
           }
         </style>
 
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-4 order-lg-2">
-              <div class="card">
-                <div class="card-body">
-                  <h3 class="text-primary">
-                    <script>
-                      document.write($name);
-                    </script>
-                  </h3>
-                  <img src="css/engin.png" style="float:right" width="100px" href="">
-                  <table style="font-size: 15px">
-                    <tbody>
-                      <tr>
-                        <td style="width: 30%;"><b>UID：</b></td>
-                        <td>
-                          <script>
-                            document.write($user_id);
-                          </script>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="width: 30%;"><b>性别：</b></td>
-                        <td>
-                          <script>
-                            document.write($user_gender);
-                          </script>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <p style="margin-top: 8px;margin-bottom: 0"></p>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-body" style="padding-top: 16px;">
-                  我的购物车
-                  <a href=""></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8">
-              <div class="alert alert-info alert-dismissable" style="">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                  id="close-tos-notice">×</button> 平台内容策略已于 2021/01/11 更新
-              </div>
-              <div class="card" id="broadcast">
-                <div class="card-header border-0">
-                  <div class="d-flex justify-content-between">
-                    <h3 class="card-title">购物车内容</h3>
-                  </div>
-                </div>
-                <div class="card-body fix-text fix-image" style="padding-top: 0;">
-                </div>
-              </div>
 
-              <div class="card">
-                <div>
-                  <img src="baiyaql.jpg" style="float:right" width="100px" href="">
-                  <div class="card-header border-0">
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td style="width: 30%; "><b>产品信息：</b></td>
-                          <td>白芽奇兰</td>
-                        </tr>
-                        <tr>
-                          <td style="width: 30%; "><b>样例图片：</b></td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td style="width: 30%; "><b>订单情况：</b></td>
-                          <td>
-                            运输中...
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="row" id="shower">
+
       </div>
     </div>
 
-    <footer class="main-footer">
-      <strong>
-        <a href="index.html" style="color: rgba(175, 118, 31, 1);">Tea At Home</a>
-        <div class="float-right d-none d-sm-inline-block">
-          Designed by <b>福建居茶有限公司</b> &gt;_&lt;'"|
-        </div>
-    </footer>
-    <div id="sidebar-overlay"></div>
   </div>
+  <footer class="main-footer">
+    <strong>
+      <a href="index.html" style="color: rgba(175, 118, 31, 1);">Tea At Home</a>
+      <div class="float-right d-none d-sm-inline-block">
+        Designed by <b>福建居茶有限公司</b> &gt;_&lt;'"|
+      </div>
+  </footer>
+  <div id="sidebar-overlay"></div>
+  </div>
+  <script>
+    if (localStorage.im_not_blind != 'yup') {
+      $('head').append('<link rel="stylesheet" type="text/css" href="/css/anti-blind.css">');
+      $('#im_not_blind').append('<a href="javascript:localStorage.im_not_blind=\'yup\';location.reload()">关闭眼瞎特效</a>');
+    }
+  </script>
+  <script src="./css/intro.min.js.下载"></script>
+
+
 
 
 </body>
