@@ -28,13 +28,13 @@ import com.google.gson.stream.JsonWriter;
  * Servlet implementation class BuyProductinproduct
  */
 @WebServlet("/buy/product")
-public class BuyProductinproduct extends HttpServlet {
+public class BuyProductInProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ControlProductInter productInter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BuyProductinproduct() {
+    public BuyProductInProduct() {
         super();
         productInter= new ControlProduct();
         // TODO Auto-generated constructor stub

@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.jni.Sockaddr;
 
 import com.github.ksgfk.teaathome.control.impl.ControlBuyinfo;
+import com.github.ksgfk.teaathome.control.impl.ControlProduct;
 import com.github.ksgfk.teaathome.control.impl.ControlShoppingcart;
 import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
+import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
 import com.github.ksgfk.teaathome.models.BuyInfo;
 import com.github.ksgfk.teaathome.models.Product;
 import com.github.ksgfk.teaathome.models.ShoppingCart;
@@ -39,18 +41,20 @@ import junit.framework.Test;
  * Servlet implementation class BuyProductInshoppingcarServlet
  */
 @WebServlet("/buy/shoppingcar")
-public class BuyProductInshoppingcarServlet extends HttpServlet {
+public class BuyProductInShoppingcarServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
     private ControlShoppingcart carInter=null;   
     private ControlBuyinfoInter buyinfoInter=null;
+    private ControlProductInter productInter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BuyProductInshoppingcarServlet() {
+    public BuyProductInShoppingcarServlet() {
         super();
         carInter=new ControlShoppingcart();
         buyinfoInter= new ControlBuyinfo();
+        productInter= new ControlProduct();
         // TODO Auto-generated constructor stub
     }
 
@@ -70,14 +74,17 @@ public class BuyProductInshoppingcarServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		response.setContentType("application/json");
-		JsonElement Data = JsonUtility.read(request);
-		JsonObject root = Data.getAsJsonObject();
+		JsonElement  data = JsonUtility.read(request);
+		JsonObject root = data.getAsJsonObject();
 		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 		JsonArray carlist = root.get("data").getAsJsonArray();
-		BigDecimal money = BigDecimal.valueOf(0);
+		double money=0;
 		List<ShoppingCart> list = new ArrayList<ShoppingCart>();
+		
 		int userid = ((User) request.getSession().getAttribute("user")).getId();
+		
 		List<ShoppingCart> array = carInter.finduserid(userid);
+		
 		for (JsonElement iter : carlist) {
 			JsonObject item = iter.getAsJsonObject();
 			int userids = item.get("userid").getAsInt();
@@ -85,12 +92,14 @@ public class BuyProductInshoppingcarServlet extends HttpServlet {
 			int count = item.get("count").getAsInt();
 			list.add(new ShoppingCart(0, userids, productid, count));
 		}
+		int [] arrint=new int[list.size()];
 		if (array == null || array.size() == 0 || list.size() == 0) {
 			JsonUtility.messagesuccess(jsonWriter, false, "找不到购物车");
 			jsonWriter.flush();
 			jsonWriter.close();
 			return;
 		} else {
+			int i=0;
 			for (ShoppingCart item : list) {
 				if (!array.contains(item)) {
 					JsonUtility.messagesuccess(jsonWriter, false, "找不到购物车");
@@ -100,15 +109,22 @@ public class BuyProductInshoppingcarServlet extends HttpServlet {
 					return;
 				}
 				item.setId(array.get(array.indexOf(item)).getId());
+				arrint[i++]=item.getProductId();
 			}
 			carInter.deletebatch(list);
 		}
 		List<BuyInfo> buyinfolist=new ArrayList<BuyInfo>();
+		List<Product> productlist=productInter.findin(arrint);
+		Iterator<Product> iter=productlist.iterator();
 		for(ShoppingCart item:list) {
-			buyinfolist.add(new BuyInfo(0, userid, item.getProductId(), "集美大学诚毅学院", "正在路上", 0, item.getCount())) ;
+			Product temp=iter.next();
+			double price=temp.getPrice().doubleValue()*item.getCount();
+			buyinfolist.add(new BuyInfo(0, userid, item.getProductId(), "集美大学诚毅学院", "正在路上", 0, price)) ;
+			money+=price;
+			iter.next();
 		}
-		if(carInter.deletebatch(list)&&buyinfoInter.updataBatch(buyinfolist)) {
-			JsonUtility.messagesuccess(jsonWriter, true, "success");
+		if(carInter.deletebatch(list)&&buyinfoInter.addBatch(buyinfolist)) {
+			JsonUtility.messagesuccess(jsonWriter, true, Double.toString(money));
 		}else {
 			JsonUtility.messagesuccess(jsonWriter, false, "找不到购物车");
 		}

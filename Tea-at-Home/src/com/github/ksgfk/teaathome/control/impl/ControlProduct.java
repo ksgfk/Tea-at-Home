@@ -87,5 +87,34 @@ public class ControlProduct implements ControlProductInter {
 		}
 		return list;
 	}
+	@Override
+	public List<Product> findin(int[] productid) {
+		StringBuffer sql=new StringBuffer("select * from where id in");
+		for(int i=0;i<productid.length;i++) {
+			if(i==0) {
+				sql.append("("+String.valueOf(productid)+",");
+			}
+			else if(i==productid.length-1) {
+				sql.append(String.valueOf(productid));
+			}
+			else {
+				sql.append(String.valueOf(productid)+",");
+			}
+		}
+		ResultSet res=conn.query(sql.toString());
+		List<Product> list=  new ArrayList<Product>();
+		try {
+			while(res!=null||res.next()) {
+				list.add(new Product(res.getInt("id"), res.getString("name"), res.getInt("count"),res.getInt("depositoryid"), res.getBigDecimal("prices") ) );
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			conn.close();
+		}
+		return list;
+	}
 
 }

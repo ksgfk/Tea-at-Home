@@ -11,5 +11,5 @@ public interface ControlBuyinfoInter {
 	public boolean updata(BuyInfo buyinfo);
 	public List<BuyInfo> findUesrid(int userid);
 	public List<BuyInfo> findProductid(int productid);
-	public boolean updataBatch(List<BuyInfo> buyinfolist);
+	public boolean addBatch(List<BuyInfo> buyinfolist);
 }
