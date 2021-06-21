@@ -25,6 +25,7 @@
   <script src="./css/jquery.min.js.下载"></script>
   <script src="./css/bootstrap.bundle.min.js.下载"></script>
   <script src="./css/adminlte.min.js.下载"></script>
+  <script src="./js/cot.js"></script>
 
   <link rel="shortcut icon" href="https://www.natfrp.com/favicon.ico?v=2">
   <script>
@@ -96,39 +97,39 @@
   </style>
 
   <script>$(function () {
-    $('#search').click(function () {
-      console.log('????');
-      // if (!$('#find').val()) {
-      //
-      // }
-      $.ajax({
-        type: "post",
-        url: 'product/fuzzy_query',
-        data: JSON.stringify({
-          key: $('#find').val()
-        }),
-        dataType: "json",
-        contentType: 'application/json',
-        success: function (data, state) {
-          console.log(data);
-          if (data.length !== 0) {
-            Clear();
-            data.forEach(i => {
-              var name = i.name;
-              var price = i.price + "/斤";
-              var jiesao = `这是${i.name}茶，非常牛逼建议买爆，99斤点击就买！`;
-              AddProduct(name, price, jiesao);
-            });
-          } else {
-            alert("找不到哦！");
+      $('#search').click(function () {
+        console.log('????');
+        // if (!$('#find').val()) {
+        //
+        // }
+        $.ajax({
+          type: "post",
+          url: 'product/fuzzy_query',
+          data: JSON.stringify({
+            key: $('#find').val()
+          }),
+          dataType: "json",
+          contentType: 'application/json',
+          success: function (data, state) {
+            console.log(data);
+            if (data.length !== 0) {
+              Clear();
+              data.forEach(i => {
+                var name = i.name;
+                var price = i.price + "/斤";
+                var jiesao = `这是${i.name}茶，非常牛逼建议买爆，99斤点击就买！`;
+                AddProduct(name, price, jiesao);
+              });
+            } else {
+              alert("找不到哦！");
+            }
           }
-        }
-      }).fail(function () {
-        // $('#register').attr('disabled', false).html('注册');
-        alert("cnm");
+        }).fail(function () {
+          // $('#register').attr('disabled', false).html('注册');
+          alert("cnm");
+        });
       });
     });
-  });
   </script>
 
   <title>购买</title>
@@ -259,18 +260,6 @@
             $('[buy]').click(function () {
               $('#modal-buy').modal('toggle');
             });
-
-            $('#read_confirm').click(function () {
-
-            });
-
-            $('#pay_complete').click(function () {
-
-            });
-
-            $(window).on('message', function (e) {
-
-            });
           });
         </script>
 
@@ -290,7 +279,7 @@
                       <label></label>
                       <label>搜索信息</label>
                       <div class=" controls ">
-                        <input id="find" type="text" placeholder="请输入您想搜索的内容" title="密码"
+                        <input id="find" type="text" placeholder="请输入您想搜索的内容"
                           style="background-color: rgba(237,237,238,0.5);width: 500px; ">
                       </div>
                       <div class=" actions ">

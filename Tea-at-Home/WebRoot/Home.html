@@ -90,13 +90,18 @@
       success: function (data, state) {
         if (data.success) {
           let usr = data.user;
+          document.getElementById("name1").innerHTML = usr.name;
+          document.getElementById("name").innerHTML = usr.name;
+          document.getElementById("gender").innerHTML = usr.sex;
+          document.getElementById("id").innerHTML = usr.id;
           $name = usr.name;
           $user_gender = usr.sex;
           $user_id = usr.id;
+          $permission = usr.permission;
           setCookie("username", $name, 30);
           setCookie("user_gender", $user_gender, 30);
           setCookie("user_id", $user_id, 30);
-          location.href = 'Home.html';
+          setCookie("permission", $permission, 30);
         }
         else {
           alert("请登录！")
@@ -105,9 +110,10 @@
       }
     });
   } else {
-    $name = getCookie("username");
-    $user_gender = getCookie("user_gender");
-    $user_id = getCookie("user_id");
+    document.getElementById("name1").innerHTML = getCookie("username");
+    document.getElementById("name").innerHTML = getCookie("username");
+    document.getElementById("gender").innerHTML = getCookie("user_gender");
+    document.getElementById("id").innerHTML = getCookie("user_id");
   }
 </script>
 
@@ -138,11 +144,10 @@
         </span>
       </a>
       <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <img src="css/tea.png" alt="居茶">
           <div class="info">
-            <a href="Home.html" class="d-block">
-              name </a>
+            <a href="Home.html" class="d-block" id="name1"></a>
           </div>
         </div>
         <nav class="mt-2">
@@ -210,29 +215,17 @@
             <div class="col-lg-4 order-lg-2">
               <div class="card">
                 <div class="card-body">
-                  <h3 class="text-primary">
-                    <script>
-                      document.write($name);
-                    </script>
-                  </h3>
+                  <h3 class="text-primary" id="name"></h3>
                   <img src="css/engin.png" style="float:right" width="100px" href="">
                   <table style="font-size: 15px">
                     <tbody>
                       <tr>
                         <td style="width: 30%;"><b>UID：</b></td>
-                        <td>
-                          <script>
-                            document.write($user_id);
-                          </script>
-                        </td>
+                        <td id="id"></td>
                       </tr>
                       <tr>
                         <td style="width: 30%;"><b>性别：</b></td>
-                        <td>
-                          <script>
-                            document.write($user_gender);
-                          </script>
-                        </td>
+                        <td id="gender"></td>
                       </tr>
                     </tbody>
                   </table>
@@ -251,7 +244,7 @@
             <div class="col-lg-8">
               <div class="alert alert-info alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
-                  id="close-tos-notice">×</button> 平台内容策略已于 2021/01/11 更新
+                  id="close-tos-notice">×</button>
                 <br> 请到 <a href="">内容策略</a> 页面查看最新内容。您可以右侧关闭按钮隐藏此通知。
                 <br> 如不同意本平台的最新的内容策略, 您应前往 <a href="">OpenID 用户中心</a> 提交账户注销申请。继续使用本平台即表示完全认可此最新的内容策略。
               </div>

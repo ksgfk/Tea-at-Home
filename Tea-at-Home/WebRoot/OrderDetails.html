@@ -27,7 +27,75 @@
       padding-top: 0 !important;
     }
   </style>
+  <script>
+    function AddOrder(image, name, num, address) {
+      var car = document.getElementById("cart");
+      var div1 = document.createElement("div");
+      div1.setAttribute("class", "card");
+      {
+        var div2 = document.createElement("div");
+        {
+          var img = document.createElement("img");
+          img.src = image;
+          img.setAttribute("style", "float:right");
+          img.width = "100px";
+          div2.appendChild(img);
 
+          var div3 = document.createElement("div");
+          div3.setAttribute("class", "card-header border-0");
+          {
+            var tab = document.createElement("table");
+            var tboy = document.createElement("tbody");
+            {
+              var tr1 = document.createElement("tr");
+              {
+                var td1 = document.createElement("td");
+                td1.setAttribute("style", "width:30%");
+                td1.innerHTML = "<b>产品名称：</b>";
+                tr1.appendChild(td1);
+
+                var td2 = document.createElement("td");
+                td2.innerHTML = `<b>${name}</b>`;
+                tr1.appendChild(td2);
+              }
+              tboy.appendChild(tr1);
+              var tr2 = document.createElement("tr");
+              {
+                var td1 = document.createElement("td");
+                td1.setAttribute("style", "width:30%");
+                td1.innerHTML = "<b>产品状态：</b>";
+                tr2.appendChild(td1);
+
+                var td2 = document.createElement("td");
+                td2.innerHTML = `<b>运输中....</b>`;
+                tr2.appendChild(td2);
+              }
+
+              tboy.appendChild(tr2);
+              var tr3 = document.createElement("tr");
+              {
+                var td1 = document.createElement("td");
+                td1.setAttribute("style", "width:30%");
+                td1.innerHTML = "<b>收货地址：</b>";
+                tr3.appendChild(td1);
+
+                var td2 = document.createElement("td");
+                td2.innerHTML = `<b>${address}</b>`;
+                tr3.appendChild(td2);
+              }
+              tboy.appendChild(tr3);
+            }
+            tab.appendChild(tboy);
+            div3.appendChild(tab);
+
+          }
+          div2.appendChild(div3);
+        }
+        div1.appendChild(div2);
+      }
+      car.appendChild(div1);
+    }
+  </script>
   <script>
     $(function () {
       $('#logout').click(function () {
@@ -86,9 +154,11 @@
           $name = usr.name;
           $user_gender = usr.sex;
           $user_id = usr.id;
+          $permission = usr.permission;
           setCookie("username", $name, 30);
           setCookie("user_gender", $user_gender, 30);
           setCookie("user_id", $user_id, 30);
+          setCookie("permission", $permission, 30);
         } else {
           alert("请登录！")
           location.href = 'login.html';
@@ -133,7 +203,10 @@
           <img src="css/tea.png" alt="居茶">
           <div class="info">
             <a href="Home.html" class="d-block">
-              name </a>
+              <script>
+                document.write($name);
+              </script>
+            </a>
           </div>
         </div>
         <nav class="mt-2">
@@ -164,7 +237,10 @@
                 <p>搜索</p>
               </a>
             </li>
-
+            <script>
+              if (getCookie("permission") == 1)
+                AddController();
+            </script>
 
           </ul>
         </nav>
@@ -239,7 +315,7 @@
             </div>
 
 
-            <div class="col-lg-8">
+            <div class="col-lg-8" id="cart">
               <div class="alert alert-info alert-dismissable" style="">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
                   id="close-tos-notice">×</button> 平台内容策略已于 2021/01/11 更新
@@ -254,31 +330,6 @@
                 </div>
               </div>
 
-              <div class="card">
-                <div>
-                  <img src="baiyaql.jpg" style="float:right" width="100px" href="">
-                  <div class="card-header border-0">
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td style="width: 30%; "><b>产品信息：</b></td>
-                          <td>白芽奇兰</td>
-                        </tr>
-                        <tr>
-                          <td style="width: 30%; "><b>样例图片：</b></td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td style="width: 30%; "><b>订单情况：</b></td>
-                          <td>
-                            运输中...
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
             </div>
 
 
