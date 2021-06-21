@@ -25,7 +25,7 @@ import com.google.gson.stream.JsonWriter;
 /**
  * Servlet implementation class BuyInfoAllServlet
  */
-@WebServlet("/buyinfo/Queryall")
+@WebServlet("/buyinfo/queryall")
 public class QueryBuyInfoAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	   private ControlBuyinfoInter buyinfointer=null;  

@@ -196,14 +196,32 @@
 
 - 响应格式
 
-- 
-
   | 字段    | 类型    | 说明         |
   | ------- | ------- | ------------ |
   | success | boolean | 是否成功更新 |
   | message | string  | 相应信息     |
 
-- 
+
+#### 删除产品
+
+- 地址：`product/fuzzy_delete`
+
+- 请求方式：POST
+
+- 请求格式：
+
+| 字段      | 类型 | 说明   |
+| --------- | ---- | ------ |
+| productid | int  | 产品ID |
+
+- 响应格式：
+
+| 字段    | 类型    | 说明     |
+| ------- | ------- | -------- |
+| success | boolean | 是否成功 |
+| message | string  | 返回信息 |
+
+
 
 ### 增加订单
 
@@ -260,13 +278,157 @@
   | price        | BigDecimal | 价格       |
   | depositoryid | int        | 存储仓库ID |
 
+  
+
 - 响应格式
 
   | 字段 | 类型    | 说明         |
   | ---- | ------- | ------------ |
   | bok  | Message | 是否增加成功 |
+  
+  
+
+### 更新产品
+
+- 地址：`buyinfo/fuzzy_updata`
+
+- 请求方式：POST
+
+- 请求格式
+
+  | 字段         | 类型   | 说明     |
+  | ------------ | ------ | -------- |
+  | productid    | int    | 产品ID   |
+  | count        | int    | 数量     |
+  | depositoryid | int    | 仓库地址 |
+  | price        | double | 价格     |
+  | name         | string | 产品名   |
 
   
+
+- 响应格式
+
+  | 字段    | 类型    | 说明         |
+  | ------- | ------- | ------------ |
+  | success | boolean | 是否成功更新 |
+  | message | string  | 相应信息     |
+
+#### 选择多个购物车进行购买
+
+- 地址：`buy/shoppingcar`
+
+- 请求方式:：POST
+
+  | 字段 | 类型  | 说明                             |
+  | ---- | ----- | -------------------------------- |
+  | data | array | 里面的每一个都是Shoppingcart类型 |
+
+- 响应格式
+
+  | 字段    | 类型    | 说明     |
+  | ------- | ------- | -------- |
+  | success | boolean | 是否成功 |
+  | message | string  | 返回信息 |
+
+#### 增加购物车
+
+- 地址：`shoppingcar/add`
+
+- 请求方式：POST
+
+- 请求格式
+
+  | 字段      | 类型 | 说明       |
+  | --------- | ---- | ---------- |
+  | productid | int  | 产品的ID   |
+  | count     | int  | 产品的数量 |
+
+- 响应格式
+
+  | 字段 | 类型         | 说明           |
+  | ---- | ------------ | -------------- |
+  | bok  | Message      | 是否成功       |
+  | data | ShoppingCart | 一个购物车信息 |
+
+#### 删除购物车
+
+  - 地址：`shoppingcar/delete`
+
+  - 请求方式：POST
+
+  - 请求格式
+
+    | 字段          | 类型 | 说明     |
+    | ------------- | ---- | -------- |
+    | shoppingcarid | int  | 产品的ID |
+
+    
+
+  - 响应格式
+
+    | 字段    | 类型    | 说明     |
+    | ------- | ------- | -------- |
+    | success | boolean | 是否成功 |
+    | message | string  | 返回信息 |
+
+
+#### 查询用户的所有购物车
+
+- 地址：`shoppingcar/queryall`
+
+- 请求方式：POST
+
+- 请求格式：无
+
+- 响应格式：
+
+  | 字段 | 类型    | 说明                      |
+  | ---- | ------- | ------------------------- |
+  | bok  | Message | 是否成功                  |
+  | data | array   | 每一个元素都是shoppingcar |
+
+
+#### 查询用户的某个购物车
+
+- 地址：`shoppingcar/queryall`
+
+- 请求方式：POST
+
+- 请求格式：
+
+  | 字段          | 类型 | 说明       |
+  | ------------- | ---- | ---------- |
+  | shoppingcarid | int  | 购物车的ID |
+
+  
+
+- 响应格式：
+
+  | 字段 | 类型          | 说明       |
+  | ---- | ------------- | ---------- |
+  | bok  | Message       | 是否成功   |
+  | data | Shoppingcarid | 购物车信息 |
+
+  
+
+#### 查询所有产品
+
+- 地址：`product/fuzzy_queryall`
+
+- 请求方式：POST
+
+- 请求格式：无
+
+- 响应格式：
+
+  | 字段 | 类型    | 说明                  |
+  | ---- | ------- | --------------------- |
+  | bok  | Message | 是否成功              |
+  | data | array   | 每一个元素都是product |
+
+  
+
+
 
 ## Session
 

@@ -36,6 +36,39 @@ public class ShoppingCart {
 		this.count = count;
 	}
 	public ShoppingCart(ShoppingCart c) {
-		// TODO: 2021/6/17
+		this.id = c.id;
+		this.userId = c.userId;
+		this.productId = c.productId;
+		this.count = c.count;
+	}
+	public String toString() {
+		return Integer.toString(id)+","+Integer.toString(userId)+"'"+Integer.toString(productId)+","+Integer.toString(count);
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + count;
+		result = prime * result + id;
+		result = prime * result + productId;
+		result = prime * result + userId;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ShoppingCart other = (ShoppingCart) obj;
+		if (count != other.count)
+			return false;
+		if (productId != other.productId)
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
 	}
 }

@@ -51,35 +51,19 @@ public class UpdataProductSevlet extends HttpServlet {
 	        JsonObject root = userData.getAsJsonObject();
 	        String name = root.get("name").getAsString();
 	        int  count= root.get("count").getAsInt(); 
-			int product_id=root.get("count").getAsInt();
-			int depository_id=root.get("productid").getAsInt();
+			int product_id=root.get("productid").getAsInt();
+			int depository_id=root.get("depositoryid").getAsInt();
 			BigDecimal price =root.get("price").getAsBigDecimal();
 			if(!productInter.updata(new Product(depository_id, name, count, depository_id, price))) {
-				writeRegisterFailed(jsonWriter, "修改错误");
+				JsonUtility.messagesuccess(jsonWriter, false, "异常");
 			}
 			else{
-				writeRegisterSuccess(jsonWriter);
+				JsonUtility.messagesuccess(jsonWriter, true, "success");
 			};
 			   jsonWriter.flush();
 		        jsonWriter.close();
 		
 	}
-    public static void writeRegisterFailed(JsonWriter writer, String message) throws IOException {
-        writer.beginObject();
-        writer.name("success");
-        writer.value(false);
-        writer.name("message");
-        writer.value(message);
-        writer.endObject();
-    }
-
-    public static void writeRegisterSuccess(JsonWriter writer) throws IOException {
-        writer.beginObject();
-        writer.name("success");
-        writer.value(true);
-        writer.name("message");
-        writer.nullValue();
-        writer.endObject();
-    }
+   
 
 }

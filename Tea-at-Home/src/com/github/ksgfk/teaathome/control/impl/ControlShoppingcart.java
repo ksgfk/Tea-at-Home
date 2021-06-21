@@ -90,6 +90,12 @@ public class ControlShoppingcart implements ControlShoppingcartInter {
 		return item;
 	}
 
+	@Override
+	public boolean deletebatch(List<ShoppingCart> list) {
+		String sql="delete from shopping_cart where id=?";
+		return conn.updataBatch(sql, list);
+	}
+
 	
 
 }

@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+import com.github.ksgfk.teaathome.utility.BatchSQL;
+
+import sun.security.jca.GetInstance.Instance;
 public class ConnectionTeaShop {
 	private static String Driver="com.mysql.jdbc.Driver";
 	private static String Url="jdbc:mysql://localhost:3306/tea_shop?serverTimezone=UTC";
@@ -67,5 +71,32 @@ public class ConnectionTeaShop {
 
 		}
 		return resu;
+	}
+	public boolean updataBatch(String sql,Object arg) {
+		List<Object> list=null;
+		System.out.print(list);
+		if(arg instanceof List) {
+			list=(List<Object>)arg;
+		}
+		try {
+			getConnection();
+			pre=conn.prepareStatement(sql);
+			for(Object item:list) {
+				if(item instanceof ShoppingCart) {
+					BatchSQL.set((ShoppingCart)item, pre);
+				}
+				else if(item instanceof BuyInfo) {
+					BatchSQL.set((BuyInfo)item, pre);
+				}
+				pre.addBatch();
+			}
+			pre.executeBatch();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally {
+			close();
+		}
+		return true;
 	}
 }

@@ -2,6 +2,9 @@ package com.github.ksgfk.teaathome.servlet;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.ksgfk.teaathome.control.impl.ControlProduct;
+import com.github.ksgfk.teaathome.control.impl.ControlShoppingcart;
 import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
+import com.github.ksgfk.teaathome.models.Message;
 import com.github.ksgfk.teaathome.models.Product;
+import com.github.ksgfk.teaathome.models.ShoppingCart;
+import com.github.ksgfk.teaathome.models.User;
 import com.github.ksgfk.teaathome.utility.JsonUtility;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,14 +27,14 @@ import com.google.gson.stream.JsonWriter;
 /**
  * Servlet implementation class ShoppingInfoServlet
  */
-@WebServlet("/ShoppingInfo")
-public class ShoppingInfoServlet extends HttpServlet {
+@WebServlet("/shoppingcar/query")
+public class QueryShoppingInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      private ControlProductInter productInter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShoppingInfoServlet() {
+    public QueryShoppingInfoServlet() {
         super();
         productInter=new ControlProduct();
         // TODO Auto-generated constructor stub
@@ -48,13 +55,32 @@ public class ShoppingInfoServlet extends HttpServlet {
 		JsonWriter jsonwriter=new JsonWriter(new OutputStreamWriter(response.getOutputStream())); 
 		JsonElement element = JsonUtility.read(request);
         JsonObject root = element.getAsJsonObject();
-        int productid = root.get("productid").getAsInt();
-        Product item = productInter.findid(productid);
-        if(item==null) {
-        	response.setStatus(501);
-        	return ;
+        int productid = root.get("Shoppingcarid").getAsInt();
+        int userid= ((User)request.getSession().getAttribute("uesr")).getId();
+        ShoppingCart item =null; 
+        List<ShoppingCart> list= new ControlShoppingcart().finduserid(userid);
+        Map<String,Object> M= new TreeMap<String,Object>();
+        if(list==null||list.size()==0) {
+        	M.put("bok",new Message(false, "该用户没有购物车" ));
+        	M.put("data", null);
         }
-        JsonUtility.toJson(item, Product.class,jsonwriter);
+        else {
+        	for(ShoppingCart iter:list) {
+        		if(iter.getProductId()==productid) {
+        			item=iter;
+        			break;
+        		}
+        	}
+        	if(item==null) {
+            	M.put("bok",new Message(false, "匹配不到购物车" ));
+            	M.put("data", null);
+        	}
+        	else {
+        		M.put("bok", new Message(true, "success"));
+        		M.put("data", item);
+        	}
+        }
+        JsonUtility.toJson(M, M.getClass(),jsonwriter);
         jsonwriter.flush();
         jsonwriter.close();
 	}

@@ -85,4 +85,9 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 		}
 		return list;
 	}
+	@Override
+	public boolean updataBatch(List<BuyInfo> buyinfolist) {
+		String sql="insert into buy_info(user_id,product_id,receive,logistics,state,pay) values(?,?,?,?,?,?)";
+		 return conn.updataBatch(sql, buyinfolist);	
+	}
 }
