@@ -29,7 +29,7 @@
 
   <link rel="shortcut icon" href="https://www.natfrp.com/favicon.ico?v=2">
   <script>
-    function AddProduct(tag, money, body2) {
+    function AddProduct(tag, money, body2, e) {
       var container = document.getElementById('shower');
       var div6 = document.createElement("div");
       div6.setAttribute("class", "col-lg-6");
@@ -67,10 +67,16 @@
             $(function () {
               button.onclick = function () {
                 $.ajax({
-                  type: "get",
-                  url: 'user/query_info',
+                  type: "post",
+                  data: JSON.stringify({
+                    productid:e.id,
+                    count:1
+                  }),
+                  dataType: "json",
+                  contentType: 'application/json',
+                  url: 'buy/product',
                   success: function (data, state) {
-                    if (data.success) {
+                    if (data.bok.success) {
                       alert("购买成功！");
                     } else {
                       alert("你有病吧！");
@@ -141,7 +147,7 @@
                 var name = i.name;
                 var price = i.price + "/斤";
                 var jiesao = `这是${i.name}茶，非常牛逼建议买爆，99斤点击就买！`;
-                AddProduct(name, price, jiesao);
+                AddProduct(name, price, jiesao,i);
               });
             } else {
               alert("找不到哦！");

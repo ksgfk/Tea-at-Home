@@ -22,23 +22,25 @@
       $.ajax({
         type: "post",
         url: 'product/fuzzy_queryall',
-        data: JSON.stringify({
-          id: tag,
-          money: input.value,
-        }),
-        dataType: "json",
-        contentType: 'application/json',
         success: function (data, state) {
           if (data.bok) {
             var products = data.data;
             products.forEach(e => {
-              AddProduct(e.id, e.money);
+              AddProduct(e);
             });
           }
         }
       })
     }
-    function AddProduct(tag, money) {
+    console.log('go')
+    GetAllProducts()
+    console.log('gogogo')
+    function AddProduct(e) {
+    // function AddProduct(id,tag, money) {
+      console.log(e)
+      let id = e.id;
+      let tag = e.name;
+      let money = e.price;
       Count++;
       var container = document.getElementById('shower');
       var div6 = document.createElement("div");
@@ -77,7 +79,7 @@
             {
               input = document.createElement("input");
               input.setAttribute("type", "text");
-              input.setAttribute("placeholder", "123");
+              input.setAttribute("placeholder", money);
               input.setAttribute("id", `input[${Count}]`);
             }
             div0.appendChild(input);
@@ -99,18 +101,23 @@
                   alert("请做出更改！");
                   return;
                 }
+                console.log(e)
+                e.price = parseInt(input.value)
+                e.productid = e.id;
+                e.depositoryid = e.depositoryId;//别问，问就是后端给的API
+                console.log(e)
                 $.ajax({
                   type: "post",
-                  url: 'myproducts/Change',
-                  data: JSON.stringify({
-                    id: tag,
-                    money: input.value,
-                  }),
+                  url: 'product/fuzzy_updata',
+                  data: JSON.stringify(e),
                   dataType: "json",
                   contentType: 'application/json',
                   success: function (data, state) {
+                    console.log(data)
                     if (data.success) {
                       location.href = 'myproducts.html'
+                    }else{
+                      console.log('?')
                     }
                   }
                 })
@@ -122,19 +129,21 @@
             button2.innerHTML = "删除";
             div1.appendChild(button2);
             $(function () {
-              button.onclick = function () {
-                console.log(tag);
+              button2.onclick = function () {
+                console.log("woc666")
                 $.ajax({
                   type: "post",
-                  url: 'myproducts/Delete',
+                  url: 'product/fuzzy_delete',
                   data: JSON.stringify({
-                    id: tag
+                    productid: id
                   }),
                   dataType: "json",
                   contentType: 'application/json',
                   success: function (data, state) {
                     if (data.success) {
                       location.href = 'myproducts.html'
+                    }else {
+                      alert("你都删了个什么啊！")
                     }
                   }
                 })

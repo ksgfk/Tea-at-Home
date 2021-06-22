@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jni.Sockaddr;
-
 import com.github.ksgfk.teaathome.control.impl.ControlBuyinfo;
 import com.github.ksgfk.teaathome.control.impl.ControlProduct;
 import com.github.ksgfk.teaathome.control.impl.ControlShoppingcart;
@@ -34,8 +32,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-
-import junit.framework.Test;
 
 
 /**

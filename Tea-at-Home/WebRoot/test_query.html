@@ -94,6 +94,41 @@
                     console.log("服务器错误");
                 });
             });
+            $('#query_buy').click(() => {
+                $.ajax({
+                    type: "post",
+                    url: 'buyinfo/queryall',
+                    success: (data) => {
+                        console.log(data)
+                    }
+                }).fail(() => {
+                    console.log("error")
+                });
+            });
+            $('#buy').click(() => {
+                let id = $('#buy_id')
+                let pay = $('#buy_pay')
+                let data = {
+                    productid: parseInt(id.val()),
+                    pay: parseFloat(pay.val())
+                };
+                console.log(data)
+                $.ajax({
+                    type: "post",
+                    url: 'buyinfo/add',
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    contentType: 'application/json',
+                    success: (data) => console.log(data)
+                }).fail(() => console.log('err'));
+            })
+            $('#buy_info').click(() => {
+                $.ajax({
+                    type: "post",
+                    url: 'buyinfo/queryall',
+                    success: (data) => console.log(data)
+                }).fail(() => console.log('err'));
+            });
         });
     </script>
 </head>
@@ -107,6 +142,8 @@
 
 <button id="refresh">获取</button>
 <br>
+<button id="buy_info">获取所有订单</button>
+<br>
 <button id="logout">登出</button>
 
 <br><br><br>
@@ -119,6 +156,14 @@
 <label>新仓库名字:<input type="text" id="depo_mod_name"></label><br>
 <label>新仓库地址:<input type="text" id="depo_mod_addr"></label><br>
 <button id="mod_depo">添加仓库</button>
+
+<br><br><br>
+<button id="query_buy">buyinfo/queryall</button>
+
+<br><br><br>
+<label>产品ID:<input type="text" id="buy_id"></label>
+<label>付款:<input type="text" id="buy_pay"></label>
+<button id="buy">购买</button>
 
 </body>
 
