@@ -17,7 +17,29 @@
 
   <link rel="shortcut icon" href="https://www.natfrp.com/favicon.ico?v=2">
   <script>
-    function AddProduct(tag, money, body2) {
+    Count = 0;
+    function GetAllProducts() {
+      $.ajax({
+        type: "post",
+        url: 'product/fuzzy_queryall',
+        data: JSON.stringify({
+          id: tag,
+          money: input.value,
+        }),
+        dataType: "json",
+        contentType: 'application/json',
+        success: function (data, state) {
+          if (data.bok) {
+            var products = data.data;
+            products.forEach(e => {
+              AddProduct(e.id, e.money);
+            });
+          }
+        }
+      })
+    }
+    function AddProduct(tag, money) {
+      Count++;
       var container = document.getElementById('shower');
       var div6 = document.createElement("div");
       div6.setAttribute("class", "col-lg-6");
@@ -32,19 +54,35 @@
             div4.setAttribute("class", "d-flex justify-content-between");
             {
               var h3 = document.createElement("h3");
+              h3.setAttribute("id", `tag${Count}`);
+              h3.setAttribute("value", tag);
               h3.innerHTML = tag;
               div4.appendChild(h3);
               var h5 = document.createElement("h5");
-              h5.innerHTML = money;
+              h5.innerHTML = `<p></p>`;
               div4.appendChild(h5);
             }
             div3.appendChild(div4);
           }
           div5.appendChild(div3);
-          var div2 = document.createElement('div');
-          div2.setAttribute("class", "card-body");
-          div2.innerHTML = `<p>${body2}</p>`;
-          div5.appendChild(div2);
+          var div0 = document.createElement("div");
+          div0.setAttribute("class", "control-group");
+          {
+            var label = document.createElement('label');
+            label.setAttribute("class", "card-body");
+            label.innerHTML = `<p>单价：</p>`;
+            div0.appendChild(label);
+            div2 = document.createElement("div");
+            div2.setAttribute("class", "controls");
+            {
+              input = document.createElement("input");
+              input.setAttribute("type", "text");
+              input.setAttribute("placeholder", "123");
+              input.setAttribute("id", `input[${Count}]`);
+            }
+            div0.appendChild(input);
+          }
+          div5.appendChild(div0);
           var div1 = document.createElement('div');
           div1.setAttribute("class", "card-footer");
           {
@@ -53,6 +91,55 @@
             button.setAttribute("buy", "vip2_trial");
             button.innerHTML = "修改";
             div1.appendChild(button);
+            $(function () {
+              button.onclick = function () {
+                var input = document.getElementById(`input[${Count}]`);
+                console.log(tag);
+                if (!input.value) {
+                  alert("请做出更改！");
+                  return;
+                }
+                $.ajax({
+                  type: "post",
+                  url: 'myproducts/Change',
+                  data: JSON.stringify({
+                    id: tag,
+                    money: input.value,
+                  }),
+                  dataType: "json",
+                  contentType: 'application/json',
+                  success: function (data, state) {
+                    if (data.success) {
+                      location.href = 'myproducts.html'
+                    }
+                  }
+                })
+              }
+            })
+            var button2 = document.createElement('button');
+            button2.setAttribute("class", "btn btn-primary");
+            button2.setAttribute("buy", "vip2_trial");
+            button2.innerHTML = "删除";
+            div1.appendChild(button2);
+            $(function () {
+              button.onclick = function () {
+                console.log(tag);
+                $.ajax({
+                  type: "post",
+                  url: 'myproducts/Delete',
+                  data: JSON.stringify({
+                    id: tag
+                  }),
+                  dataType: "json",
+                  contentType: 'application/json',
+                  success: function (data, state) {
+                    if (data.success) {
+                      location.href = 'myproducts.html'
+                    }
+                  }
+                })
+              }
+            })
           }
           div5.appendChild(div1);
         }
@@ -60,17 +147,9 @@
       }
       container.appendChild(div6);
     }
-
-
-    function Clear() {
-      var container = document.getElementById('shower');
-      while (container.hasChildNodes()) {
-        container.removeChild(container.lastChild);
-      }
-    }
-
-
   </script>
+
+
   <style>
     .introjs-tooltiptext {
       padding: 8px 20px !important;
@@ -195,6 +274,7 @@
             </a>
           </div>
         </div>
+
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false"
             id="Controller">
@@ -210,7 +290,6 @@
                 <p>购物车</p>
               </a>
             </li>
-
             <li class="nav-item">
               <a href="OrderDetails.html" class="nav-link">
                 <img src="css/order2.png" width="30px" href="">
@@ -229,14 +308,13 @@
                 <p>我的商品</p>
               </a>
             </li>
-
             <script>
               if (getCookie("permission") == 1)
                 AddController();
             </script>
-
           </ul>
         </nav>
+
       </div>
     </aside>
 
