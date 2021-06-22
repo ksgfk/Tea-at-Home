@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.ksgfk.teaathome.control.impl.ControlBuyinfo;
 import com.github.ksgfk.teaathome.control.impl.ControlProduct;
 import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
 import com.github.ksgfk.teaathome.models.BuyInfo;
@@ -31,12 +32,14 @@ import com.google.gson.stream.JsonWriter;
 public class BuyProductInProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ControlProductInter productInter=null;
+    private ControlBuyinfo buyinfoInter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public BuyProductInProduct() {
         super();
         productInter= new ControlProduct();
+        buyinfoInter= new ControlBuyinfo();
         // TODO Auto-generated constructor stub
     }
 
@@ -67,7 +70,9 @@ public class BuyProductInProduct extends HttpServlet {
          }
          else {
         	 M.put("bok", new Message(true,"success"));
-        	 M.put("data",new BuyInfo(0, userid, productid, "集美大学诚毅学院","在路上",0,item.getPrice().multiply(BigDecimal.valueOf(count) ).doubleValue() ) );
+        	 BuyInfo goods=new BuyInfo(0, userid, productid, "集美大学诚毅学院","在路上",0,item.getPrice().multiply(BigDecimal.valueOf(count) ).doubleValue() );
+        	 M.put("data", goods);
+        	 buyinfoInter.add(goods);
          }
          JsonUtility.toJson(M, M.getClass(), jsonWriter);
          jsonWriter.flush();

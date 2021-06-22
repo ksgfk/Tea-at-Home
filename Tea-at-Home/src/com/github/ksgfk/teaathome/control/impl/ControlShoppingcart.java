@@ -49,7 +49,7 @@ public class ControlShoppingcart implements ControlShoppingcartInter {
 
 	@Override
 	public boolean updata(ShoppingCart cart) {
-		String sql="updata  shopping_cart set user_id=?,product_id=?,count=? where id=?";
+		String sql="update  shopping_cart set user_id=?,product_id=?,count=? where id=?";
 		return conn.updata(sql, cart.getUserId(),cart.getProductId(),cart.getCount());
 	}
 

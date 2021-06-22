@@ -51,14 +51,15 @@ public class QueryBuyInfoAllServlet extends HttpServlet {
 		 response.setContentType("application/json");
 		  JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
           int userid = ((User) request.getSession().getAttribute("user")).getId();
-          List<BuyInfo> list=buyinfointer.findUesrid(userid);
+          Map<BuyInfo, String> info=buyinfointer.findToProduct(userid);
           Map<String ,Object> M= new TreeMap<String,Object>();
-          if(list==null||list.size()==0) {
+          if(info==null||info.size()==0) {
         	  M.put("bok", new Message(false,"未找到"));
+        	  M.put("data",null);
           }
           else {
         	  M.put("bok", new Message(true,"success"));
-        	  M.put("data",list);
+        	  M.put("data",info);
           }
           JsonUtility.toJson(M, M.getClass(), jsonWriter);
           jsonWriter.flush();

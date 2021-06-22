@@ -93,6 +93,7 @@ public class ConnectionTeaShop {
 			pre.executeBatch();
 		} catch (Exception e) {
 			e.printStackTrace();
+			close();
 			return false;
 		}finally {
 			close();

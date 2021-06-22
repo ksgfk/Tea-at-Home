@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ControlBuyinfo implements ControlBuyinfoInter {
 	private ConnectionTeaShop conn=null;
@@ -48,7 +50,7 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 
 	@Override
 	public boolean updata(BuyInfo buyinfo) {
-		String sql="updata buy_info set user_id=?,poduct_id=?,receive=?,logistics=?state=?,pay=? where id = ?";
+		String sql="update buy_info set user_id=?,poduct_id=?,receive=?,logistics=?state=?,pay=? where id = ?";
 		return conn.updata(sql, buyinfo.getUserId(),buyinfo.getProductId(),buyinfo.getReceive(),buyinfo.getLogistics(),buyinfo.getState(),buyinfo.getPay(),buyinfo.getId());
 	}
 	@Override
@@ -89,5 +91,24 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 	public boolean addBatch(List<BuyInfo> buyinfolist) {
 		String sql="insert into buy_info(user_id,product_id,receive,logistics,state,pay) values(?,?,?,?,?,?)";
 		 return conn.updataBatch(sql, buyinfolist);	
+	}
+	@Override
+	public Map<BuyInfo, String> findToProduct(int userid) {
+		String sql=" select buyinfo.*,product.name from (select * form buy_info where user_id = ?) where buyinfo.product_id=product.id";
+		List<Map.Entry<BuyInfo, String>> list= new ArrayList<Map.Entry<BuyInfo, String>>();
+		ResultSet res=conn.query(sql, userid);
+		Map<BuyInfo , String > M=new TreeMap<BuyInfo,String>();
+			try {
+				while(res!=null&&res.next()) {
+					BuyInfo temp =new BuyInfo(res.getInt("buyinfo.id"), res.getInt("buyinfo.user_id"),res.getInt("buyinfo.product_id") , res.getString("buyinfo.receive"), res.getString("buyinfo.logistics"), res.getInt("buyinfo.state"),res.getInt("buyinfo.pay"));
+					M.put(temp, res.getString("name"));
+			}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				conn.close();
+			}
+		return M;
 	}
 }
