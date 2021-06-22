@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.valves.rewrite.Substitution.MapElement;
+
 import com.github.ksgfk.teaathome.control.impl.ControlBuyinfo;
 import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
 import com.github.ksgfk.teaathome.models.BuyInfo;
@@ -54,10 +56,10 @@ public class QueryBuyinfoServlet extends HttpServlet {
          JsonObject root = userData.getAsJsonObject();
 		 int userid = ((User) request.getSession().getAttribute("user")).getId();
          int productid=root.get("key").getAsInt();
-         List<BuyInfo> list=buyinfointer.findUesrid(userid);
-         BuyInfo item=null;
-         for(BuyInfo iter:list) {
-        	 if(iter.getProductId()==productid) {
+         Map<BuyInfo, String> info=buyinfointer.findToProduct(userid);
+         Map.Entry<BuyInfo,String> item=null;
+         for(Map.Entry<BuyInfo,String> iter:info.entrySet()) {
+        	 if(iter.getKey().getProductId() ==productid) {
         		 item=iter;
         		 break;
         	 }
@@ -68,7 +70,7 @@ public class QueryBuyinfoServlet extends HttpServlet {
          }
          else {
         	 M.put("bok", new Message(true,"success"));
-        	 M.put("data",M);
+        	 M.put("data",item);
          }
          JsonUtility.toJson(M, M.getClass(), jsonWriter);
          jsonWriter.flush();
