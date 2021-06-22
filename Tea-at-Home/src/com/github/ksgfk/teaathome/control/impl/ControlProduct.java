@@ -28,8 +28,8 @@ public class ControlProduct implements ControlProductInter {
 
 	@Override
 	public boolean updata(Product product) {
-		String sql="updata product set name=?,count=?,depository_id=? where id=?";
-		return conn.updata(sql, product.getName(),product.getCount(),product.getDepositoryId(),product.getId());
+		String sql="update product set name=?,count=?,depository_id=?,price=? where id=?";
+		return conn.updata(sql, product.getName(),product.getCount(),product.getDepositoryId(),product.getPrice(),product.getId());
 	}
 
 	@Override

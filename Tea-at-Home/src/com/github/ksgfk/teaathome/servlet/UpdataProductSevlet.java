@@ -54,7 +54,7 @@ public class UpdataProductSevlet extends HttpServlet {
 			int product_id=root.get("productid").getAsInt();
 			int depository_id=root.get("depositoryid").getAsInt();
 			BigDecimal price =root.get("price").getAsBigDecimal();
-			if(!productInter.updata(new Product(depository_id, name, count, depository_id, price))) {
+			if(!productInter.updata(new Product(product_id, name, count, depository_id, price))) {
 				JsonUtility.messagesuccess(jsonWriter, false, "异常");
 			}
 			else{

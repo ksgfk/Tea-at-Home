@@ -126,6 +126,25 @@
   <link rel="stylesheet" type="text/css" href="./css/anti-blind.css">
 </head>
 <script>
+  function GetAllOrder() {
+    $.ajax({
+      type: "post",
+      url: 'buyinfo/queryall',
+      success: function (data, state) {
+        if (data.bok.success) {
+            console.log(data)
+          let order = data.data;
+          order.forEach(key=>{
+              let name = key.productId;
+              let addr = key.receive;
+              AddOrder(key.image, name, key.count, addr);
+          });
+        }else{
+          console.log('?')
+        }
+      }
+    });
+  }
   function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -340,7 +359,9 @@
         </div>
       </div>
     </div>
-
+    <script>
+      GetAllOrder();
+    </script>
     <footer class="main-footer">
       <strong>
         <a href="index.html" style="color: rgba(175, 118, 31, 1);">Tea At Home</a>
