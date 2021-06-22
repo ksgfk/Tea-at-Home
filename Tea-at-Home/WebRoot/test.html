@@ -50,28 +50,9 @@
         notify.success('正确', '正在传输');
         $.ajax({
           type: "post",
-          url: 'buy/shoppingcar',
+          url: 'buyinfo/query',
           data: JSON.stringify({
-        	  test:{
-        		  l:1,
-        	  },
-        	  data:[
-        	        {
-        	            "id": 3,
-        	            "userid": 1,
-        	            "productid": 7,
-        	            "count": 10,
-        	            "pay": 5000.0
-        	        },
-        	        {
-        	            "id": 4,
-        	            "userid": 1,
-        	            "productid": 8,
-        	            "count": 10,
-        	            "pay": 5000.0
-        	        }
-        	    ]
-        	  
+				key: 5,
           }),
           dataType: "json",
           contentType: 'application/json',

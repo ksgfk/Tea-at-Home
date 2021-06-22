@@ -2,6 +2,7 @@ package com.github.ksgfk.teaathome.servlet;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -53,17 +54,41 @@ public class QueryBuyInfoAllServlet extends HttpServlet {
           int userid = ((User) request.getSession().getAttribute("user")).getId();
           Map<BuyInfo, String> info=buyinfointer.findToProduct(userid);
           Map<String ,Object> M= new TreeMap<String,Object>();
+          List<Temp> list=new ArrayList<Temp>();
           if(info==null||info.size()==0) {
         	  M.put("bok", new Message(false,"未找到"));
         	  M.put("data",null);
           }
           else {
         	  M.put("bok", new Message(true,"success"));
-        	  M.put("data",info);
+        	  for(Map.Entry<BuyInfo, String> item:info.entrySet()) {
+        		  list.add(new Temp(item));
+        	  }
+        	  M.put("data",list);
           }
           JsonUtility.toJson(M, M.getClass(), jsonWriter);
           jsonWriter.flush();
           jsonWriter.close();
 	}
+	private class Temp {
+		private BuyInfo info;
+		private String name;
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public Temp(BuyInfo info, String name) {
+			super();
+			this.info = info;
+			this.name = name;
+		}
+		public Temp(Map.Entry<BuyInfo,String> item) {
+			this.info = item.getKey();
+			this.name = item.getValue();
+		}
+	}
 
 }
+

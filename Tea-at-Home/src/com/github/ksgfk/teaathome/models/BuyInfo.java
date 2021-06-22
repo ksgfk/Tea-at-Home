@@ -1,6 +1,6 @@
 package com.github.ksgfk.teaathome.models;
 
-public class BuyInfo {
+public class BuyInfo implements Comparable<BuyInfo> {
 	private int id;
 	private int userId;
 	private int productId;
@@ -58,6 +58,13 @@ public class BuyInfo {
 		this.logistics = logistics;
 		this.state = state;
 		this.pay = pay;
+	}
+	@Override
+	public int compareTo(BuyInfo o) {
+		if(userId==o.userId) {
+			return productId<o.productId?1:-1;
+		}
+		return -1;
 	}
 	
 	

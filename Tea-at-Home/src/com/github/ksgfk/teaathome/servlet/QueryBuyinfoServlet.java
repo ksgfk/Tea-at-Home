@@ -54,7 +54,7 @@ public class QueryBuyinfoServlet extends HttpServlet {
 		 JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 		 JsonElement userData = JsonUtility.read(request);
          JsonObject root = userData.getAsJsonObject();
-		 int userid = ((User) request.getSession().getAttribute("user")).getId();
+		 int userid =1;// ((User) request.getSession().getAttribute("user")).getId();
          int productid=root.get("key").getAsInt();
          Map<BuyInfo, String> info=buyinfointer.findToProduct(userid);
          Map.Entry<BuyInfo,String> item=null;
@@ -65,16 +65,37 @@ public class QueryBuyinfoServlet extends HttpServlet {
         	 }
          }
          Map<String ,Object> M= new TreeMap<String,Object>();
+       
          if(item==null) {
         	 M.put("bok", new Message(false,"未找到"));
          }
          else {
         	 M.put("bok", new Message(true,"success"));
-        	 M.put("data",item);
+        	 M.put("data",new Temp(item));
          }
+         //System.out.print(JsonUtility.toJson(M, M.getClass()));
          JsonUtility.toJson(M, M.getClass(), jsonWriter);
          jsonWriter.flush();
          jsonWriter.close();
+	}
+	private class Temp {
+		private BuyInfo info;
+		private String name;
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public Temp(BuyInfo info, String name) {
+			super();
+			this.info = info;
+			this.name = name;
+		}
+		public Temp(Map.Entry<BuyInfo,String> item) {
+			this.info = item.getKey();
+			this.name = item.getValue();
+		}
 	}
 	
 }

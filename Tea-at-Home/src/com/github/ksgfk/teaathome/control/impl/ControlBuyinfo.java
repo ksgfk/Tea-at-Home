@@ -94,16 +94,17 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 	}
 	@Override
 	public Map<BuyInfo, String> findToProduct(int userid) {
-		String sql=" select buyinfo.*,product.name from (select * form buy_info where user_id = ?) where buyinfo.product_id=product.id";
-		List<Map.Entry<BuyInfo, String>> list= new ArrayList<Map.Entry<BuyInfo, String>>();
+		String sql=" select * from (select * from buy_info where user_id = ?) as buyinfo,product where buyinfo.product_id=product.id";
+		//List<Map.Entry<BuyInfo, String>> list= new ArrayList<Map.Entry<BuyInfo, String>>();
 		ResultSet res=conn.query(sql, userid);
 		Map<BuyInfo , String > M=new TreeMap<BuyInfo,String>();
 			try {
 				while(res!=null&&res.next()) {
 					BuyInfo temp =new BuyInfo(res.getInt("buyinfo.id"), res.getInt("buyinfo.user_id"),res.getInt("buyinfo.product_id") , res.getString("buyinfo.receive"), res.getString("buyinfo.logistics"), res.getInt("buyinfo.state"),res.getInt("buyinfo.pay"));
-					M.put(temp, res.getString("name"));
-			}
-			} catch (SQLException e) {
+					String name=res.getString("product.name");
+					M.put(temp, name);
+				}
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}finally {
