@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.valves.rewrite.Substitution.MapElement;
 
 import com.github.ksgfk.teaathome.control.impl.ControlBuyinfo;
+import com.github.ksgfk.teaathome.control.impl.ControlProduct;
 import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
 import com.github.ksgfk.teaathome.models.BuyInfo;
 import com.github.ksgfk.teaathome.models.Message;
@@ -31,12 +32,14 @@ import com.google.gson.stream.JsonWriter;
 public class QueryBuyinfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	   private ControlBuyinfoInter buyinfointer=null;  
+	   private ControlProduct productInter=null;
  /**
   * @see HttpServlet#HttpServlet()
   */
  public QueryBuyinfoServlet() {
      super();
      buyinfointer=new ControlBuyinfo();
+     productInter= new ControlProduct();
      // TODO Auto-generated constructor stub
  }
 

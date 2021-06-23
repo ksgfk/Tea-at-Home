@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.github.ksgfk.teaathome.control.impl.ControlProduct;
 import com.github.ksgfk.teaathome.control.impl.ControlShoppingcart;
 import com.github.ksgfk.teaathome.control.inter.ControlProductInter;
+import com.github.ksgfk.teaathome.control.inter.ControlShoppingcartInter;
 import com.github.ksgfk.teaathome.models.Message;
 import com.github.ksgfk.teaathome.models.Product;
 import com.github.ksgfk.teaathome.models.ShoppingCart;
@@ -31,12 +32,14 @@ import com.google.gson.stream.JsonWriter;
 public class QueryShoppingInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      private ControlProductInter productInter=null;
+     //private ControlShoppingcartInter shoppingcatInter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public QueryShoppingInfoServlet() {
         super();
         productInter=new ControlProduct();
+        //shoppingcatInter=new ControlShoppingcart();
         // TODO Auto-generated constructor stub
     }
 
@@ -76,12 +79,22 @@ public class QueryShoppingInfoServlet extends HttpServlet {
             	M.put("data", null);
         	}
         	else {
+        		
         		M.put("bok", new Message(true, "success"));
-        		M.put("data", item);
+        		Product pro=productInter.findid(item.getProductId());
+        		M.put("data", new Temp(pro.getName(),item));
         	}
         }
         JsonUtility.toJson(M, M.getClass(),jsonwriter);
         jsonwriter.flush();
         jsonwriter.close();
+	}
+	private class Temp{
+		private String name;
+		private ShoppingCart cart;
+		public Temp(String name,ShoppingCart car) {
+			this.name=name;
+			this.cart=car;
+		}
 	}
 }
