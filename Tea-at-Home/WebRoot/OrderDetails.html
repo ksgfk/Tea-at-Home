@@ -132,14 +132,14 @@
       url: 'buyinfo/queryall',
       success: function (data, state) {
         if (data.bok.success) {
-            console.log(data)
+          console.log(data)
           let order = data.data;
-          order.forEach(key=>{
-              let name = key.productId;
-              let addr = key.receive;
-              AddOrder(key.image, name, key.count, addr);
+          order.forEach(key => {
+            let name = key.productId;
+            let addr = key.receive;
+            AddOrder(key.image, name, key.count, addr);
           });
-        }else{
+        } else {
           console.log('?')
         }
       }
@@ -188,7 +188,10 @@
     $name = getCookie("username");
     $user_gender = getCookie("user_gender");
     $user_id = getCookie("user_id");
+    $permission = getCookie("permission");
   }
+  if (permission == 1)
+    AddController();
 </script>
 
 <body class="sidebar-mini" style="height: auto;">

@@ -34,7 +34,11 @@
     }
   </style>
   <script>
-    function AddCar(image, name, num, value) {
+    buyid = 0;
+    buynum = 0;
+    buyname = "";
+    buyvalue = 0;
+    function AddCar(image, name, num, value, id) {
       var car = document.getElementById("cart");
       var div1 = document.createElement("div");
       div1.setAttribute("class", "card");
@@ -102,6 +106,13 @@
             but.innerHTML = "立即购买";
             $(function () {
               but.onclick = function () {
+                buyid = id;
+                buynum = num;
+                buyname = name;
+                buyvalue = value;
+                var a = document.getElementById("rewrite");
+                a.innerHTML = `您将购买${buyname}产品，将会花费${buyvalue}元，请检查订单之后扫描二维码支付，并在支付成功之后单击继续。`;
+
                 var b = document.getElementById("modal-buy");
                 b.setAttribute("class", "modal fade show");
                 b.setAttribute("style", "display:block");
@@ -128,7 +139,6 @@
     $(function () {
       $('#buy').click(function () {
         var b = document.getElementById("modal-buy");
-        alert("123");
         b.setAttribute("class", "modal fade show");
         b.setAttribute("style", "display:block");
 
@@ -234,7 +244,10 @@
     $name = getCookie("username");
     $user_gender = getCookie("user_gender");
     $user_id = getCookie("user_id");
+    $permission = getCookie("permission");
   }
+  if (permission == 1)
+    AddController();
 </script>
 
 <body class="sidebar-mini" style="height: auto; " id="main">
@@ -390,31 +403,6 @@
                 </div>
               </div>
 
-              <div class="card">
-                <div>
-                  <img src="baiyaql.jpg" style="float:right" width="100px" href="">
-                  <div class="card-header border-0">
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td style="width: 30%; "><b>名称：</b></td>
-                          <td>白芽奇兰</td>
-                        </tr>
-                        <tr>
-                          <td style="width: 30%; "><b>数量：</b></td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td style="width: 30%; "><b>价格</b></td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="buy">立即购买</button>
-                  </div>
-                </div>
-              </div>
-
 
             </div>
           </div>
@@ -430,6 +418,7 @@
                 </button>
               </div>
               <div class="modal-body">
+                <a id="rewrite"></a>
                 <img src="css/zfb.jpg" style="width: 460px;">
               </div>
               <div class="modal-footer justify-content-between">
@@ -445,7 +434,6 @@
     <script>
       $(function () {
         $('#close').click(function () {
-          alert("111");
           var b = document.getElementById("modal-buy");
           b.setAttribute("class", "modal fade");
           b.setAttribute("style", "display:none");
@@ -456,13 +444,40 @@
       })
       $(function () {
         $('#close1').click(function () {
-          alert("111");
           var b = document.getElementById("modal-buy");
           b.setAttribute("class", "modal fade");
           b.setAttribute("style", "display:none");
           var m = document.getElementById("main");
           m.setAttribute("class", "sidebar-mini");
           document.getElementById("awsl").remove();
+        })
+      })
+      $(function () {
+        $('#continue').click(function () {
+          var b = document.getElementById("modal-buy");
+          b.setAttribute("class", "modal fade");
+          b.setAttribute("style", "display:none");
+          var m = document.getElementById("main");
+          m.setAttribute("class", "sidebar-mini");
+          document.getElementById("awsl").remove();
+          console.log(`id:${buyid},num:${buynum}`);
+          $.ajax({
+            type: "post",
+            data: JSON.stringify({
+              productid: buyid,
+              count: buynum
+            }),
+            dataType: "json",
+            contentType: 'application/json',
+            url: 'buy/product',
+            success: function (data, state) {
+              if (data.bok.success) {
+                alert("购买成功！");
+              } else {
+                alert("你有病吧！");
+              }
+            }
+          });
         })
       })
     </script>

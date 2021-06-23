@@ -114,7 +114,11 @@
     document.getElementById("name").innerHTML = getCookie("username");
     document.getElementById("gender").innerHTML = getCookie("user_gender");
     document.getElementById("id").innerHTML = getCookie("user_id");
+    $permission = getCookie("permission");
   }
+
+  if (permission == 1)
+    AddController();
 </script>
 
 <body class="sidebar-mini" style="height: auto;">
