@@ -55,6 +55,7 @@ public class UserLogoutServlet extends HttpServlet {
                 stream.close();
             }
         }
+        request.getRequestDispatcher("index.html");//.forward(request, response);
     }
 
     @Override

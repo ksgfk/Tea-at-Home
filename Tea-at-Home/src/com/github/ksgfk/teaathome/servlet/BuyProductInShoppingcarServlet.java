@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -85,16 +86,18 @@ public class BuyProductInShoppingcarServlet extends HttpServlet {
 		for (JsonElement iter : carlist) {
 			carNumber[i++]=iter.getAsInt();
 		}
-		List<ShoppingCart> array = carInter.querybatch(carNumber, userid);
-		if (array == null || array.size() == 0 ||array.size()!=i) {
+		Map<String, ShoppingCart> lists = carInter.querybatch(carNumber, userid);
+		List<ShoppingCart> array= new ArrayList<ShoppingCart>();
+		if (lists == null || lists.size() == 0 ||lists.size()!=i) {
 			JsonUtility.messagesuccess(jsonWriter, false, "找不到购物车");
 			jsonWriter.flush();
 			jsonWriter.close();
 			return;
 		} else {
 			i=0;
-			for (ShoppingCart item : array) {
-				productNumber[i++]=item.getProductId();
+			for (Map.Entry<String, ShoppingCart> item : lists.entrySet()) {
+				productNumber[i++]=item.getValue().getId();
+				array.add(item.getValue());
 			}
 			carInter.deletebatch(array);
 		}

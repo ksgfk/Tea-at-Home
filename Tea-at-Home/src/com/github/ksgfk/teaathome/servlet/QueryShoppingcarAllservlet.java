@@ -2,6 +2,7 @@ package com.github.ksgfk.teaathome.servlet;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -49,25 +50,37 @@ public class QueryShoppingcarAllservlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userid=((User)request.getSession().getAttribute("user")).getId();
+		int userid=1;//((User)request.getSession().getAttribute("user")).getId();
 		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream() ) );
 		Map<String,Object> M= new TreeMap<String,Object>();
 		if(new ControlUser().findid(userid)==null) {
 			M.put("bok", new Message(false, "没有该用户"));
 			M.put("data", null);
 		} 
-		List<ShoppingCart> list =	shopcartInter.finduserid(userid);
-		if(list==null||list.size()==0) {
+		Map<String , ShoppingCart> mCart =	shopcartInter.finduserIdName(userid);
+		List<Temp> list= new ArrayList<QueryShoppingcarAllservlet.Temp>();
+		if(mCart==null||mCart.size()==0) {
 			M.put("bok", new Message(false, "该用户没有购物车"));
 			M.put("data", null);
 			return;
 		}
 		else {
 			M.put("bok", new Message(true, "success"));
+			for(Map.Entry<String, ShoppingCart> item:mCart.entrySet()) {
+				list.add(new Temp(item));
+			}
 			M.put("data", list);
 		}
 		JsonUtility.toJson(M, M.getClass(), jsonWriter);
 		jsonWriter.flush();
 		jsonWriter.close();
+	}
+	private class Temp{
+		String name=null;
+		ShoppingCart car=null;
+		public Temp(Map.Entry<String, ShoppingCart> item) {
+			name=item.getKey();
+			car=item.getValue();
+		}
 	}
 }
