@@ -1,5 +1,7 @@
 function AddController() {
+  console.log('!')
   var ct = document.getElementById("Controller");
+  console.log(ct);
   var li = document.createElement("li");
   li.setAttribute("class", "nav-item");
   {

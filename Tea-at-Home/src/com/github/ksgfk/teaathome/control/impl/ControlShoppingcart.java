@@ -4,13 +4,11 @@ import com.github.ksgfk.teaathome.control.inter.ControlShoppingcartInter;
 import com.github.ksgfk.teaathome.models.BuyInfo;
 import com.github.ksgfk.teaathome.models.ConnectionTeaShop;
 import com.github.ksgfk.teaathome.models.ShoppingCart;
+import com.github.ksgfk.teaathome.utility.Pair;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class ControlShoppingcart implements ControlShoppingcartInter {
 	private ConnectionTeaShop conn=null;
@@ -76,7 +74,7 @@ public class ControlShoppingcart implements ControlShoppingcartInter {
 
 	@Override
 	public  ShoppingCart find(int userid, int productid) {
-		String sql="select * from shopping_cart where productid=? and userid= ?";
+		String sql="select * from shopping_cart where product_id=? and user_id= ?";
 		ResultSet res=conn.query(sql, userid,productid);
 		ShoppingCart item=null;
 		try {
@@ -137,15 +135,16 @@ public class ControlShoppingcart implements ControlShoppingcartInter {
 	}
 
 	@Override
-	public Map<String, ShoppingCart> finduserIdName(int userid) {
-		String sql="select car.*,product.name from (select name from shopping_cart where userid = ? ) as car, product where  car.product_id= id";
+	public Map<Pair<String,Double>, ShoppingCart> finduserIdName(int userid) {
+		String sql="select car.*,product.name,product.price from (select * from shopping_cart where user_id = ? ) as car, product where  car.product_id=product.id";
 		ResultSet set=conn.query(sql, userid);
-		Map<String, ShoppingCart> M= new TreeMap<String, ShoppingCart>();
+		Map<Pair<String,Double>, ShoppingCart> M= new HashMap<>();
 		try {
 			while(set!=null&&set.next()) {
-				String name= set.getString("product.name");
+				Pair<String,Double> p = new Pair<>(set.getString("product.name"),set.getDouble("product.price"));
+//				String name= set.getString("product.name");
 				ShoppingCart cart=new ShoppingCart(set.getInt("car.id"),set.getInt("car.user_id"), set.getInt("car.product_id"), set.getInt("count"));
-				M.put(name,cart);
+				M.put(p,cart);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

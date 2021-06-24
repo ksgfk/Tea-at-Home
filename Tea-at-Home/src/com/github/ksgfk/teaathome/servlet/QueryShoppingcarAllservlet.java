@@ -20,6 +20,7 @@ import com.github.ksgfk.teaathome.models.Message;
 import com.github.ksgfk.teaathome.models.ShoppingCart;
 import com.github.ksgfk.teaathome.models.User;
 import com.github.ksgfk.teaathome.utility.JsonUtility;
+import com.github.ksgfk.teaathome.utility.Pair;
 import com.google.gson.stream.JsonWriter;
 
 /**
@@ -50,14 +51,15 @@ public class QueryShoppingcarAllservlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userId=1;//((User)request.getSession().getAttribute("user")).getId();
+		int userid=1;//((User)request.getSession().getAttribute("user")).getId();
+		response.setContentType("application/json");
 		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream() ) );
 		Map<String,Object> M= new TreeMap<String,Object>();
-		if(new ControlUser().findid(userId)==null) {
+		if(new ControlUser().findid(userid)==null) {
 			M.put("bok", new Message(false, "没有该用户"));
 			M.put("data", null);
-		} 
-		Map<String , ShoppingCart> mCart =	shopcartInter.finduserIdName(userId);
+		}
+		Map<Pair<String,Double>, ShoppingCart> mCart =	shopcartInter.finduserIdName(userid);
 		List<Temp> list= new ArrayList<QueryShoppingcarAllservlet.Temp>();
 		if(mCart==null||mCart.size()==0) {
 			M.put("bok", new Message(false, "该用户没有购物车"));
@@ -66,7 +68,7 @@ public class QueryShoppingcarAllservlet extends HttpServlet {
 		}
 		else {
 			M.put("bok", new Message(true, "success"));
-			for(Map.Entry<String, ShoppingCart> item:mCart.entrySet()) {
+			for(Map.Entry<Pair<String,Double>, ShoppingCart> item:mCart.entrySet()) {
 				list.add(new Temp(item));
 			}
 			M.put("data", list);
@@ -75,12 +77,12 @@ public class QueryShoppingcarAllservlet extends HttpServlet {
 		jsonWriter.flush();
 		jsonWriter.close();
 	}
-	private class Temp extends ShoppingCart {
-		String name=null;
-		//ShoppingCart car=null;
-		public Temp(Map.Entry<String, ShoppingCart> item) {
-			super(item.getValue());
+	private class Temp{
+		Pair<String,Double> name=null;
+		ShoppingCart car=null;
+		public Temp(Map.Entry<Pair<String,Double>, ShoppingCart> item) {
 			name=item.getKey();
+			car=item.getValue();
 		}
 	}
 }

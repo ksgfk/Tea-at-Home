@@ -59,18 +59,18 @@ public class BuyProductInProduct extends HttpServlet {
          JsonObject root = Data.getAsJsonObject();
          ServletOutputStream outputstream =response.getOutputStream();
          JsonWriter jsonWriter = new JsonWriter( new OutputStreamWriter(outputstream));
-         int productId=root.get("productid").getAsInt();
+         int productid=root.get("productid").getAsInt();
          int count=root.get("count").getAsInt();
-         Product item = productInter.findid(productId);
+         Product item = productInter.findid(productid);
          Map<String, Object> M= new TreeMap<String, Object>();
-         int userId = ((User)request.getSession().getAttribute("user")).getId();
+         int userid = ((User)request.getSession().getAttribute("user")).getId();
          if(item==null||item.getCount()<count) {
         	 M.put("bok", new Message(false, "产品库存不足"));
         	 M.put("data", null);
          }
          else {
         	 M.put("bok", new Message(true,"success"));
-        	 BuyInfo goods=new BuyInfo(0, userId, productId, "集美大学诚毅学院","在路上",0,item.getPrice().multiply(BigDecimal.valueOf(count) ).doubleValue() );
+        	 BuyInfo goods=new BuyInfo(0, userid, productid, "集美大学诚毅学院","在路上",0,item.getPrice().multiply(BigDecimal.valueOf(count) ).doubleValue() );
         	 M.put("data", goods);
         	 buyinfoInter.add(goods);
          }

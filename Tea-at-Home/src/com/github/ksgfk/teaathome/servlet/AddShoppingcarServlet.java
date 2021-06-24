@@ -28,13 +28,13 @@ import com.google.gson.stream.JsonWriter;
 @WebServlet("/shoppingcar/add")
 public class AddShoppingcarServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ControlShoppingcart cartInter=null;
+    private ControlShoppingcart cartinter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AddShoppingcarServlet() {
         super();
-        cartInter= new ControlShoppingcart();
+        cartinter= new ControlShoppingcart();
         // TODO Auto-generated constructor stub
     }
 
@@ -50,15 +50,16 @@ public class AddShoppingcarServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userid=((User)request.getSession().getAttribute("user")).getId();
+//		int userid=((User)request.getSession().getAttribute("user")).getId();
+		int userid = 1;
 		JsonElement data=JsonUtility.read(request);
 		JsonObject  root=data.getAsJsonObject();
 		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream() ) );
-		int productId=root.get("productid").getAsInt();
-		int count=root.get("conut").getAsInt();
-		Product product=new ControlProduct().findid(productId);
+		int productid=root.get("productid").getAsInt();
+		int count=root.get("count").getAsInt();
+		Product product=new ControlProduct().findid(productid);
 		Map<String, Object> M= new TreeMap<String,Object>();
-		if(cartInter.find(userid, productId)!=null) {
+		if(cartinter.find(userid, productid)!=null) {
 			M.put("bok", new Message(false, "已存在"));
 			M.put("data", null);
 		}
@@ -71,7 +72,7 @@ public class AddShoppingcarServlet extends HttpServlet {
 			M.put("data", null);
 		}
 		else {
-			ShoppingCart item= new ShoppingCart(0, userid, productId, count);
+			ShoppingCart item= new ShoppingCart(0, userid, productid, count);
 			M.put("bok", new Message(true, "success"));
 			M.put("data", item);
 		}

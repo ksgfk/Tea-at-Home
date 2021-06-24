@@ -27,7 +27,30 @@
       padding-top: 0 !important;
     }
   </style>
+
   <script>
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+      }
+      return "";
+    }
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 60 * 60 * 1000));
+      var expires = "expires=" + d.toGMTString();
+      document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+    function delCookie(name) {
+      var exp = new Date();
+      exp.setTime(exp.getTime() - 1);
+      var cval = getCookie(name);
+      if (cval != null)
+        document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+    }
     function AddOrder(image, name, num, address) {
       var car = document.getElementById("cart");
       var div1 = document.createElement("div");
@@ -96,103 +119,77 @@
       car.appendChild(div1);
     }
   </script>
+
   <script>
-    $(function () {
-      $('#logout').click(function () {
-        $.ajax({
-          type: "get",
-          url: 'user/logout',
-          success: function (data, state) {
-            if (data.success) {
-              delCookie("username");
-              delCookie("user_gender");
-              delCookie("user_id");
-              alert("登出成功！");
-              location.href = 'index.html';
-            } else {
-              delCookie("username");
-              delCookie("user_gender");
-              delCookie("user_id");
-              alert("没想到被你这个小伙子黑进来了，快去登录！");
-              location.href = 'index.html';
-            }
+    function GetAllOrder() {
+      $.ajax({
+        type: "post",
+        url: 'buyinfo/queryall',
+        success: function (data, state) {
+          console.log(data)
+          if (data.bok.success) {
+            let order = data.data;
+            order.forEach(key => {
+              let name = key.name;
+              let addr = key.info.receive;
+              AddOrder(key.image, name, key.count, addr);
+            });
+          } else {
+            console.log('?')
           }
-        });
+        }
       });
-    });
+    }
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+      }
+      return "";
+    }
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 60 * 60 * 1000));
+      var expires = "expires=" + d.toGMTString();
+      document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+    $name = "null";
+    $user_id = "null";
+    $user_gender = "null";
+    if (getCookie("username") == "") {
+      $.ajax({
+        type: "get",
+        url: 'user/query_info',
+        success: function (data, state) {
+          if (data.success) {
+            let usr = data.user;
+            $name = usr.name;
+            $user_gender = usr.sex;
+            $user_id = usr.id;
+            $permission = usr.permission;
+            setCookie("username", $name, 30);
+            setCookie("user_gender", $user_gender, 30);
+            setCookie("user_id", $user_id, 30);
+            setCookie("permission", $permission, 30);
+          } else {
+            alert("请登录！")
+            location.href = 'login.html';
+          }
+        }
+      });
+    } else {
+      $name = getCookie("username");
+      $user_gender = getCookie("user_gender");
+      $user_id = getCookie("user_id");
+      $permission = getCookie("permission");
+    }
   </script>
 
   <title>个人中心::Tea At Home</title>
   <link rel="stylesheet" type="text/css" href="./css/anti-blind.css">
 </head>
-<script>
-  function GetAllOrder() {
-    $.ajax({
-      type: "post",
-      url: 'buyinfo/queryall',
-      success: function (data, state) {
-        if (data.bok.success) {
-          console.log(data)
-          let order = data.data;
-          order.forEach(key => {
-            let name = key.productId;
-            let addr = key.receive;
-            AddOrder(key.image, name, key.count, addr);
-          });
-        } else {
-          console.log('?')
-        }
-      }
-    });
-  }
-  function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i].trim();
-      if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-    }
-    return "";
-  }
-  function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 60 * 60 * 1000));
-    var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-  }
-  $name = "null";
-  $user_id = "null";
-  $user_gender = "null";
-  if (getCookie("username") == "") {
-    $.ajax({
-      type: "get",
-      url: 'user/query_info',
-      success: function (data, state) {
-        if (data.success) {
-          let usr = data.user;
-          $name = usr.name;
-          $user_gender = usr.sex;
-          $user_id = usr.id;
-          $permission = usr.permission;
-          setCookie("username", $name, 30);
-          setCookie("user_gender", $user_gender, 30);
-          setCookie("user_id", $user_id, 30);
-          setCookie("permission", $permission, 30);
-        } else {
-          alert("请登录！")
-          location.href = 'login.html';
-        }
-      }
-    });
-  } else {
-    $name = getCookie("username");
-    $user_gender = getCookie("user_gender");
-    $user_id = getCookie("user_id");
-    $permission = getCookie("permission");
-  }
-  if (permission == 1)
-    AddController();
-</script>
 
 <body class="sidebar-mini" style="height: auto;">
   <div class="wrapper">
@@ -371,10 +368,36 @@
         <div class="float-right d-none d-sm-inline-block">
           Designed by <b>福建居茶有限公司</b> &gt;_&lt;'"|
         </div>
+      </strong>
     </footer>
     <div id="sidebar-overlay"></div>
   </div>
 
+  <script>
+    $(function () {
+      $('#logout').click(function () {
+        $.ajax({
+          type: "get",
+          url: 'user/logout',
+          success: function (data, state) {
+            if (data.success) {
+              delCookie("username");
+              delCookie("user_gender");
+              delCookie("user_id");
+              alert("登出成功！");
+              location.href = 'index.html';
+            } else {
+              delCookie("username");
+              delCookie("user_gender");
+              delCookie("user_id");
+              alert("没想到被你这个小伙子黑进来了，快去登录！");
+              location.href = 'index.html';
+            }
+          }
+        });
+      });
+    });
+  </script>
 
 </body>
 <div style="all: initial;">
