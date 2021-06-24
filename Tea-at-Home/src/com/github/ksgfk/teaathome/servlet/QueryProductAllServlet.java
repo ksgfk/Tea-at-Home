@@ -27,13 +27,13 @@ import com.google.gson.stream.JsonWriter;
 @WebServlet("/product/fuzzy_queryall")
 public class QueryProductAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ControlProductInter productInter=null;   
+    private ControlProductInter productinter=null;   
     /**
      * @see HttpServlet#HttpServlet()
      */
     public QueryProductAllServlet() {
         super();
-        productInter=new ControlProduct();
+        productinter=new ControlProduct();
         // TODO Auto-generated constructor stub
     
     }
@@ -51,7 +51,7 @@ public class QueryProductAllServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
-		List<Product> list= productInter.findall();
+		List<Product> list= productinter.findall();
 		JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 		Map<String, Object> M= new TreeMap<String,Object>();
 		if(list!=null&&list.size()!=0) {

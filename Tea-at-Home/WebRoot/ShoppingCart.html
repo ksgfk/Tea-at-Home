@@ -36,9 +36,32 @@
   <script>
     buyid = 0;
     buynum = 0;
+    carid233 = 0;
     buyname = "";
     buyvalue = 0;
-    function AddCar(image, name, num, value, id) {
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+      }
+      return "";
+    }
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 60 * 60 * 1000));
+      var expires = "expires=" + d.toGMTString();
+      document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+    function delCookie(name) {
+      var exp = new Date();
+      exp.setTime(exp.getTime() - 1);
+      var cval = getCookie(name);
+      if (cval != null)
+        document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+    }
+    function AddCar(image, name, num, value, id,card) {
       var car = document.getElementById("cart");
       var div1 = document.createElement("div");
       div1.setAttribute("class", "card");
@@ -108,6 +131,7 @@
               but.onclick = function () {
                 buyid = id;
                 buynum = num;
+                carid233 = card;
                 buyname = name;
                 buyvalue = value;
                 var a = document.getElementById("rewrite");
@@ -135,65 +159,31 @@
       car.appendChild(div1);
     }
   </script>
-  <script>
-    $(function () {
-      $('#buy').click(function () {
-        var b = document.getElementById("modal-buy");
-        b.setAttribute("class", "modal fade show");
-        b.setAttribute("style", "display:block");
-
-        var m = document.getElementById("main");
-        m.setAttribute("class", "sidebar-mini modal-open");
-        var div12 = document.createElement("div");
-        div12.setAttribute("id", "awsl");
-        div12.setAttribute("class", "modal-backdrop fade show");
-        var ok = document.getElementById("ok");
-        ok.appendChild(div12);
-      })
-    })
-  </script>
-  <script>
-    $(function () {
-      $('#logout').click(function () {
-        $.ajax({
-          type: "get",
-          url: 'user/logout',
-          success: function (data, state) {
-            if (data.success) {
-              delCookie("username");
-              delCookie("user_gender");
-              delCookie("user_id");
-              alert("登出成功！");
-              location.href = 'index.html';
-            } else {
-              delCookie("username");
-              delCookie("user_gender");
-              delCookie("user_id");
-              alert("没想到被你这个小伙子黑进来了，快去登录！");
-              location.href = 'index.html';
-            }
-          }
-        });
-      });
-    });
-  </script>
   <script src="./css/intro.min.js.下载"></script>
   <script>
     function get() {
       $.ajax({
         type: "POST",
-        url: 'shoppingcar/queyyall',
+        url: 'shoppingcar/queryall',
         success: function (data, state) {
-          if (data.success) {
+          console.log(data)
+          console.log(typeof data)
+          let succ = data.bok.success;
+          if (succ) {
             var car = data.data;
             car.forEach(element => {
-              AddCar("css/baiyaql.jpg", element.name, element.count, element.value);
+              let name = element.name.item1;
+              let cnt = element.car.count;
+              let value = element.name.item2;
+              let id = element.car.productId;
+              let card = element.car.id;
+              AddCar("css/baiyaql.jpg", name, cnt, value,id,card);
             });
           } else {
             alert("毛都没有！");
           }
         }
-      });
+      }).fail(()=>console.log('err'));
     }
   </script>
   <title>个人中心::Tea At Home</title>
@@ -246,8 +236,6 @@
     $user_id = getCookie("user_id");
     $permission = getCookie("permission");
   }
-  if (permission == 1)
-    AddController();
 </script>
 
 <body class="sidebar-mini" style="height: auto; " id="main">
@@ -464,15 +452,18 @@
           $.ajax({
             type: "post",
             data: JSON.stringify({
-              productid: buyid,
-              count: buynum
+              productid:buyid,
+              shoppingcarid:[carid233],
+              count: 1
             }),
             dataType: "json",
             contentType: 'application/json',
-            url: 'buy/product',
+            url: 'buy/shoppingcar',
             success: function (data, state) {
+              console.log(data);
               if (data.bok.success) {
                 alert("购买成功！");
+                location.href = "ShoppingCart.html";
               } else {
                 alert("你有病吧！");
               }
@@ -487,10 +478,54 @@
         <div class="float-right d-none d-sm-inline-block">
           Designed by <b>福建居茶有限公司</b> &gt;_&lt;'"|
         </div>
+        </strong>
     </footer>
     <div id="sidebar-overlay"></div>
   </div>
 
+  <script>
+    (function () {
+      $('#buy').click(function () {
+        var b = document.getElementById("modal-buy");
+        b.setAttribute("class", "modal fade show");
+        b.setAttribute("style", "display:block");
+
+        var m = document.getElementById("main");
+        m.setAttribute("class", "sidebar-mini modal-open");
+        var div12 = document.createElement("div");
+        div12.setAttribute("id", "awsl");
+        div12.setAttribute("class", "modal-backdrop fade show");
+        var ok = document.getElementById("ok");
+        ok.appendChild(div12);
+      })
+    })()
+  </script>
+  <script>
+    $(function () {
+      $('#logout').click(function () {
+        $.ajax({
+          type: "get",
+          url: 'user/logout',
+          success: function (data, state) {
+            if (data.success) {
+              delCookie("username");
+              delCookie("user_gender");
+              delCookie("user_id");
+              alert("登出成功！");
+              location.href = 'index.html';
+            } else {
+              delCookie("username");
+              delCookie("user_gender");
+              delCookie("user_id");
+              alert("没想到被你这个小伙子黑进来了，快去登录！");
+              location.href = 'index.html';
+            }
+          }
+        });
+      });
+      get()
+    });
+  </script>
 
 </body>
 <div style="all: initial;">

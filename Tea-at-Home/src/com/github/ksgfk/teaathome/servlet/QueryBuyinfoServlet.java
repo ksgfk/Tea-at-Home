@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.valves.rewrite.Substitution.MapElement;
-
 import com.github.ksgfk.teaathome.control.impl.ControlBuyinfo;
 import com.github.ksgfk.teaathome.control.impl.ControlProduct;
 import com.github.ksgfk.teaathome.control.inter.ControlBuyinfoInter;
@@ -58,11 +56,11 @@ public class QueryBuyinfoServlet extends HttpServlet {
 		 JsonElement userData = JsonUtility.read(request);
          JsonObject root = userData.getAsJsonObject();
 		 int userid =1;// ((User) request.getSession().getAttribute("user")).getId();
-         int productId=root.get("key").getAsInt();
+         int productid=root.get("key").getAsInt();
          Map<BuyInfo, String> info=buyinfointer.findToProduct(userid);
          Map.Entry<BuyInfo,String> item=null;
          for(Map.Entry<BuyInfo,String> iter:info.entrySet()) {
-        	 if(iter.getKey().getProductId() ==productId) {
+        	 if(iter.getKey().getProductId() ==productid) {
         		 item=iter;
         		 break;
         	 }

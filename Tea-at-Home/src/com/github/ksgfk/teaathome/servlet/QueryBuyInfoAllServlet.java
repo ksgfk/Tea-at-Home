@@ -29,13 +29,13 @@ import com.google.gson.stream.JsonWriter;
 @WebServlet("/buyinfo/queryall")
 public class QueryBuyInfoAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	   private ControlBuyinfoInter buyinfoInter=null;  
+	   private ControlBuyinfoInter buyinfointer=null;  
     /**
      * @see HttpServlet#HttpServlet()
      */
     public QueryBuyInfoAllServlet() {
         super();
-        buyinfoInter=new ControlBuyinfo();
+        buyinfointer=new ControlBuyinfo();
         // TODO Auto-generated constructor stub
     }
 
@@ -51,8 +51,9 @@ public class QueryBuyInfoAllServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setContentType("application/json");
 		  JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
-          int userid = ((User) request.getSession().getAttribute("user")).getId();
-          Map<BuyInfo, String> info=buyinfoInter.findToProduct(userid);
+//          int userid = ((User) request.getSession().getAttribute("user")).getId();
+		int userid = 1;
+          Map<BuyInfo, String> info=buyinfointer.findToProduct(userid);
           Map<String ,Object> M= new TreeMap<String,Object>();
           List<Temp> list=new ArrayList<Temp>();
           if(info==null||info.size()==0) {

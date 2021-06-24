@@ -21,138 +21,14 @@
   <link rel="stylesheet" href="./css/css">
   <script src=""></script>
 
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript" async="" src="./css/analytics.js.下载"></script>
   <script src="./css/bootstrap.bundle.min.js.下载"></script>
   <script src="./css/adminlte.min.js.下载"></script>
   <script src="./js/cot.js"></script>
 
   <link rel="shortcut icon" href="https://www.natfrp.com/favicon.ico?v=2">
-  <script>
-    buyid = 0;
-    buyname = "";
-    buynum = 1;
-    buyvalue = 0;
-    count = 0;
-    function AddProduct(tag, money, body2, id) {
-      var container = document.getElementById('shower');
-      var div6 = document.createElement("div");
-      div6.setAttribute("class", "col-lg-6");
-      {
-        var div5 = document.createElement("div");
-        div5.setAttribute("class", "card");
-        {
-          var div3 = document.createElement('div');
-          div3.setAttribute("class", "card-header border-0");
-          {
-            var div4 = document.createElement('div');
-            div4.setAttribute("class", "d-flex justify-content-between");
-            {
-              var h3 = document.createElement("h3");
-              h3.innerHTML = tag;
-              div4.appendChild(h3);
-              var h5 = document.createElement("h5");
-              h5.innerHTML = money;
-              div4.appendChild(h5);
-            }
-            div3.appendChild(div4);
-          }
-          div5.appendChild(div3);
-          var div2 = document.createElement('div');
-          div2.setAttribute("class", "card-body");
-          div2.innerHTML = `<p>${body2}</p>`;
-          div5.appendChild(div2);
-          var div1 = document.createElement('div');
-          div1.setAttribute("class", "card-footer");
-          {
-            var button = document.createElement('button');
-            button.type = "button";
-            button.setAttribute('id', `buy[${count}]`);
-            button.setAttribute("class", "btn btn-primary");
-            button.innerHTML = "<img src=\"css/shop2.png\"style =\"width:30px\"> 立刻购买"
-            function add() {
-              button.onclick = function () {
-                buymoney = money;
-                buyname = tag;
-                buyid = id;
 
-                var a = document.getElementById("rewrite");
-                a.innerHTML = `您将购买${buyname}产品，将会花费${buyvalue}元，请检查订单之后扫描二维码支付，并在支付成功之后单击继续。`;
-
-                var b = document.getElementById("modal-buy");
-                b.setAttribute("class", "modal fade show");
-                b.setAttribute("style", "display:block");
-
-                var m = document.getElementById("main");
-                m.setAttribute("class", "sidebar-mini modal-open");
-                var div12 = document.createElement("div");
-                div12.setAttribute("id", "awsl");
-                div12.setAttribute("class", "modal-backdrop fade show");
-                var ok = document.getElementById("ok");
-                ok.appendChild(div12);
-              }
-            }
-            add();
-            div1.appendChild(button);
-
-            var button2 = document.createElement('button');
-            button2.type = "button";
-            button2.setAttribute('id', `buy[${count}]`);
-            button2.setAttribute("class", "btn btn-primary");
-            button2.innerHTML = "加入购物车"
-            function add2() {
-              button2.onclick = function () {
-                //todo car
-              }
-            }
-            add2();
-            div1.appendChild(button2);
-          }
-          div5.appendChild(div1);
-        }
-        div6.appendChild(div5);
-      }
-      container.appendChild(div6);
-      count++;
-    }
-
-
-    function Clear() {
-      var container = document.getElementById('shower');
-      while (container.hasChildNodes()) {
-        container.removeChild(container.lastChild);
-      }
-    }
-
-    if (getCookie("username") == "") {
-      $.ajax({
-        type: "get",
-        url: 'user/query_info',
-        success: function (data, state) {
-          if (data.success) {
-            let usr = data.user;
-            $name = usr.name;
-            $user_gender = usr.sex;
-            $user_id = usr.id;
-            $permission = usr.permission;
-            setCookie("username", $name, 30);
-            setCookie("user_gender", $user_gender, 30);
-            setCookie("user_id", $user_id, 30);
-            setCookie("permission", $permission, 30);
-          } else {
-            alert("请登录！")
-            location.href = 'login.html';
-          }
-        }
-      });
-    } else {
-      $name = getCookie("username");
-      $user_gender = getCookie("user_gender");
-      $user_id = getCookie("user_id");
-      $permission = getCookie("permission");
-    }
-    if (permission == 1)
-      AddController();
-  </script>
   <style>
     .introjs-tooltiptext {
       padding: 8px 20px !important;
@@ -163,37 +39,7 @@
     }
   </style>
 
-  <script>
-    $(function () {
-      $('#search').click(function () {
-        $.ajax({
-          type: "post",
-          url: 'product/fuzzy_query',
-          data: JSON.stringify({
-            key: $('#find').val()
-          }),
-          dataType: "json",
-          contentType: 'application/json',
-          success: function (data, state) {
-            console.log(data);
-            if (data.length !== 0) {
-              Clear();
-              data.forEach(i => {
-                var name = i.name;
-                var price = i.price + "/斤";
-                var jiesao = `这是${i.name}茶，非常牛逼建议买爆，99斤点击就买！`;
-                AddProduct(name, price, jiesao, i);
-              });
-            } else {
-              alert("找不到哦！");
-            }
-          }
-        }).fail(function () {
-          alert("cnm");
-        });
-      });
-    });
-  </script>
+
 
   <title>购买</title>
 </head>
@@ -407,11 +253,11 @@
               m.setAttribute("class", "sidebar-mini");
               document.getElementById("awsl").remove();
               console.log(`id:${buyid},num:${buynum}`);
-
+              console.log(buyid)
               $.ajax({
                 type: "post",
                 data: JSON.stringify({
-                  productid: buyid,
+                  productid: buyid.id,
                   count: buynum
                 }),
                 dataType: "json",
@@ -424,7 +270,7 @@
                     alert("你有病吧！");
                   }
                 }
-              });
+              }).fail(()=>console.log('err'));
 
             }
           }
@@ -443,16 +289,214 @@
         <div class="float-right d-none d-sm-inline-block">
           Designed by <b>福建居茶有限公司</b> &gt;_&lt;'"|
         </div>
+      </strong>
     </footer>
     <div id="sidebar-overlay"></div>
   </div>
 
 
+<!--  <script>-->
+<!--    // AddProduct("122", "412421", "312424");-->
+<!--  </script>-->
   <script>
-    AddProduct("122", "412421", "312424");
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+      }
+      return "";
+    }
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 60 * 60 * 1000));
+      var expires = "expires=" + d.toGMTString();
+      document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+    function delCookie(name) {
+      var exp = new Date();
+      exp.setTime(exp.getTime() - 1);
+      var cval = getCookie(name);
+      if (cval != null)
+        document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+    }
+    buyid = 0;
+    buyname = "";
+    buynum = 1;
+    buyvalue = 0;
+    count = 0;
+    function AddProduct(tag, money, body2, id) {
+      var container = document.getElementById('shower');
+      var div6 = document.createElement("div");
+      div6.setAttribute("class", "col-lg-6");
+      {
+        var div5 = document.createElement("div");
+        div5.setAttribute("class", "card");
+        {
+          var div3 = document.createElement('div');
+          div3.setAttribute("class", "card-header border-0");
+          {
+            var div4 = document.createElement('div');
+            div4.setAttribute("class", "d-flex justify-content-between");
+            {
+              var h3 = document.createElement("h3");
+              h3.innerHTML = tag;
+              div4.appendChild(h3);
+              var h5 = document.createElement("h5");
+              h5.innerHTML = money;
+              div4.appendChild(h5);
+            }
+            div3.appendChild(div4);
+          }
+          div5.appendChild(div3);
+          var div2 = document.createElement('div');
+          div2.setAttribute("class", "card-body");
+          div2.innerHTML = `<p>${body2}</p>`;
+          div5.appendChild(div2);
+          var div1 = document.createElement('div');
+          div1.setAttribute("class", "card-footer");
+          {
+            var button = document.createElement('button');
+            button.type = "button";
+            button.setAttribute('id', `buy[${count}]`);
+            button.setAttribute("class", "btn btn-primary");
+            button.innerHTML = "<img src=\"css/shop2.png\"style =\"width:30px\"> 立刻购买"
+            function add() {
+              button.onclick = function () {
+                buymoney = money;
+                buyname = tag;
+                buyid = id;
+
+                var a = document.getElementById("rewrite");
+                a.innerHTML = `您将购买${buyname}产品，将会花费${buyvalue}元，请检查订单之后扫描二维码支付，并在支付成功之后单击继续。`;
+
+                var b = document.getElementById("modal-buy");
+                b.setAttribute("class", "modal fade show");
+                b.setAttribute("style", "display:block");
+
+                var m = document.getElementById("main");
+                m.setAttribute("class", "sidebar-mini modal-open");
+                var div12 = document.createElement("div");
+                div12.setAttribute("id", "awsl");
+                div12.setAttribute("class", "modal-backdrop fade show");
+                var ok = document.getElementById("ok");
+                ok.appendChild(div12);
+              }
+            }
+            add();
+            div1.appendChild(button);
+
+            var button2 = document.createElement('button');
+            button2.type = "button";
+            button2.setAttribute('id', `buy[${count}]`);
+            button2.setAttribute("class", "btn btn-primary");
+            button2.innerHTML = "加入购物车"
+            function add2() {
+              button2.onclick = function () {
+                $.ajax({
+                type: "post",
+                data: JSON.stringify({
+                  productid: id.id,
+                  count: 1
+                }),
+                dataType: "json",
+                contentType: 'application/json',
+                url: 'shoppingcar/add',
+                success: function (data, state) {
+                  if (data.bok.success) {
+                    alert("加入成功！");
+                  } else {
+                    alert("你有病吧！");
+                  }
+                }
+              }).fail(()=>console.log('err'));
+              }
+            }
+            add2();
+            div1.appendChild(button2);
+          }
+          div5.appendChild(div1);
+        }
+        div6.appendChild(div5);
+      }
+      container.appendChild(div6);
+      count++;
+    }
+
+
+    function Clear() {
+      var container = document.getElementById('shower');
+      while (container.hasChildNodes()) {
+        container.removeChild(container.lastChild);
+      }
+    }
+
+    if (getCookie("username") == "") {
+      $.ajax({
+        type: "get",
+        url: 'user/query_info',
+        success: function (data, state) {
+          if (data.success) {
+            let usr = data.user;
+            $name = usr.name;
+            $user_gender = usr.sex;
+            $user_id = usr.id;
+            $permission = usr.permission;
+            setCookie("username", $name, 30);
+            setCookie("user_gender", $user_gender, 30);
+            setCookie("user_id", $user_id, 30);
+            setCookie("permission", $permission, 30);
+          } else {
+            alert("请登录！")
+            location.href = 'login.html';
+          }
+        }
+      });
+    } else {
+      $name = getCookie("username");
+      $user_gender = getCookie("user_gender");
+      $user_id = getCookie("user_id");
+      $permission = getCookie("permission");
+    }
+    console.log($permission)
+    if ($permission == 1){
+      console.log('tr')
+      AddController();
+    }
+
   </script>
-
-
+  <script>
+    (function () {
+      $('#search').click(function () {
+        $.ajax({
+          type: "post",
+          url: 'product/fuzzy_query',
+          data: JSON.stringify({
+            key: $('#find').val()
+          }),
+          dataType: "json",
+          contentType: 'application/json',
+          success: function (data, state) {
+            console.log(data);
+            if (data.length !== 0) {
+              Clear();
+              data.forEach(i => {
+                var name = i.name;
+                var price = i.price + "/斤";
+                var jiesao = `这是${i.name}茶，非常牛逼建议买爆，99斤点击就买！`;
+                AddProduct(name, price, jiesao, i);
+              });
+            } else {
+              alert("找不到哦！");
+            }
+          }
+        }).fail(function () {
+          alert("cnm");
+        });
+      });
+    })();
+  </script>
 </body>
 <div style="all: initial;">
   <div id="__hcfy__" style="all: initial;"></div>

@@ -25,14 +25,14 @@ import com.google.gson.stream.JsonWriter;
 @WebServlet("/buyinfo/updata")
 public class UpdataBuyinfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ControlBuyinfoInter buyinfoInter=null;
+    private ControlBuyinfoInter buyinfointer=null;
     
     /**
      * @see HttpServlet#HttpServlet()
      */
     public UpdataBuyinfoServlet() {
         super();
-        buyinfoInter =  new ControlBuyinfo();
+        buyinfointer =  new ControlBuyinfo();
     }
 
 	/**
@@ -49,26 +49,26 @@ public class UpdataBuyinfoServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//转换Json,以及输出准备
 		 response.setContentType("application/json");
-		JsonElement data= JsonUtility.read(request);;
-		JsonObject root=data.getAsJsonObject();
-		ServletOutputStream outputStream =response.getOutputStream();
-        JsonWriter jsonWriter = new JsonWriter( new OutputStreamWriter(outputStream));
+		JsonElement Data= JsonUtility.read(request);;
+		JsonObject root=Data.getAsJsonObject();
+		ServletOutputStream outputstream =response.getOutputStream();
+        JsonWriter jsonwriter = new JsonWriter( new OutputStreamWriter(outputstream));
         //
-        int buyinfoId= root.get("key").getAsInt();
-        int userId= ((User)request.getSession().getAttribute("user")).getId();
-        int productId=root.get("productid").getAsInt();
+        int buyinfoid= root.get("key").getAsInt();
+        int user_id= ((User)request.getSession().getAttribute("user")).getId();
+        int productid=root.get("productid").getAsInt();
         String receive=root.get("receive").getAsString();
         String logistics=root.get("logistics").getAsString();
         int state = root.get("state").getAsInt();
         double pay =root.get("pay").getAsDouble();
-        BuyInfo item= new BuyInfo(buyinfoId, userId, productId, receive, logistics, state, pay);
-        if(buyinfoInter.upDate(item)) {
-        	JsonUtility.messagesuccess(jsonWriter, true, null);
+        BuyInfo item= new BuyInfo(buyinfoid, user_id, productid, receive, logistics, state, pay);
+        if(buyinfointer.updata(item)) {
+        	JsonUtility.messagesuccess(jsonwriter, true, null);
         }else {
-        	JsonUtility.messagesuccess(jsonWriter, false, "失败");
+        	JsonUtility.messagesuccess(jsonwriter, false, "失败");
         }
-        jsonWriter.flush();
-        jsonWriter.close();
+        jsonwriter.flush();
+        jsonwriter.close();
 	}
 
 }

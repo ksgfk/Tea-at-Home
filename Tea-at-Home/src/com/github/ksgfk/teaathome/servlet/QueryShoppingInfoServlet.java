@@ -55,13 +55,13 @@ public class QueryShoppingInfoServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JsonWriter jsonWriter=new JsonWriter(new OutputStreamWriter(response.getOutputStream())); 
+		JsonWriter jsonwriter=new JsonWriter(new OutputStreamWriter(response.getOutputStream())); 
 		JsonElement element = JsonUtility.read(request);
         JsonObject root = element.getAsJsonObject();
-        int productId = root.get("Shoppingcarid").getAsInt();
-        int userId= ((User)request.getSession().getAttribute("uesr")).getId();
+        int productid = root.get("Shoppingcarid").getAsInt();
+        int userid= ((User)request.getSession().getAttribute("uesr")).getId();
         ShoppingCart item =null; 
-        List<ShoppingCart> list= new ControlShoppingcart().finduserid(userId);
+        List<ShoppingCart> list= new ControlShoppingcart().finduserid(userid);
         Map<String,Object> M= new TreeMap<String,Object>();
         if(list==null||list.size()==0) {
         	M.put("bok",new Message(false, "该用户没有购物车" ));
@@ -69,7 +69,7 @@ public class QueryShoppingInfoServlet extends HttpServlet {
         }
         else {
         	for(ShoppingCart iter:list) {
-        		if(iter.getProductId()==productId) {
+        		if(iter.getProductId()==productid) {
         			item=iter;
         			break;
         		}
@@ -85,17 +85,16 @@ public class QueryShoppingInfoServlet extends HttpServlet {
         		M.put("data", new Temp(pro.getName(),item));
         	}
         }
-        JsonUtility.toJson(M, M.getClass(),jsonWriter);
-        jsonWriter.flush();
-        jsonWriter.close();
+        JsonUtility.toJson(M, M.getClass(),jsonwriter);
+        jsonwriter.flush();
+        jsonwriter.close();
 	}
-	private class Temp extends ShoppingCart {
+	private class Temp{
 		private String name;
-//		private ShoppingCart cart;
+		private ShoppingCart cart;
 		public Temp(String name,ShoppingCart car) {
-			super(car);
 			this.name=name;
-//			this.cart=car;
+			this.cart=car;
 		}
 	}
 }

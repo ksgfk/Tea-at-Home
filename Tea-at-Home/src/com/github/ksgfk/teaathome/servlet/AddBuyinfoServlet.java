@@ -50,10 +50,10 @@ public class AddBuyinfoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//产生一个新订单 
-		 JsonElement data = JsonUtility.read(request);
-         JsonObject root = data.getAsJsonObject();
-         ServletOutputStream outputStream =response.getOutputStream();
-         JsonWriter jsonWriter = new JsonWriter( new OutputStreamWriter(outputStream));
+		 JsonElement Data = JsonUtility.read(request);
+         JsonObject root = Data.getAsJsonObject();
+         ServletOutputStream outputstream =response.getOutputStream();
+         JsonWriter jsonwriter = new JsonWriter( new OutputStreamWriter(outputstream));
          String receive="集美大学诚毅学院";
          String logistics="正在路上";
          int state=0;
@@ -61,13 +61,13 @@ public class AddBuyinfoServlet extends HttpServlet {
          int userid=((User)request.getSession().getAttribute("user")).getId();
          int productid=root.get("productid").getAsInt();
          if( buyinfoInter.add(new BuyInfo(0, userid, productid, receive, logistics, state, pay) ) ) {
-        	 JsonUtility.messagesuccess(jsonWriter, true,null);
+        	 JsonUtility.messagesuccess(jsonwriter, true,null);
          }
          else {
-        	 JsonUtility.messagesuccess(jsonWriter, false,"订单异常");
+        	 JsonUtility.messagesuccess(jsonwriter, false,"订单异常");
          }
-         jsonWriter.flush();
-         jsonWriter.close();
+         jsonwriter.flush();
+         jsonwriter.close();
 		
 	}
 	//检查

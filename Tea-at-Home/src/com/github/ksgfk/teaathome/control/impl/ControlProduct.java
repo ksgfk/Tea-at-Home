@@ -16,8 +16,8 @@ public class ControlProduct implements ControlProductInter {
 	}
 	@Override
 	public boolean add(Product product) {
-		String sql="insert into product(name,count,depository_id) values(?,?,?)";//product
-		return conn.updata(sql, product.getName(),product.getCount(),product.getDepositoryId());
+		String sql="insert into product(name,count,depository_id,price) values(?,?,?,?)";//product
+		return conn.updata(sql, product.getName(),product.getCount(),product.getDepositoryId(),product.getPrice());
 	}
 
 	@Override

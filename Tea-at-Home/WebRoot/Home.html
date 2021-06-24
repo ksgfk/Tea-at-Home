@@ -80,45 +80,7 @@
     if (cval != null)
       document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
   }
-  $name = "null";
-  $user_id = "null";
-  $user_gender = "null";
-  if (getCookie("username") == "") {
-    $.ajax({
-      type: "get",
-      url: 'user/query_info',
-      success: function (data, state) {
-        if (data.success) {
-          let usr = data.user;
-          document.getElementById("name1").innerHTML = usr.name;
-          document.getElementById("name").innerHTML = usr.name;
-          document.getElementById("gender").innerHTML = usr.sex;
-          document.getElementById("id").innerHTML = usr.id;
-          $name = usr.name;
-          $user_gender = usr.sex;
-          $user_id = usr.id;
-          $permission = usr.permission;
-          setCookie("username", $name, 30);
-          setCookie("user_gender", $user_gender, 30);
-          setCookie("user_id", $user_id, 30);
-          setCookie("permission", $permission, 30);
-        }
-        else {
-          alert("请登录！")
-          location.href = 'login.html';
-        }
-      }
-    });
-  } else {
-    document.getElementById("name1").innerHTML = getCookie("username");
-    document.getElementById("name").innerHTML = getCookie("username");
-    document.getElementById("gender").innerHTML = getCookie("user_gender");
-    document.getElementById("id").innerHTML = getCookie("user_id");
-    $permission = getCookie("permission");
-  }
 
-  if (permission == 1)
-    AddController();
 </script>
 
 <body class="sidebar-mini" style="height: auto;">
@@ -296,11 +258,54 @@
         <div class="float-right d-none d-sm-inline-block">
           Designed by <b>福建居茶有限公司</b> &gt;_&lt;'"|
         </div>
+      </strong>
     </footer>
     <div id="sidebar-overlay"></div>
   </div>
 
-
+  <script>
+    $name = "null";
+    $user_id = "null";
+    $user_gender = "null";
+    if (getCookie("username") == "") {
+      $.ajax({
+        type: "get",
+        url: 'user/query_info',
+        success: function (data, state) {
+          if (data.success) {
+            let usr = data.user;
+            document.getElementById("name1").innerHTML = usr.name;
+            document.getElementById("name").innerHTML = usr.name;
+            document.getElementById("gender").innerHTML = usr.sex;
+            document.getElementById("id").innerHTML = usr.id;
+            $name = usr.name;
+            $user_gender = usr.sex;
+            $user_id = usr.id;
+            $permission = usr.permission;
+            if ($permission == 1)
+              AddController();
+            setCookie("username", $name, 30);
+            setCookie("user_gender", $user_gender, 30);
+            setCookie("user_id", $user_id, 30);
+            setCookie("permission", $permission, 30);
+          }
+          else {
+            alert("请登录！")
+            location.href = 'login.html';
+          }
+        }
+      });
+    } else {
+      let a = document.getElementById("name1");
+      document.getElementById("name1").innerHTML = getCookie("username");
+      document.getElementById("name").innerHTML = getCookie("username");
+      document.getElementById("gender").innerHTML = getCookie("user_gender");
+      document.getElementById("id").innerHTML = getCookie("user_id");
+      $permission = getCookie("permission");
+      if ($permission == 1)
+        AddController();
+    }
+  </script>
 </body>
 <div style="all: initial;">
   <div id="__hcfy__" style="all: initial;"></div>
