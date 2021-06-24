@@ -29,13 +29,13 @@ import com.google.gson.stream.JsonWriter;
 @WebServlet("/buyinfo/queryall")
 public class QueryBuyInfoAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	   private ControlBuyinfoInter buyinfointer=null;  
+	   private ControlBuyinfoInter buyinfoInter=null;  
     /**
      * @see HttpServlet#HttpServlet()
      */
     public QueryBuyInfoAllServlet() {
         super();
-        buyinfointer=new ControlBuyinfo();
+        buyinfoInter=new ControlBuyinfo();
         // TODO Auto-generated constructor stub
     }
 
@@ -52,7 +52,7 @@ public class QueryBuyInfoAllServlet extends HttpServlet {
 		 response.setContentType("application/json");
 		  JsonWriter jsonWriter= new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
           int userid = ((User) request.getSession().getAttribute("user")).getId();
-          Map<BuyInfo, String> info=buyinfointer.findToProduct(userid);
+          Map<BuyInfo, String> info=buyinfoInter.findToProduct(userid);
           Map<String ,Object> M= new TreeMap<String,Object>();
           List<Temp> list=new ArrayList<Temp>();
           if(info==null||info.size()==0) {

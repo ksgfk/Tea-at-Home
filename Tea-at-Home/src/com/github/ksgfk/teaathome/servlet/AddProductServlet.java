@@ -55,10 +55,10 @@ public class AddProductServlet extends HttpServlet {
 	        
 	        String name = root.get("name").getAsString();
 	        int  count= root.get("count").getAsInt(); 
-			int depository_id=root.get("depositoryid").getAsInt();
+			int depositoryId=root.get("depositoryid").getAsInt();
 			BigDecimal price =root.get("price").getAsBigDecimal();
 			List<Product> list=productInter.findname(name);
-			if (new ControlDepository().findid(depository_id)==null) {
+			if (new ControlDepository().findid(depositoryId)==null) {
 				JsonUtility.messagesuccess(jsonWriter, false, "不存在仓库");
 				jsonWriter.flush();
 			    jsonWriter.close();
@@ -72,7 +72,7 @@ public class AddProductServlet extends HttpServlet {
 				    return ;
 				}
 			}
-			if(!productInter.add(new Product(depository_id, name, count, depository_id, price))) {
+			if(!productInter.add(new Product(0, name, count, depositoryId, price))) {
 				JsonUtility.messagesuccess(jsonWriter, false, "未插入");
 			}
 			else{

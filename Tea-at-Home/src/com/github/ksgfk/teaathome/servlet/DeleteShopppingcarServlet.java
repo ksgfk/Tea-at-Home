@@ -22,13 +22,13 @@ import com.google.gson.stream.JsonWriter;
 @WebServlet("/shopping/delete")
 public class DeleteShopppingcarServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ControlShoppingcart cartinter=null;   
+	private ControlShoppingcart cartInter=null;   
     /**
      * @see HttpServlet#HttpServlet()
      */
     public DeleteShopppingcarServlet() {
         super();
-        cartinter= new ControlShoppingcart();
+        cartInter= new ControlShoppingcart();
     }
 
 	/**
@@ -46,11 +46,11 @@ public class DeleteShopppingcarServlet extends HttpServlet {
 		JsonElement data=JsonUtility.read(request);
 		JsonObject  root=data.getAsJsonObject();
 		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream() ) );
-		int shoppingcarid=root.get("shoppingcarid").getAsInt();
-		if(cartinter.findid(shoppingcarid)==null) {
+		int shoppingcarId=root.get("shoppingcarid").getAsInt();
+		if(cartInter.findid(shoppingcarId)==null) {
 			JsonUtility.messagesuccess(jsonWriter, false,"没有该购物车");
 		}
-		else if(cartinter.delete(shoppingcarid)) {
+		else if(cartInter.delete(shoppingcarId)) {
 			JsonUtility.messagesuccess(jsonWriter, true, "success");
 		}
 		else {

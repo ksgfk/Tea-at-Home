@@ -22,14 +22,18 @@
   <script src=""></script>
 
   <script type="text/javascript" async="" src="./css/analytics.js.下载"></script>
-  <script src="./css/jquery.min.js.下载"></script>
   <script src="./css/bootstrap.bundle.min.js.下载"></script>
   <script src="./css/adminlte.min.js.下载"></script>
   <script src="./js/cot.js"></script>
 
   <link rel="shortcut icon" href="https://www.natfrp.com/favicon.ico?v=2">
   <script>
-    function AddProduct(tag, money, body2, e) {
+    buyid = 0;
+    buyname = "";
+    buynum = 1;
+    buyvalue = 0;
+    count = 0;
+    function AddProduct(tag, money, body2, id) {
       var container = document.getElementById('shower');
       var div6 = document.createElement("div");
       div6.setAttribute("class", "col-lg-6");
@@ -61,48 +65,54 @@
           div1.setAttribute("class", "card-footer");
           {
             var button = document.createElement('button');
+            button.type = "button";
+            button.setAttribute('id', `buy[${count}]`);
             button.setAttribute("class", "btn btn-primary");
-            button.setAttribute("buy", "vip2_trial");
             button.innerHTML = "<img src=\"css/shop2.png\"style =\"width:30px\"> 立刻购买"
-            $(function () {
+            function add() {
               button.onclick = function () {
-                $.ajax({
-                  type: "post",
-                  data: JSON.stringify({
-                    productid:e.id,
-                    count:1
-                  }),
-                  dataType: "json",
-                  contentType: 'application/json',
-                  url: 'buy/product',
-                  success: function (data, state) {
-                    if (data.bok.success) {
-                      alert("购买成功！");
-                    } else {
-                      alert("你有病吧！");
-                    }
-                  }
-                });
-                // var b = document.getElementById("modal-buy");
-                // b.setAttribute("class", "modal fade show");
-                // b.setAttribute("style", "display:block");
+                buymoney = money;
+                buyname = tag;
+                buyid = id;
 
-                // var m = document.getElementById("main");
-                // m.setAttribute("class", "sidebar-mini modal-open");
-                // var div12 = document.createElement("div");
-                // div12.setAttribute("id", "awsl");
-                // div12.setAttribute("class", "modal-backdrop fade show");
-                // var ok = document.getElementById("ok");
-                // ok.appendChild(div12);
+                var a = document.getElementById("rewrite");
+                a.innerHTML = `您将购买${buyname}产品，将会花费${buyvalue}元，请检查订单之后扫描二维码支付，并在支付成功之后单击继续。`;
+
+                var b = document.getElementById("modal-buy");
+                b.setAttribute("class", "modal fade show");
+                b.setAttribute("style", "display:block");
+
+                var m = document.getElementById("main");
+                m.setAttribute("class", "sidebar-mini modal-open");
+                var div12 = document.createElement("div");
+                div12.setAttribute("id", "awsl");
+                div12.setAttribute("class", "modal-backdrop fade show");
+                var ok = document.getElementById("ok");
+                ok.appendChild(div12);
               }
-            })
+            }
+            add();
             div1.appendChild(button);
+
+            var button2 = document.createElement('button');
+            button2.type = "button";
+            button2.setAttribute('id', `buy[${count}]`);
+            button2.setAttribute("class", "btn btn-primary");
+            button2.innerHTML = "加入购物车"
+            function add2() {
+              button2.onclick = function () {
+                //todo car
+              }
+            }
+            add2();
+            div1.appendChild(button2);
           }
           div5.appendChild(div1);
         }
         div6.appendChild(div5);
       }
       container.appendChild(div6);
+      count++;
     }
 
 
@@ -113,7 +123,35 @@
       }
     }
 
-
+    if (getCookie("username") == "") {
+      $.ajax({
+        type: "get",
+        url: 'user/query_info',
+        success: function (data, state) {
+          if (data.success) {
+            let usr = data.user;
+            $name = usr.name;
+            $user_gender = usr.sex;
+            $user_id = usr.id;
+            $permission = usr.permission;
+            setCookie("username", $name, 30);
+            setCookie("user_gender", $user_gender, 30);
+            setCookie("user_id", $user_id, 30);
+            setCookie("permission", $permission, 30);
+          } else {
+            alert("请登录！")
+            location.href = 'login.html';
+          }
+        }
+      });
+    } else {
+      $name = getCookie("username");
+      $user_gender = getCookie("user_gender");
+      $user_id = getCookie("user_id");
+      $permission = getCookie("permission");
+    }
+    if (permission == 1)
+      AddController();
   </script>
   <style>
     .introjs-tooltiptext {
@@ -125,12 +163,9 @@
     }
   </style>
 
-  <script>$(function () {
+  <script>
+    $(function () {
       $('#search').click(function () {
-        console.log('????');
-        // if (!$('#find').val()) {
-        //
-        // }
         $.ajax({
           type: "post",
           url: 'product/fuzzy_query',
@@ -147,14 +182,13 @@
                 var name = i.name;
                 var price = i.price + "/斤";
                 var jiesao = `这是${i.name}茶，非常牛逼建议买爆，99斤点击就买！`;
-                AddProduct(name, price, jiesao,i);
+                AddProduct(name, price, jiesao, i);
               });
             } else {
               alert("找不到哦！");
             }
           }
         }).fail(function () {
-          // $('#register').attr('disabled', false).html('注册');
           alert("cnm");
         });
       });
@@ -274,23 +308,6 @@
           }
         </style>
 
-        <script>
-          var payment = {};
-
-          function alertMessage(title, body) {
-            $('#msg-title').html(title);
-            $('#msg-body').html(body);
-            $('#modal-default').modal('toggle');
-          }
-
-          var __POST_DATA = {};
-
-          $(function () {
-            $('[buy]').click(function () {
-              $('#modal-buy').modal('toggle');
-            });
-          });
-        </script>
 
 
         <div class="content">
@@ -341,49 +358,85 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">请先扫码支付！</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cc">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close1">
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
               <div class="modal-body">
+                <a id="rewrite"></a>
                 <img src="css/zfb.jpg" style="width: 460px;">
               </div>
               <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="aa">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="bb">继续</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="continue">继续</button>
               </div>
             </div>
           </div>
         </div>
+        <script>
+          function add1() {
+            console.log(document.getElementById("close").innerHTML);
+            document.getElementById("close").onclick = function () {
+              var b = document.getElementById("modal-buy");
+              b.setAttribute("class", "modal fade");
+              b.setAttribute("style", "display:none");
+              var m = document.getElementById("main");
+              m.setAttribute("class", "sidebar-mini");
+              document.getElementById("awsl").remove();
+            }
+          }
+          function add2() {
+            document.getElementById("close1").onclick = function () {
+              console.log("123");
+              var b = document.getElementById("modal-buy");
+              b.setAttribute("class", "modal fade");
+              b.setAttribute("style", "display:none");
+              var m = document.getElementById("main");
+              m.setAttribute("class", "sidebar-mini");
+              document.getElementById("awsl").remove();
+            }
+          }
+          function add3() {
+            console.log(document.getElementById("continue").innerHTML);
+            document.getElementById('continue').onclick = function () {
+              console.log("123");
+              var b = document.getElementById("modal-buy");
+              b.setAttribute("class", "modal fade");
+              b.setAttribute("style", "display:none");
+              var m = document.getElementById("main");
+              m.setAttribute("class", "sidebar-mini");
+              document.getElementById("awsl").remove();
+              console.log(`id:${buyid},num:${buynum}`);
+
+              $.ajax({
+                type: "post",
+                data: JSON.stringify({
+                  productid: buyid,
+                  count: buynum
+                }),
+                dataType: "json",
+                contentType: 'application/json',
+                url: 'buy/product',
+                success: function (data, state) {
+                  if (data.bok.success) {
+                    alert("购买成功！");
+                  } else {
+                    alert("你有病吧！");
+                  }
+                }
+              });
+
+            }
+          }
+
+          add1();
+          add2();
+          add3();
+
+        </script>
       </div>
     </div>
-    <script>
-      var aa = document.getElementById("aa");
-      aa.click(function () {
-        console.log("a");
-        ret();
-      })
-      var bb = document.getElementById("bb");
-      bb.click(function () {
-        console.log("b");
-        ret();
-      })
-      var cc = document.getElementById("cc");
-      cc.click(function () {
-        console.log("c");
-        ret();
-      })
-      function ret() {
-        var b = document.getElementById("modal-buy");
-        b.setAttribute("class", "modal fade");
-        b.setAttribute("style", "display:none");
 
-        var m = document.getElementById("main");
-        m.setAttribute("class", "sidebar-mini");
-        var ok = document.getElementById("ok");
-        ok.remove(ok.lastElementChild);
-      }
-    </script>
     <footer class="main-footer">
       <strong>
         <a href="index.html" style="color: rgba(175, 118, 31, 1);">Tea At Home</a>
@@ -393,13 +446,6 @@
     </footer>
     <div id="sidebar-overlay"></div>
   </div>
-  <script>
-    if (localStorage.im_not_blind != 'yup') {
-      $('head').append('<link rel="stylesheet" type="text/css" href="/css/anti-blind.css">');
-      $('#im_not_blind').append('<a href="javascript:localStorage.im_not_blind=\'yup\';location.reload()">关闭眼瞎特效</a>');
-    }
-  </script>
-  <script src="./css/intro.min.js.下载"></script>
 
 
   <script>

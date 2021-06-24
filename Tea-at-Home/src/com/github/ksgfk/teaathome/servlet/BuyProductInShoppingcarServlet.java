@@ -101,17 +101,17 @@ public class BuyProductInShoppingcarServlet extends HttpServlet {
 			}
 			carInter.deletebatch(array);
 		}
-		List<BuyInfo> buyinfolist=new ArrayList<BuyInfo>();
-		List<Product> productlist=productInter.findBatch(productNumber);
-		Iterator<Product> iter=productlist.iterator();
+		List<BuyInfo> buyinfoList=new ArrayList<BuyInfo>();
+		List<Product> productList=productInter.findBatch(productNumber);
+		Iterator<Product> iter=productList.iterator();
 		for(ShoppingCart item:list) {
 			Product temp=iter.next();
 			double price=temp.getPrice().doubleValue()*item.getCount();
-			buyinfolist.add(new BuyInfo(0, userid, item.getProductId(), "集美大学诚毅学院", "正在路上", 0, price)) ;
+			buyinfoList.add(new BuyInfo(0, userid, item.getProductId(), "集美大学诚毅学院", "正在路上", 0, price)) ;
 			money+=price;
 			iter.next();
 		}
-		if(carInter.deletebatch(list)&&buyinfoInter.addBatch(buyinfolist)) {
+		if(carInter.deletebatch(list)&&buyinfoInter.addBatch(buyinfoList)) {
 			JsonUtility.messagesuccess(jsonWriter, true, Double.toString(money));
 		}else {
 			JsonUtility.messagesuccess(jsonWriter, false, "找不到购物车");

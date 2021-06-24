@@ -51,18 +51,18 @@ public class DeleteBuyinfoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 response.setContentType("application/json");
-		JsonWriter jsonwriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
+		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream()));
 		JsonElement userData = JsonUtility.read(request);
 		JsonObject root = userData.getAsJsonObject();
 		int id = root.get("key").getAsInt();
 		if(buyinfointer.delete(new BuyInfo(id, 0, 0, null, null, 0, 0))) {
-			JsonUtility.messagesuccess(jsonwriter, true, "");
+			JsonUtility.messagesuccess(jsonWriter, true, "");
          }
          else {
-        	 JsonUtility.messagesuccess(jsonwriter, false, "");
+        	 JsonUtility.messagesuccess(jsonWriter, false, "");
          }
-         jsonwriter.flush();
-         jsonwriter.close();
+         jsonWriter.flush();
+         jsonWriter.close();
 		
 	
 	}

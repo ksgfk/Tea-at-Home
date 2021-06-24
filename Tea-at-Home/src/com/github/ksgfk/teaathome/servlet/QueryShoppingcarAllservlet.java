@@ -50,14 +50,14 @@ public class QueryShoppingcarAllservlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userid=1;//((User)request.getSession().getAttribute("user")).getId();
+		int userId=1;//((User)request.getSession().getAttribute("user")).getId();
 		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream() ) );
 		Map<String,Object> M= new TreeMap<String,Object>();
-		if(new ControlUser().findid(userid)==null) {
+		if(new ControlUser().findid(userId)==null) {
 			M.put("bok", new Message(false, "没有该用户"));
 			M.put("data", null);
 		} 
-		Map<String , ShoppingCart> mCart =	shopcartInter.finduserIdName(userid);
+		Map<String , ShoppingCart> mCart =	shopcartInter.finduserIdName(userId);
 		List<Temp> list= new ArrayList<QueryShoppingcarAllservlet.Temp>();
 		if(mCart==null||mCart.size()==0) {
 			M.put("bok", new Message(false, "该用户没有购物车"));
@@ -75,12 +75,12 @@ public class QueryShoppingcarAllservlet extends HttpServlet {
 		jsonWriter.flush();
 		jsonWriter.close();
 	}
-	private class Temp{
+	private class Temp extends ShoppingCart {
 		String name=null;
-		ShoppingCart car=null;
+		//ShoppingCart car=null;
 		public Temp(Map.Entry<String, ShoppingCart> item) {
+			super(item.getValue());
 			name=item.getKey();
-			car=item.getValue();
 		}
 	}
 }

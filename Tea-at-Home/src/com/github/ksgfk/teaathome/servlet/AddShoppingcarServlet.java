@@ -28,13 +28,13 @@ import com.google.gson.stream.JsonWriter;
 @WebServlet("/shoppingcar/add")
 public class AddShoppingcarServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ControlShoppingcart cartinter=null;
+    private ControlShoppingcart cartInter=null;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AddShoppingcarServlet() {
         super();
-        cartinter= new ControlShoppingcart();
+        cartInter= new ControlShoppingcart();
         // TODO Auto-generated constructor stub
     }
 
@@ -54,11 +54,11 @@ public class AddShoppingcarServlet extends HttpServlet {
 		JsonElement data=JsonUtility.read(request);
 		JsonObject  root=data.getAsJsonObject();
 		JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(response.getOutputStream() ) );
-		int productid=root.get("productid").getAsInt();
+		int productId=root.get("productid").getAsInt();
 		int count=root.get("conut").getAsInt();
-		Product product=new ControlProduct().findid(productid);
+		Product product=new ControlProduct().findid(productId);
 		Map<String, Object> M= new TreeMap<String,Object>();
-		if(cartinter.find(userid, productid)!=null) {
+		if(cartInter.find(userid, productId)!=null) {
 			M.put("bok", new Message(false, "已存在"));
 			M.put("data", null);
 		}
@@ -71,7 +71,7 @@ public class AddShoppingcarServlet extends HttpServlet {
 			M.put("data", null);
 		}
 		else {
-			ShoppingCart item= new ShoppingCart(0, userid, productid, count);
+			ShoppingCart item= new ShoppingCart(0, userid, productId, count);
 			M.put("bok", new Message(true, "success"));
 			M.put("data", item);
 		}

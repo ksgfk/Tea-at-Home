@@ -58,11 +58,11 @@ public class QueryBuyinfoServlet extends HttpServlet {
 		 JsonElement userData = JsonUtility.read(request);
          JsonObject root = userData.getAsJsonObject();
 		 int userid =1;// ((User) request.getSession().getAttribute("user")).getId();
-         int productid=root.get("key").getAsInt();
+         int productId=root.get("key").getAsInt();
          Map<BuyInfo, String> info=buyinfointer.findToProduct(userid);
          Map.Entry<BuyInfo,String> item=null;
          for(Map.Entry<BuyInfo,String> iter:info.entrySet()) {
-        	 if(iter.getKey().getProductId() ==productid) {
+        	 if(iter.getKey().getProductId() ==productId) {
         		 item=iter;
         		 break;
         	 }

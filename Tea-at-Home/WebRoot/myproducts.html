@@ -36,7 +36,7 @@
     GetAllProducts()
     console.log('gogogo')
     function AddProduct(e) {
-    // function AddProduct(id,tag, money) {
+      // function AddProduct(id,tag, money) {
       console.log(e)
       let id = e.id;
       let tag = e.name;
@@ -116,7 +116,7 @@
                     console.log(data)
                     if (data.success) {
                       location.href = 'myproducts.html'
-                    }else{
+                    } else {
                       console.log('?')
                     }
                   }
@@ -142,7 +142,7 @@
                   success: function (data, state) {
                     if (data.success) {
                       location.href = 'myproducts.html'
-                    }else {
+                    } else {
                       alert("你都删了个什么啊！")
                     }
                   }
@@ -349,13 +349,140 @@
             padding-top: 4px;
           }
         </style>
-
+        <div class="card" id="broadcast" style="background-color:beige;">
+          <div class="card-header border-0">
+            <div class="d-flex justify-content-between" style="align-items: center;">
+              <label></label>
+              <div class="actions">
+                <button class=" btn btn-green " id="search">新增产品</button>
+              </div>
+              <label></label>
+            </div>
+          </div>
+          <div class="card-body fix-text fix-image" style="padding-top: 0;">
+            <p>
+            </p>
+          </div>
+        </div>
 
       </div>
-      <div class="row" id="shower">
 
+    </div>
+    <div class="row" id="shower">
+      <div class="modal fade" id="modal-buy" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">填写产品相关信息</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close1">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class=" control-group ">
+                <label>产品名</label>
+                <div class=" controls ">
+                  <input id="username" type=" text " placeholder=" 4~20 位字母数字下划线 " maxlength=" 20 " title=" 用户名 "
+                    style="background-color: rgb(237,237,238,0.5)">
+                </div>
+              </div>
+              <div class=" control-group ">
+                <label>价格</label>
+                <div class=" controls ">
+                  <input id="password" type="text" placeholder=" 5~16位 " title=" 密码 "
+                    style="background-color: rgb(237,237,238,0.5)">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="close">取消</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="continue">增加</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+
+  <script>
+    function add() {
+      document.getElementById("search").onclick = function () {
+
+        var b = document.getElementById("modal-buy");
+        b.setAttribute("class", "modal fade show");
+        b.setAttribute("style", "display:block");
+
+        var m = document.getElementById("main");
+        m.setAttribute("class", "sidebar-mini modal-open");
+        var div12 = document.createElement("div");
+        div12.setAttribute("id", "awsl");
+        div12.setAttribute("class", "modal-backdrop fade show");
+        var ok = document.getElementById("ok");
+        ok.appendChild(div12);
+      }
+    }
+    add();
+    function add1() {
+      console.log(document.getElementById("close").innerHTML);
+      document.getElementById("close").onclick = function () {
+        var b = document.getElementById("modal-buy");
+        b.setAttribute("class", "modal fade");
+        b.setAttribute("style", "display:none");
+        var m = document.getElementById("main");
+        m.setAttribute("class", "sidebar-mini");
+        document.getElementById("awsl").remove();
+      }
+    }
+    function add2() {
+      document.getElementById("close1").onclick = function () {
+        console.log("123");
+        var b = document.getElementById("modal-buy");
+        b.setAttribute("class", "modal fade");
+        b.setAttribute("style", "display:none");
+        var m = document.getElementById("main");
+        m.setAttribute("class", "sidebar-mini");
+        document.getElementById("awsl").remove();
+      }
+    }
+    function add3() {
+      console.log(document.getElementById("continue").innerHTML);
+      document.getElementById('continue').onclick = function () {
+        console.log("123");
+        var b = document.getElementById("modal-buy");
+        b.setAttribute("class", "modal fade");
+        b.setAttribute("style", "display:none");
+        var m = document.getElementById("main");
+        m.setAttribute("class", "sidebar-mini");
+        document.getElementById("awsl").remove();
+        console.log(`id:${buyid},num:${buynum}`);
+
+        $.ajax({
+          type: "post",
+          data: JSON.stringify({
+            productid: buyid,
+            count: buynum
+          }),
+          dataType: "json",
+          contentType: 'application/json',
+          url: 'buy/product',
+          success: function (data, state) {
+            if (data.bok.success) {
+              alert("购买成功！");
+            } else {
+              alert("你有病吧！");
+            }
+          }
+        });
+
+      }
+    }
+
+    add1();
+    add2();
+    add3();
+
+  </script>
+
 
   </div>
   <footer class="main-footer">

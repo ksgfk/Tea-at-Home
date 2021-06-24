@@ -31,7 +31,7 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 	}
 
 	@Override
-	public BuyInfo findid(int id) {
+	public BuyInfo findId(int id) {
 		String sql="select * from buy_info where id=?";
 		ResultSet res=conn.query(sql, id);
 		BuyInfo item=null;
@@ -49,12 +49,12 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 	}
 
 	@Override
-	public boolean updata(BuyInfo buyinfo) {
+	public boolean upDate(BuyInfo buyinfo) {
 		String sql="update buy_info set user_id=?,poduct_id=?,receive=?,logistics=?state=?,pay=? where id = ?";
 		return conn.updata(sql, buyinfo.getUserId(),buyinfo.getProductId(),buyinfo.getReceive(),buyinfo.getLogistics(),buyinfo.getState(),buyinfo.getPay(),buyinfo.getId());
 	}
 	@Override
-	public List<BuyInfo> findUesrid(int userid) {
+	public List<BuyInfo> findUesrId(int userid) {
 		String sql="select * from buy_info where user_id=?";
 		List<BuyInfo> list=new ArrayList<BuyInfo>();
 		ResultSet res=conn.query(sql, userid);
@@ -71,7 +71,7 @@ public class ControlBuyinfo implements ControlBuyinfoInter {
 		return list;
 	}
 	@Override
-	public List<BuyInfo> findProductid(int productid) {
+	public List<BuyInfo> findProductId(int productid) {
 		String sql="select * from buy_info where product_id=?";
 		List<BuyInfo> list=new ArrayList<BuyInfo>();
 		ResultSet res=conn.query(sql, productid);
